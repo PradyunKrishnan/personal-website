@@ -42,3 +42,12 @@ SOFTWARE.
   CSS and JavaScript; no Skiper UI source files are included.
 - **World map** (`data/world-dots.js`): generated from world-atlas 2.0.2
   (ISC License), built from Natural Earth data, which is in the public domain.
+
+## d3-array 3.2.4 and d3-geo 3.1.1 (vendor/d3-array.min.js, vendor/d3-geo.min.js)
+ISC License. Copyright 2010-2024 Mike Bostock. d3-geo also includes work by Charles Karney (2008-2012). https://d3js.org
+
+## topojson-client 3.1.0 (vendor/topojson-client.min.js)
+ISC License. Copyright 2012-2019 Michael Bostock. https://github.com/topojson/topojson-client
+
+## world-atlas 2.0.2 (data/countries-110m.json)
+ISC License. Copyright 2013-2019 Michael Bostock. Map data from Natural Earth (public domain). https://github.com/topojson/world-atlas

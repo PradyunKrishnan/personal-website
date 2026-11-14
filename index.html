@@ -3,13 +3,22 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pradyun Krishnan</title>
-    <meta name="description" content="Pradyun Krishnan, legal tech lawyer. Writing, projects and things I like." />
+    <title>Pradyun Krishnan - A lawyer who builds.</title>
+    <meta name="description" content="Legal tech projects, experience in EU digital regulation, film photography and the places I've been." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Pradyun Krishnan - A lawyer who builds." />
+    <meta property="og:description" content="Legal tech projects, experience in EU digital regulation, film photography and the places I've been." />
+    <!-- when the site is published, make these full URLs (https://…/images/og-image.png) -->
+    <meta property="og:image" content="images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Pradyun Krishnan. A lawyer who builds." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="images/og-image.png" />
+    <meta name="twitter:title" content="Pradyun Krishnan - A lawyer who builds." />
+    <meta name="twitter:description" content="Legal tech projects, experience in EU digital regulation, film photography and the places I've been." />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Bodoni+Moda:ital,opsz,wght@1,6..96,400&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=97" />
     <script>
       // apply the saved ink color before first paint so there's no flash
       try {
@@ -29,12 +38,11 @@
         <button class="pill" type="button" aria-expanded="false" aria-controls="contents-menu" data-menu>Contents</button>
         <ol class="menu-panel contents-menu" id="contents-menu" hidden>
           <li><a href="#intro"><span class="contents-index"></span>The Intro</a></li>
-          <li><a href="#builds"><span class="contents-index">§ 01</span>Builds</a></li>
-          <li><a href="#toolkit"><span class="contents-index">§ 02</span>Toolkit</a></li>
-          <li><a href="#experience"><span class="contents-index">§ 03</span>Experience</a></li>
-          <li><a href="#writing"><span class="contents-index">§ 04</span>Writing</a></li>
-          <li><a href="#film"><span class="contents-index">§ 05</span>The Film Roll</a></li>
-          <li><a href="#places"><span class="contents-index">§ 06</span>Places</a></li>
+          <li><a href="#projects"><span class="contents-index">§ 01</span>Projects</a></li>
+          <li><a href="#experience"><span class="contents-index">§ 02</span>Experience</a></li>
+          <li><a href="#awards"><span class="contents-index">§ 03</span>Awards</a></li>
+          <li><a href="#film"><span class="contents-index">§ 04</span>The Film Roll</a></li>
+          <li><a href="#places"><span class="contents-index">§ 05</span>Places</a></li>
         </ol>
       </div>
       <div class="menu languages">
@@ -56,9 +64,16 @@
       </div>
       </div>
       <div class="topbar-end">
+        <div class="theme-menu" data-theme-menu>
+          <button class="pill theme-pill" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-pop" aria-label="Theme"><span class="theme-swatch" aria-hidden="true"></span><span class="theme-pill-label">Theme</span></button>
+          <div class="theme-pop" id="theme-pop" role="menu" aria-label="Theme" hidden>
+            <button type="button" role="menuitemradio" aria-checked="true" data-theme="mono"><span class="ts-dot ts-mono" aria-hidden="true"></span>Black<svg class="theme-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" role="menuitemradio" aria-checked="false" data-theme="blue"><span class="ts-dot ts-blue" aria-hidden="true"></span>Blue<svg class="theme-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" role="menuitemradio" aria-checked="false" data-theme="xmas" ><span class="ts-dot ts-xmas" aria-hidden="true"></span>Christmas<svg class="theme-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
         <a class="pill" href="mailto:krishnan.pradyun@gmail.com">Contact</a>
-        <!-- EDIT: your LinkedIn profile URL -->
-        <a class="pill pill-icon" href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.06c.53-1 1.83-1.85 3.76-1.85 4.02 0 4.88 2.4 4.88 5.8v5.55h-4v-4.92c0-1.17-.02-2.68-1.64-2.68-1.64 0-1.9 1.28-1.9 2.6v5h-4v-11Z"/></svg></a>
+        <a class="pill pill-icon" href="https://nl.linkedin.com/in/pradyun-krishnan" target="_blank" rel="noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.06c.53-1 1.83-1.85 3.76-1.85 4.02 0 4.88 2.4 4.88 5.8v5.55h-4v-4.92c0-1.17-.02-2.68-1.64-2.68-1.64 0-1.9 1.28-1.9 2.6v5h-4v-11Z"/></svg></a>
       </div>
     </header>
 
@@ -97,212 +112,171 @@
       <!-- ── The next screen: who I am, typed out ─────────────────── -->
       <section class="section intro-more" aria-label="About">
         <p class="intro-lead">I am a <button class="reveal" type="button" aria-expanded="false" aria-controls="lawyer-note">lawyer</button> who builds.</p>
-        <p class="reveal-note" id="lawyer-note"><span>A commercial and tech lawyer working to be qualified.</span></p>
+        <p class="reveal-note" id="lawyer-note"><span>A law graduate working towards qualification and the CIPP/E and AIGP certifications.</span></p>
 
         <!-- EDIT: the things you do. The paragraph types itself out like a
              typewriter: each item is struck through in red, then the last
              line lands on data-end. -->
-        <p class="typed" data-typed data-lead="But I do a lot more than that. I " data-close="I am…." data-end="creative.">
-          <span class="sr-only">But I do a lot more than that. I make videos, take pictures, vibe code and read. I am creative.</span>
+        <p class="typed" data-typed data-lead="But I do a lot more than that. I " data-close="I am…" data-end="curious and creative.">
+          <span class="sr-only">But I do a lot more than that. I make videos, take pictures, vibe code, read, travel, hike, draw, cook and run. I am curious and creative.</span>
           <span aria-hidden="true" data-typed-out></span>
           <template data-typed-items>
             <span>make videos</span>
             <span>take pictures</span>
             <span>vibe code</span>
             <span>read</span>
+            <span>travel</span>
+            <span>hike</span>
+            <span>draw</span>
+            <span>cook</span>
+            <span>run</span>
           </template>
         </p>
+        <p class="reveal-note am-note" id="am-note" aria-live="polite"><span></span></p>
       </section>
 
-      <!-- ── § 01 Builds ─────────────────────────────────────────── -->
-      <!-- EDIT: one <article class="build"> per project. Cards stack as you scroll. -->
-      <section class="section" id="builds">
+      <!-- ── § 01 Projects ─────────────────────────────────────────── -->
+      <!-- Hover a tile and its demo plays; click it for the project page (work/*.html).
+           Demos live in demos/*.html. All data in them is made up. -->
+      <section class="section projects" id="projects">
         <header class="section-head">
-          <p class="section-code" aria-hidden="true">§ 01 <span>·</span> builds.ts</p>
-          <h2 class="section-title" data-reveal-title>Builds</h2>
+          <p class="section-code" aria-hidden="true">§ 01 <span>·</span> projects</p>
+          <h2 class="section-title" data-reveal-title>Things I have built</h2>
         </header>
-        <div class="builds" data-card-stack>
-          <article class="build" style="--i: 0">
-            <div class="build-bar">
-              <span class="build-no">Build 01</span>
-              <!-- the signature: flip each build between how a lawyer reads the problem and what you built -->
-              <div class="view-switch" role="group" aria-label="Choose a view">
-                <button type="button" aria-pressed="true" data-view="lawyer">Lawyer view</button>
-                <button type="button" aria-pressed="false" data-view="engineer">Engineer view</button>
-              </div>
-            </div>
-            <div class="build-body" data-view-panel="lawyer">
-              <h3 class="build-title">[ blank: project name ]</h3>
-              <dl class="build-facts">
-                <div><dt>Problem</dt><dd>[ blank: the legal pain, in one sentence ]</dd></div>
-                <div><dt>Who it helps</dt><dd>[ blank ]</dd></div>
-                <div><dt>Outcome</dt><dd>[ blank: what changed, ideally a number ]</dd></div>
-              </dl>
-            </div>
-            <div class="build-body build-code" data-view-panel="engineer" hidden>
-              <pre><code><span class="c">// [ blank: how it works ]</span>
-<span class="k">input</span>:    [ blank ]
-<span class="k">steps</span>:    [ blank → blank → blank ]
-<span class="k">tools</span>:    [ blank ]
-<span class="k">output</span>:   [ blank ]</code></pre>
-            </div>
-          </article>
-          <article class="build" style="--i: 1">
-            <div class="build-bar">
-              <span class="build-no">Build 02</span>
-              <!-- the signature: flip each build between how a lawyer reads the problem and what you built -->
-              <div class="view-switch" role="group" aria-label="Choose a view">
-                <button type="button" aria-pressed="true" data-view="lawyer">Lawyer view</button>
-                <button type="button" aria-pressed="false" data-view="engineer">Engineer view</button>
-              </div>
-            </div>
-            <div class="build-body" data-view-panel="lawyer">
-              <h3 class="build-title">[ blank: project name ]</h3>
-              <dl class="build-facts">
-                <div><dt>Problem</dt><dd>[ blank: the legal pain, in one sentence ]</dd></div>
-                <div><dt>Who it helps</dt><dd>[ blank ]</dd></div>
-                <div><dt>Outcome</dt><dd>[ blank: what changed, ideally a number ]</dd></div>
-              </dl>
-            </div>
-            <div class="build-body build-code" data-view-panel="engineer" hidden>
-              <pre><code><span class="c">// [ blank: how it works ]</span>
-<span class="k">input</span>:    [ blank ]
-<span class="k">steps</span>:    [ blank → blank → blank ]
-<span class="k">tools</span>:    [ blank ]
-<span class="k">output</span>:   [ blank ]</code></pre>
-            </div>
-          </article>
-          <article class="build" style="--i: 2">
-            <div class="build-bar">
-              <span class="build-no">Build 03</span>
-              <!-- the signature: flip each build between how a lawyer reads the problem and what you built -->
-              <div class="view-switch" role="group" aria-label="Choose a view">
-                <button type="button" aria-pressed="true" data-view="lawyer">Lawyer view</button>
-                <button type="button" aria-pressed="false" data-view="engineer">Engineer view</button>
-              </div>
-            </div>
-            <div class="build-body" data-view-panel="lawyer">
-              <h3 class="build-title">[ blank: project name ]</h3>
-              <dl class="build-facts">
-                <div><dt>Problem</dt><dd>[ blank: the legal pain, in one sentence ]</dd></div>
-                <div><dt>Who it helps</dt><dd>[ blank ]</dd></div>
-                <div><dt>Outcome</dt><dd>[ blank: what changed, ideally a number ]</dd></div>
-              </dl>
-            </div>
-            <div class="build-body build-code" data-view-panel="engineer" hidden>
-              <pre><code><span class="c">// [ blank: how it works ]</span>
-<span class="k">input</span>:    [ blank ]
-<span class="k">steps</span>:    [ blank → blank → blank ]
-<span class="k">tools</span>:    [ blank ]
-<span class="k">output</span>:   [ blank ]</code></pre>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- ── § 02 Toolkit ────────────────────────────────────────── -->
-      <!-- EDIT: only tools and skills you actually use -->
-      <section class="section" id="toolkit">
-        <header class="section-head">
-          <p class="section-code" aria-hidden="true">§ 02 <span>·</span> toolkit.json</p>
-          <h2 class="section-title" data-reveal-title>Toolkit</h2>
-        </header>
-        <div class="toolkit">
-        <div class="tool-col">
-          <h3 class="tool-title">Law <span class="tool-code" aria-hidden="true">law[]</span></h3>
-          <ul>
-            <li>[ blank ]</li>
-            <li>[ blank ]</li>
-            <li>[ blank ]</li>
-            <li>[ blank ]</li>
-          </ul>
-        </div>
-        <div class="tool-col">
-          <h3 class="tool-title">Engineering <span class="tool-code" aria-hidden="true">eng[]</span></h3>
-          <ul>
-            <li>[ blank ]</li>
-            <li>[ blank ]</li>
-            <li>[ blank ]</li>
-            <li>[ blank ]</li>
-          </ul>
-        </div>
-        <div class="tool-col">
-          <h3 class="tool-title">Bridging <span class="tool-code" aria-hidden="true">bridge[]</span></h3>
-          <ul>
-            <li>[ blank ]</li>
-            <li>[ blank ]</li>
-            <li>[ blank ]</li>
-            <li>[ blank ]</li>
-          </ul>
-        </div>
-        </div>
-      </section>
-
-      <!-- ── § 03 Experience ─────────────────────────────────────── -->
-      <!-- EDIT: one <li> per role, newest first; tag each legal, tech or both -->
-      <section class="section" id="experience">
-        <header class="section-head">
-          <p class="section-code" aria-hidden="true">§ 03 <span>·</span> experience.log</p>
-          <h2 class="section-title" data-reveal-title>Experience</h2>
-        </header>
-        <ul class="list">
-          <li class="hairline-top">
-            <div class="experience-row">
-              <div class="experience-details">
-                <span class="experience-company">[ blank: organisation ]</span>
-                <span class="experience-role">[ blank: role ]</span>
-              </div>
-              <span class="experience-meta"><span class="exp-tag">both</span><span class="experience-date">[ yyyy–yyyy ]</span></span>
-            </div>
-          </li>
-          <li class="hairline-top">
-            <div class="experience-row">
-              <div class="experience-details">
-                <span class="experience-company">[ blank: organisation ]</span>
-                <span class="experience-role">[ blank: role ]</span>
-              </div>
-              <span class="experience-meta"><span class="exp-tag">legal</span><span class="experience-date">[ yyyy–yyyy ]</span></span>
-            </div>
-          </li>
-          <li class="hairline-top">
-            <div class="experience-row">
-              <div class="experience-details">
-                <span class="experience-company">[ blank: organisation ]</span>
-                <span class="experience-role">[ blank: role ]</span>
-              </div>
-              <span class="experience-meta"><span class="exp-tag">tech</span><span class="experience-date">[ yyyy–yyyy ]</span></span>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <!-- ── § 04 Writing ─────────────────────────────────────────── -->
-      <section class="section" id="writing">
-        <header class="section-head">
-          <p class="section-code" aria-hidden="true">§ 04 <span>·</span> notes.md</p>
-          <h2 class="section-title" data-reveal-title>Writing</h2>
-          <a class="view-all" href="writing/">View all</a>
-        </header>
-        <ul class="list focus-list">
-          <li class="enter-swing" style="--d: 240ms">
-            <a class="blog-row hairline-top" href="writing/hello-world.html">
-              <span class="print-pile" aria-hidden="true">
-                <span class="print-pile-sheet"></span>
-                <span class="print-pile-sheet"></span>
-                <span class="print-thumb"></span>
+        <ul class="tiles" role="list">
+          <li>
+            <div class="tile" data-tile data-href="work/rete.html">
+              <span class="tile-head"><a class="tile-name" href="work/rete.html">Rete</a><span class="tile-desc">Tracks regulatory changes and shows what changed in the law.</span></span>
+              <span class="tile-cover" style="--bg: linear-gradient(150deg, #1F7A80 0%, #5f9c8f 50%, #D0812F 100%); --ar: 5 / 4">
+                <span class="tile-window"><iframe src="demos/rete.html?embed&v=2"  title="Live demo" loading="lazy"></iframe><button type="button" class="tile-shield" aria-label="Open the project"><span>Open the project</span></button></span>
               </span>
-              <h3 class="blog-row-title">Hello, world</h3>
-              <span class="blog-row-leader" aria-hidden="true"></span>
-              <time class="blog-row-date" datetime="2026-10-31">Oct 31</time>
+              <span class="tile-foot"><span>REGULATORY</span><a class="tile-cta" href="work/rete.html">View project <i aria-hidden="true">↗</i></a></span>
+            </div>
+          </li>
+          <li>
+            <div class="tile" data-tile data-href="work/copy-cat.html">
+              <span class="tile-head"><a class="tile-name" href="work/copy-cat.html">Copy Cat</a><span class="tile-desc">Finds look-alike brands and ranks the risk.</span></span>
+              <span class="tile-cover" style="--bg: linear-gradient(150deg, #1e2a47 0%, #1b7f78 70%, #7fd1c7 100%); --ar: 4 / 5">
+                <span class="tile-window"><iframe src="demos/copy-cat.html?embed&v=2"  title="Live demo" loading="lazy"></iframe><button type="button" class="tile-shield" aria-label="Open the project"><span>Open the project</span></button></span>
+              </span>
+              <span class="tile-foot"><span>BRAND PROTECTION</span><a class="tile-cta" href="work/copy-cat.html">View project <i aria-hidden="true">↗</i></a></span>
+            </div>
+          </li>
+          <li>
+            <div class="tile" data-tile data-href="work/ip-register.html">
+              <span class="tile-head"><a class="tile-name" href="work/ip-register.html">IP register</a><span class="tile-desc">Every trademark and domain in one place.</span></span>
+              <span class="tile-cover" style="--bg: linear-gradient(150deg, #ff4d4d 0%, #ff8a7a 55%, #ffe1dc 100%); --ar: 5 / 4">
+                <span class="tile-window"><iframe src="demos/ip-register.html?embed&v=2"  title="Live demo" loading="lazy"></iframe><button type="button" class="tile-shield" aria-label="Open the project"><span>Open the project</span></button></span>
+              </span>
+              <span class="tile-foot"><span>TRADEMARKS</span><a class="tile-cta" href="work/ip-register.html">View project <i aria-hidden="true">↗</i></a></span>
+            </div>
+          </li>
+          <li class="more-li">
+            <a class="more-panel" href="mailto:krishnan.pradyun@gmail.com">
+              <span class="more-text">
+                <span class="more-title">…and a lot more.</span>
+                <span class="more-sub">Agents, apps and automations I can't show here. Get in touch and I'd love to chat 🙂</span>
+              </span>
+              <span class="more-cta">Say hello <i aria-hidden="true">↗</i></span>
             </a>
           </li>
         </ul>
       </section>
 
-      <!-- ── § 05 The Film Roll ───────────────────────────────────── -->
+      <!-- ── § 02 Experience and education ─────────────────────────── -->
+      <!-- One <li class="tl-row"> per role. data-start / data-end are years
+           (2025.67 is about September 2025) and draw the span on the year rail. -->
+      <section class="section" id="experience">
+        <header class="section-head">
+          <p class="section-code" aria-hidden="true">§ 02 <span>·</span> experience</p>
+          <h2 class="section-title" data-reveal-title>Experience and education</h2>
+        </header>
+        <div class="tl-tabs" role="tablist" aria-label="Experience or education">
+          <button type="button" role="tab" id="tab-work" aria-selected="true" aria-controls="tl-work">Experience</button>
+          <button type="button" role="tab" id="tab-edu" aria-selected="false" aria-controls="tl-edu" tabindex="-1">Education</button>
+          <span class="tl-ind" aria-hidden="true"></span>
+        </div>
+        <div class="tl" data-timeline>
+          <div class="tl-rail" aria-hidden="true"><span class="tl-line"></span><span class="tl-span"></span></div>
+          <div class="tl-lists">
+            <ul class="tl-list" id="tl-work" role="tabpanel" aria-labelledby="tab-work">
+              <li class="tl-row" data-start="2026.67" data-end="2027" data-logo="PR" data-color="#1f3a6e" data-role="Legal Intern" data-meta="Prosus · Amsterdam · Sep 2026 – now" data-line="Regulatory monitoring on EU digital law (GDPR, DSA, AI Act, DORA), and building the AI legal agents and dashboards that automate it.">
+                <button type="button" class="tl-name">Prosus</button>
+                <span class="tl-sub">Legal Intern · Sep 2026 – now</span>
+              </li>
+              <li class="tl-row" data-start="2026.67" data-end="2026.95" data-logo="FE" data-color="#2b6cb0" data-role="Technology Policy Analyst" data-meta="FORSEE EU · Dublin · Sep – Dec 2026" data-line="Analysing new EU digital legislation for AI governance, platform regulation and digital sovereignty.">
+                <button type="button" class="tl-name">FORSEE EU</button>
+                <span class="tl-sub">Technology Policy Analyst · Sep – Dec 2026</span>
+              </li>
+              <li class="tl-row" data-start="2025.67" data-end="2026.12" data-logo="FE" data-color="#2b6cb0" data-role="AI and Data Protection Case Analyst" data-meta="FORSEE EU · Dublin · Sep 2025 – Feb 2026" data-line="Compared case law across the CJEU and five national courts on GDPR enforcement, AI disputes, copyright and web scraping.">
+                <button type="button" class="tl-name">FORSEE EU</button>
+                <span class="tl-sub">AI and Data Protection Case Analyst · Sep 2025 – Feb 2026</span>
+              </li>
+            </ul>
+            <ul class="tl-list" id="tl-edu" role="tabpanel" aria-labelledby="tab-edu" hidden>
+              <li class="tl-row" data-start="2025.67" data-end="2027" data-logo="TU" data-color="#1b365d" data-role="Master of Law and Technology" data-meta="Tilburg University · Tilburg · 2025 – now" data-line="Data privacy and cybersecurity. Currently cum laude, with an 8.33.">
+                <button type="button" class="tl-name">Tilburg University</button>
+                <span class="tl-sub">Master of Law and Technology · 2025 – now</span>
+              </li>
+              <li class="tl-row" data-start="2025.67" data-end="2026.6" data-logo="EUR" data-color="#0c7a5f" data-role="Master of Commercial and Company Law" data-meta="Erasmus University Rotterdam · Rotterdam · 2025 – 2026" data-line="International arbitration and business law. Graduated with an 8.20, in the top 3%.">
+                <button type="button" class="tl-name">Erasmus University Rotterdam</button>
+                <span class="tl-sub">Master of Commercial and Company Law · 2025 – 2026</span>
+              </li>
+              <li class="tl-row" data-start="2022.67" data-end="2025.5" data-logo="TU" data-color="#1b365d" data-role="Bachelor of Global Law" data-meta="Tilburg University · Tilburg · 2022 – 2025" data-line="Cum laude (8.36) with honours, and a 10 out of 10 for the thesis.">
+                <button type="button" class="tl-name">Tilburg University</button>
+                <span class="tl-sub">Bachelor of Global Law · 2022 – 2025</span>
+              </li>
+              <li class="tl-row" data-start="2024.1" data-end="2024.55" data-logo="DT" data-color="#1a4d8f" data-role="Exchange semester" data-meta="Universidad Torcuato Di Tella · Buenos Aires · 2024" data-line="A semester of law in Buenos Aires, studied in Spanish, as part of the Bachelor of Global Law.">
+                <button type="button" class="tl-name">Universidad Torcuato Di Tella</button>
+                <span class="tl-sub">Exchange semester · 2024</span>
+              </li>
+              <li class="tl-row" data-start="2026.5" data-end="2027" data-logo="IAPP" data-color="#3a7d8c" data-role="CIPP/E and AIGP" data-meta="IAPP · In progress" data-line="Working towards both certifications, alongside qualification.">
+                <button type="button" class="tl-name">IAPP</button>
+                <span class="tl-sub">CIPP/E and AIGP · In progress</span>
+              </li>
+            </ul>
+            <div class="tl-card" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── § 03 Awards and publications ─────────────────────────── -->
+      <section class="section" id="awards">
+        <header class="section-head">
+          <p class="section-code" aria-hidden="true">§ 03 <span>·</span> recognition</p>
+          <h2 class="section-title" data-reveal-title>Awards and publications</h2>
+          <p class="author-note">By the way, I'm a published author. <a href="https://doi.org/10.5281/zenodo.18503398" target="_blank" rel="noreferrer">Read the paper <span aria-hidden="true">↗</span></a></p>
+        </header>
+        <ul class="ledger aw-list" role="list">
+          <li>
+            <a class="ledger-row aw-row" href="https://doi.org/10.5281/zenodo.18503398" target="_blank" rel="noreferrer">
+              <span class="ledger-logo" style="--c: #1d3f99" aria-hidden="true">EC</span>
+              <span class="ledger-main">
+                <span class="ledger-org">D4.3 Legal Challenges Landscape <span class="tl-ext" aria-hidden="true">↗</span></span>
+                <span class="ledger-role">European Commission · with L. Taylor and M. Ö. Kabadayi</span>
+                <span class="ledger-line">Published research mapping the legal challenges in EU technology policy.</span>
+              </span>
+              <span class="ledger-meta">Feb 2026</span>
+            </a>
+          </li>
+          <li>
+            <a class="ledger-row aw-row" href="https://echo-net.nl/en/echoaward/" target="_blank" rel="noreferrer">
+              <span class="ledger-logo" style="--c: #6b3a8c" aria-hidden="true">EA</span>
+              <span class="ledger-main">
+                <span class="ledger-org">ECHO Award, nominee <span class="tl-ext" aria-hidden="true">↗</span></span>
+                <span class="ledger-role">For "The Sprawling Maze"</span>
+                <span class="ledger-line">Effective transparency in AI-driven credit scoring under the GDPR and the AI Act.</span>
+              </span>
+              <span class="ledger-meta">Sep 2025</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ── § 04 The Film Roll ───────────────────────────────────── -->
       <section class="section film" id="film">
         <header class="section-head">
-          <p class="section-code" aria-hidden="true">§ 05 <span>·</span> film/roll-01</p>
+          <p class="section-code" aria-hidden="true">§ 04 <span>·</span> film/roll-01</p>
           <h2 class="section-title" data-reveal-title>The Film Roll</h2>
         </header>
         <!-- EDIT: one line about why you shoot film -->
@@ -313,48 +287,76 @@
              (normal positive photos; the negatives are made automatically).
              data-caption is optional and shows in the viewer. The strips,
              leader, frame numbers and empty frames are built for you. -->
-        <div class="roll" data-roll data-title="Roll 01" data-stock="Kodak Colorplus 200" data-camera="Camera" data-shot="2025">
-          <img src="images/film/roll-01-01.svg" alt="" data-caption="" />
-          <img src="images/film/roll-01-02.svg" alt="" data-caption="" />
-          <img src="images/film/roll-01-03.svg" alt="" data-caption="" />
-          <img src="images/film/roll-01-04.svg" alt="" data-caption="" />
-          <img src="images/film/roll-01-05.svg" alt="" data-caption="" />
-          <img src="images/film/roll-01-06.svg" alt="" data-caption="" />
-          <img src="images/film/roll-01-07.svg" alt="" data-caption="" />
-          <img src="images/film/roll-01-08.svg" alt="" data-caption="" />
-          <img src="images/film/roll-01-09.svg" alt="" data-caption="" />
-          <img src="images/film/roll-01-10.svg" alt="" data-caption="" />
+        <div class="roll" data-roll data-title="Ireland and the Netherlands" data-stock="Kodak UltraMax 400" data-camera="35mm" data-shot="2024">
+          <img src="images/film/roll-01-01.jpg" alt="A brown cow grazing on a misty hillside" data-caption="" />
+          <img src="images/film/roll-01-02.jpg" alt="A narrow Dublin alley with fire escapes and a Pawn Shop sign" data-caption="" />
+          <img src="images/film/roll-01-03.jpg" alt="Red-brick buildings and a mural in Dublin" data-caption="" />
+          <img src="images/film/roll-01-04.jpg" alt="The Cliffs of Moher" data-caption="" />
+          <img src="images/film/roll-01-05.jpg" alt="Flag bunting over a street in Galway" data-caption="" />
+          <img src="images/film/roll-01-06.jpg" alt="The Doom Slice pizza sign in a Dublin alley under string lights" data-caption="" />
+          <img src="images/film/roll-01-07.jpg" alt="Dutch terraced houses behind green trees and orange rowan berries" data-caption="" />
+          <img src="images/film/roll-01-08.jpg" alt="A Dublin pub street with a red bike" data-caption="" />
+          <img src="images/film/roll-01-09.jpg" alt="A Seamus Heaney Noli timere portrait above a yellow shopfront" data-caption="" />
+          <img src="images/film/roll-01-10.jpg" alt="A wooden door between walls of gig posters" data-caption="" />
+          <img src="images/film/roll-01-11.jpg" alt="A Michael Collins street mural" data-caption="" />
+          <img src="images/film/roll-01-12.jpg" alt="An Amsterdam canal seen through a pink arch" data-caption="" />
+          <img src="images/film/roll-01-13.jpg" alt="A graffiti wall around a brown door" data-caption="" />
         </div>
 
         <!-- the roll viewer: opens out of the frame you click -->
         <div class="viewer" role="dialog" aria-modal="true" aria-label="Roll viewer" hidden data-viewer>
           <div class="viewer-inner">
-            <p class="viewer-count" data-viewer-count></p>
-            <div class="viewer-row">
-              <button class="viewer-nav" type="button" aria-label="Previous frame" data-viewer-prev>‹</button>
-              <div class="viewer-strip" data-viewer-strip></div>
-              <button class="viewer-nav" type="button" aria-label="Next frame" data-viewer-next>›</button>
+            <div class="viewer-top">
+              <p class="viewer-count" data-viewer-count></p>
+              <button class="viewer-close" type="button" aria-label="Close the viewer" data-viewer-close><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
             </div>
-            <p class="viewer-caption" data-viewer-caption></p>
-            <button class="viewer-button" type="button" data-viewer-develop>develop this frame</button>
-            <button class="viewer-button" type="button" data-viewer-close>close</button>
+            <div class="viewer-row">
+              <button class="viewer-nav" type="button" aria-label="Previous frame" data-viewer-prev><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="viewer-strip" data-viewer-strip></div>
+              <button class="viewer-nav" type="button" aria-label="Next frame" data-viewer-next><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+            <div class="viewer-bar">
+              <p class="viewer-caption" data-viewer-caption></p>
+              <button class="viewer-button" type="button" data-viewer-develop>Develop this frame</button>
+            </div>
           </div>
         </div>
+        <p class="film-credit">The film roll is inspired by <a href="https://stympaul.com" target="_blank" rel="noreferrer">stympaul.com</a>. Credit and thanks to Satyam Paul for the idea.</p>
       </section>
 
-      <!-- ── § 06 Places ─────────────────────────────────────────── -->
+      <!-- ── § 05 Places ─────────────────────────────────────────── -->
+      <!-- The list drives the map: hover (or tap) a place and the flat map
+           folds into a globe turned to it. Notes: home / exchange. -->
       <section class="section" id="places">
         <header class="section-head">
-          <p class="section-code" aria-hidden="true">§ 06 <span>·</span> travel.geojson</p>
-          <h2 class="section-title" data-reveal-title>Places</h2>
+          <p class="section-code" aria-hidden="true">§ 05 <span>·</span> places</p>
+          <h2 class="section-title" data-reveal-title>Places I've been</h2>
+          <p class="places-sub">45 places, and counting. Hover or tap one to find it on the map.</p>
         </header>
-        <p class="film-sub">[ blank: one line about travelling ]</p>
-        <!-- EDIT: countries you've been to, by English name, separated by | .
-             Optional year and note: "Netherlands:2024:a line about it" -->
-        <figure class="world" data-world data-visited="">
-          <canvas class="world-canvas" role="img" aria-label="Map of the countries I've visited"></canvas>
-          <figcaption class="world-caption" data-world-caption aria-live="polite">[ blank: hover a lit country ]</figcaption>
-        </figure>
+        <div class="atlas" data-atlas>
+          <div class="atlas-list">
+            <div class="atlas-group">
+              <p class="atlas-label">Europe <span>29</span></p>
+              <ul role="list"><li><button type="button" class="atlas-place" data-place="Albania">Albania</button></li><li><button type="button" class="atlas-place" data-place="Austria">Austria</button></li><li><button type="button" class="atlas-place" data-place="Belgium">Belgium</button></li><li><button type="button" class="atlas-place" data-place="Bosnia and Herzegovina">Bosnia and Herzegovina</button></li><li><button type="button" class="atlas-place" data-place="Bulgaria">Bulgaria</button></li><li><button type="button" class="atlas-place" data-place="Czechia">Czechia</button></li><li><button type="button" class="atlas-place" data-place="France">France</button></li><li><button type="button" class="atlas-place" data-place="Germany">Germany</button></li><li><button type="button" class="atlas-place" data-place="Greece">Greece</button></li><li><button type="button" class="atlas-place" data-place="Hungary">Hungary</button></li><li><button type="button" class="atlas-place" data-place="Iceland">Iceland</button></li><li><button type="button" class="atlas-place" data-place="Ireland">Ireland</button></li><li><button type="button" class="atlas-place" data-place="Italy">Italy</button></li><li><button type="button" class="atlas-place" data-place="Kosovo">Kosovo</button></li><li><button type="button" class="atlas-place" data-place="Liechtenstein">Liechtenstein</button></li><li><button type="button" class="atlas-place" data-place="Lithuania">Lithuania</button></li><li><button type="button" class="atlas-place" data-place="Luxembourg">Luxembourg</button></li><li><button type="button" class="atlas-place" data-place="Monaco">Monaco</button></li><li><button type="button" class="atlas-place" data-place="Montenegro">Montenegro</button></li><li><button type="button" class="atlas-place" data-place="Netherlands">Netherlands<span>home</span></button></li><li><button type="button" class="atlas-place" data-place="North Macedonia">North Macedonia</button></li><li><button type="button" class="atlas-place" data-place="Poland">Poland</button></li><li><button type="button" class="atlas-place" data-place="Portugal">Portugal</button></li><li><button type="button" class="atlas-place" data-place="Romania">Romania</button></li><li><button type="button" class="atlas-place" data-place="Serbia">Serbia</button></li><li><button type="button" class="atlas-place" data-place="Spain">Spain</button></li><li><button type="button" class="atlas-place" data-place="Switzerland">Switzerland</button></li><li><button type="button" class="atlas-place" data-place="United Kingdom">United Kingdom<span>England, Scotland</span></button></li><li><button type="button" class="atlas-place" data-place="Vatican">Vatican</button></li></ul>
+            </div>
+            <div class="atlas-group">
+              <p class="atlas-label">Asia <span>8</span></p>
+              <ul role="list"><li><button type="button" class="atlas-place" data-place="Armenia">Armenia</button></li><li><button type="button" class="atlas-place" data-place="China">China</button></li><li><button type="button" class="atlas-place" data-place="Georgia">Georgia</button></li><li><button type="button" class="atlas-place" data-place="Hong Kong">Hong Kong</button></li><li><button type="button" class="atlas-place" data-place="India">India<span>home</span></button></li><li><button type="button" class="atlas-place" data-place="Macao">Macao</button></li><li><button type="button" class="atlas-place" data-place="Singapore">Singapore</button></li><li><button type="button" class="atlas-place" data-place="United Arab Emirates">United Arab Emirates</button></li></ul>
+            </div>
+            <div class="atlas-group">
+              <p class="atlas-label">South America <span>5</span></p>
+              <ul role="list"><li><button type="button" class="atlas-place" data-place="Argentina">Argentina<span>exchange</span></button></li><li><button type="button" class="atlas-place" data-place="Brazil">Brazil</button></li><li><button type="button" class="atlas-place" data-place="Chile">Chile</button></li><li><button type="button" class="atlas-place" data-place="Paraguay">Paraguay</button></li><li><button type="button" class="atlas-place" data-place="Uruguay">Uruguay</button></li></ul>
+            </div>
+            <div class="atlas-group">
+              <p class="atlas-label">Africa <span>1</span></p>
+              <ul role="list"><li><button type="button" class="atlas-place" data-place="Morocco">Morocco</button></li></ul>
+            </div>
+          </div>
+          <figure class="atlas-map">
+            <svg viewBox="0 0 600 330" role="img" aria-label="World map of the places I've been"></svg>
+            <figcaption class="atlas-caption" aria-live="polite"><b></b><span></span></figcaption>
+          </figure>
+        </div>
       </section>
 
       <footer class="footer">
@@ -363,49 +365,21 @@
           <span>Signed · <span data-year>2026</span></span>
         </div>
         <span class="footer-links">
-          <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://nl.linkedin.com/in/pradyun-krishnan" target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="mailto:krishnan.pradyun@gmail.com">Email</a>
         </span>
         <p class="disclaimer">Nothing on this site is legal advice.</p>
       </footer>
     </main>
 
-    <nav class="dock" aria-label="Main">
-      <a class="dock-item" href="./" aria-current="page">
-        <span class="dock-avatar">PK</span>
-        <span class="dock-tip">Home</span>
-      </a>
-      <a class="dock-item" href="writing/">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        <span class="dock-tip">Writing</span>
-      </a>
-      <a class="dock-item" href="projects.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M7 21h10"/><path d="M3 7h18"/><path d="M5 7l-3 7a3.5 3.5 0 0 0 6 0Z"/><path d="M19 7l-3 7a3.5 3.5 0 0 0 6 0Z"/></svg>
-        <span class="dock-tip">Projects</span>
-      </a>
-      <span class="dock-rule" aria-hidden="true"></span>
-      <!-- theme: hover (or tap) the icon and a three-stop slider appears -->
-      <div class="theme-control" data-theme-control>
-        <button class="dock-item" type="button" aria-label="Theme" aria-expanded="false" aria-controls="theme-slider">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor"/></svg>
-        </button>
-        <div class="theme-slider" id="theme-slider" role="radiogroup" aria-label="Theme">
-          <span class="ts-knob" aria-hidden="true"></span>
-          <button type="button" role="radio" aria-checked="true" data-theme="mono" aria-label="Black ink"><span class="ts-dot ts-mono"></span></button>
-          <button type="button" role="radio" aria-checked="false" data-theme="blue" aria-label="Blue ink"><span class="ts-dot ts-blue"></span></button>
-          <button type="button" role="radio" aria-checked="false" data-theme="xmas" aria-label="Christmas"><span class="ts-dot ts-xmas"></span></button>
-          <span class="ts-label" aria-hidden="true">Black ink</span>
-        </div>
-      </div>
-    </nav>
-
     <!-- motion: GSAP 3.15.1 (+ ScrollTrigger, SplitText) and Lenis 1.3.27, self-hosted -->
     <script src="vendor/gsap.min.js"></script>
     <script src="vendor/ScrollTrigger.min.js"></script>
     <script src="vendor/SplitText.min.js"></script>
     <script src="vendor/lenis.min.js"></script>
-    <script src="data/world-dots.js"></script>
-    <script src="script.js"></script>
+    <script src="vendor/d3-array.min.js"></script>
+    <script src="vendor/d3-geo.min.js"></script>
+    <script src="vendor/topojson-client.min.js"></script>
+    <script src="script.js?v=97"></script>
   </body>
 </html>

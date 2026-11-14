@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IP register · Pradyun Krishnan</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css?v=97" />
+    <script>
+      try {
+        const theme = localStorage.getItem('theme')
+        if (theme === 'blue' || theme === 'xmas') document.documentElement.classList.add(theme)
+        if (sessionStorage.getItem('visited')) document.documentElement.dataset.visited = ''
+        sessionStorage.setItem('visited', '1')
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <!-- top bar: contents on the left, contact and LinkedIn on the right -->
+    <header class="topbar">
+      <div class="topbar-start">
+        <a class="pill topbar-mark" href="../index.html" aria-label="Pradyun Krishnan, home">PK</a>
+      <div class="menu">
+        <button class="pill" type="button" aria-expanded="false" aria-controls="contents-menu" data-menu>Contents</button>
+        <ol class="menu-panel contents-menu" id="contents-menu" hidden>
+          <li><a href="../index.html#intro"><span class="contents-index"></span>The Intro</a></li>
+          <li><a href="../index.html#projects"><span class="contents-index">§ 01</span>Projects</a></li>
+          <li><a href="../index.html#experience"><span class="contents-index">§ 02</span>Experience</a></li>
+          <li><a href="../index.html#awards"><span class="contents-index">§ 03</span>Awards</a></li>
+          <li><a href="../index.html#film"><span class="contents-index">§ 04</span>The Film Roll</a></li>
+          <li><a href="../index.html#places"><span class="contents-index">§ 05</span>Places</a></li>
+        </ol>
+      </div>
+      <div class="menu languages">
+        <!-- the greeting cycles through the languages below; this menu doesn't
+             translate anything, it just says which languages I speak -->
+        <button class="pill pill-greeting" type="button" aria-expanded="false" aria-controls="languages-menu" aria-label="Languages I speak" data-menu data-greetings="Hello|Hola|ನಮಸ್ಕಾರ|नमस्ते|Hallo|Hoi"><span data-greeting>Hello</span></button>
+        <div class="menu-panel languages-menu" id="languages-menu" hidden>
+          <p class="languages-title">I speak</p>
+          <ul>
+            <li lang="en"><span class="lang-native">English</span><span class="lang-name" lang="en">English</span></li>
+            <li lang="es"><span class="lang-native">Español</span><span class="lang-name" lang="en">Spanish</span></li>
+            <li lang="kn"><span class="lang-native">ಕನ್ನಡ</span><span class="lang-name" lang="en">Kannada</span></li>
+            <li lang="hi"><span class="lang-native">हिन्दी</span><span class="lang-name" lang="en">Hindi</span></li>
+            <li lang="de"><span class="lang-native">Deutsch</span><span class="lang-name" lang="en">German · <em>ein bisschen</em></span></li>
+            <li lang="nl"><span class="lang-native">Nederlands</span><span class="lang-name" lang="en">Dutch</span></li>
+          </ul>
+          <p class="languages-note">This isn't a language switch. The site stays in English; this menu is just showing off.</p>
+        </div>
+      </div>
+      </div>
+      <div class="topbar-end">
+        <div class="theme-menu" data-theme-menu>
+          <button class="pill theme-pill" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-pop" aria-label="Theme"><span class="theme-swatch" aria-hidden="true"></span><span class="theme-pill-label">Theme</span></button>
+          <div class="theme-pop" id="theme-pop" role="menu" aria-label="Theme" hidden>
+            <button type="button" role="menuitemradio" aria-checked="true" data-theme="mono"><span class="ts-dot ts-mono" aria-hidden="true"></span>Black<svg class="theme-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" role="menuitemradio" aria-checked="false" data-theme="blue"><span class="ts-dot ts-blue" aria-hidden="true"></span>Blue<svg class="theme-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" role="menuitemradio" aria-checked="false" data-theme="xmas" ><span class="ts-dot ts-xmas" aria-hidden="true"></span>Christmas<svg class="theme-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+        <a class="pill" href="mailto:krishnan.pradyun@gmail.com">Contact</a>
+        <a class="pill pill-icon" href="https://nl.linkedin.com/in/pradyun-krishnan" target="_blank" rel="noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.06c.53-1 1.83-1.85 3.76-1.85 4.02 0 4.88 2.4 4.88 5.8v5.55h-4v-4.92c0-1.17-.02-2.68-1.64-2.68-1.64 0-1.9 1.28-1.9 2.6v5h-4v-11Z"/></svg></a>
+      </div>
+    </header>
+
+    <main class="page work-page">
+      <a class="work-back" href="../index.html#projects">← All projects</a>
+      <p class="project-kind">Trademarks and domains</p>
+      <h1 class="work-title">IP register</h1>
+      <p class="work-lede">Every trademark and domain in one register, searchable by country, with renewals flagged a year ahead.</p>
+      <p class="work-note">Rebuilt with made-up data. The real tool is under NDA.</p>
+
+      <div class="work-demo" style="--bg: linear-gradient(150deg, #ff4d4d 0%, #ff8a7a 55%, #ffe1dc 100%)">
+        <iframe src="../demos/ip-register.html?v=2" title="IP register demo"></iframe>
+      </div>
+
+      <section class="work-how" aria-labelledby="how-title">
+        <h2 id="how-title" class="work-h2">How it works</h2>
+        <p class="work-intro">One place for every trademark and domain a brand owns, so renewals and gaps are never missed.</p>
+        <div class="work-flow"><span class="flow-step">Registry exports</span><i aria-hidden="true">→</i><span class="flow-step">Clean-up script</span><i aria-hidden="true">→</i><span class="flow-step">Register</span><i aria-hidden="true">→</i><span class="flow-step is-out">Search and filters</span><span class="flow-step is-out">Renewal flags</span><span class="flow-step is-out">Ask the register</span></div>
+        <ol class="work-steps"><li>Exports from trademark offices and the domain registrar are dropped in each week.</li><li>A small script turns each file into the same set of fields: mark, country, status, classes and expiry.</li><li>The register shows everything in one table you can search, filter by country and download as CSV.</li><li>Anything expiring within a year is flagged so it can be renewed in time.</li><li>"Ask the register" sends your question and the table to an AI model, which answers from the data only.</li></ol>
+      </section>
+
+      <a class="work-next" href="rete.html"><span>Next project</span><b>Rete →</b></a>
+
+      <footer class="footer">
+        <div class="signature">
+          <span class="signature-line">Pradyun Krishnan</span>
+          <span>Signed · <span data-year>2026</span></span>
+        </div>
+        <span class="footer-links">
+          <a href="https://nl.linkedin.com/in/pradyun-krishnan" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="mailto:krishnan.pradyun@gmail.com">Email</a>
+        </span>
+        <p class="disclaimer">Nothing on this site is legal advice.</p>
+      </footer>
+    </main>
+
+    <script src="../script.js?v=97"></script>
+  </body>
+</html>

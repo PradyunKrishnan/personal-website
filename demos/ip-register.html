@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IP register demo</title><meta name="robots" content="noindex">
+<style>
+:root{--border:#e6e4df;--text-secondary:#5f6064;--text-danger:#b42318;--surface-1:#f7f6f3;--border-stronger:#c9c7c2}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:#16171a;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding:14px}
+html *{font-style:normal !important}
+button,input{font:inherit;color:inherit}
+button{min-height:32px;padding:0 14px;border:1px solid var(--border);border-radius:999px;background:#fff;cursor:pointer}
+button:hover{border-color:var(--border-stronger)}
+input:not([type=range]){min-height:32px;padding:0 12px;border:1px solid var(--border);border-radius:999px;background:#fff}
+.ctrl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+:focus-visible{outline:2px solid #2f6fed;outline-offset:2px}
+</style><script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed')</script>
+<style>
+/* embed: shown inside a project tile on the home page. No player controls; the demo fills the frame */
+html.embed,html.embed body{height:100%;background:transparent}
+html.embed body{padding:0}
+html.embed .ctrl{display:none}
+html.embed #cc,html.embed #ip,html.embed #rt{height:100%;display:flex;flex-direction:column;border:0;border-radius:0}
+html.embed #stage{flex:1;height:auto;min-height:0}
+</style>
+<style>
+/* control bar: one quiet toolbar under the demo, in SF Pro, Apple-style */
+.ctrl{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Arial,sans-serif;display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;padding:8px 8px 8px 16px;border-radius:14px;background:#f5f5f7;font-size:14px;letter-spacing:-.01em;color:#1d1d1f}
+.ctrl+.ctrl{margin-top:8px}
+.ctrl>span,.ctrl>label{font-size:13px!important;font-weight:500;color:#6e6e73!important;white-space:nowrap}
+.ctrl button{font-family:inherit;min-height:36px;padding:0 18px;border-radius:999px;border:0;background:#fff;color:#1d1d1f;font-size:14px;font-weight:500;box-shadow:0 0 0 1px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);cursor:pointer;transition:background .2s,transform .1s}
+.ctrl button:hover{background:#fafafa}
+.ctrl button:active{transform:scale(.97)}
+.ctrl button#play{background:#1d1d1f;color:#fff;box-shadow:none;min-width:84px}
+.ctrl button#play:hover{background:#3a3a3c}
+.ctrl input:not([type=range]){font-family:inherit;min-height:36px;padding:0 14px;border:0;border-radius:10px;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1);font-size:14px;color:#1d1d1f;outline:none}
+.ctrl input:not([type=range]):focus{box-shadow:inset 0 0 0 2px #0071e3}
+.ctrl input[type=range]{-webkit-appearance:none;appearance:none;height:28px;background:transparent;cursor:pointer;--p:0%}
+.ctrl input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(to right,#1d1d1f var(--p),#d2d2d7 var(--p))}
+.ctrl input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:#d2d2d7}
+.ctrl input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:#1d1d1f}
+.ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-8px;border-radius:50%;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.2)}
+.ctrl input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.2)}
+.ctrl input[type=range]:focus-visible{outline:2px solid #0071e3;outline-offset:2px;border-radius:6px}
+@media (max-width:520px){.ctrl{padding:8px 10px}.ctrl input[type=range]{flex-basis:100%!important;order:3}}
+</style>
+<script>
+/* keep the slider's filled part in step, including when the demo moves it */
+addEventListener('DOMContentLoaded',()=>{const r=[...document.querySelectorAll('.ctrl input[type=range]')];const up=()=>r.forEach(x=>x.style.setProperty('--p',(x.value-x.min)/(x.max-x.min)*100+'%'));setInterval(up,80);up()});
+</script>
+</head><body>
+<style>
+#ip{--coral:#ff4d4d;--coral-s:#ffe7e5;--ink:#121110;--muted:#45413d;--line:#e6e3df;--th:#f8f7f5;position:relative;background:#fff;color:var(--ink);border-radius:12px;border:1px solid var(--line);overflow:hidden;font-family:-apple-system,system-ui,"Helvetica Neue",Arial,sans-serif;font-size:13px}
+.top{display:flex;align-items:center;gap:14px;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.wm{font-size:22px;font-weight:700;letter-spacing:-.02em}.wm i{font-style:normal;font-weight:500;color:var(--coral)}
+.tabs{display:flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px}
+.tabs span{padding:5px 10px;border-radius:999px;cursor:pointer}.tabs span.on{background:var(--coral-s)}
+.pill{border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:#fff;cursor:pointer;font:inherit;color:var(--ink)}
+.pill.c{background:var(--coral-s);border-color:#ffc9c4}
+#stage{position:relative;height:360px;overflow:hidden}
+.scene{position:absolute;inset:14px;transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.cert{max-width:430px;margin:6px auto 0;border:1.5px solid #c9c2b8;border-radius:4px;padding:16px 18px;background:#fdfcf9;font-family:Georgia,serif;position:relative}
+.cert .f{display:grid;grid-template-columns:120px 1fr;gap:4px 10px;margin-top:8px;font-size:13px}
+.cert .f b{font-family:-apple-system,system-ui,sans-serif;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.fv{transition:background .3s,transform .5s cubic-bezier(.34,1.56,.64,1);border-radius:4px;padding:0 3px}
+.seal{position:absolute;right:14px;top:12px;width:62px;height:62px;border-radius:50%;border:2px solid var(--coral);color:var(--coral);display:grid;place-items:center;text-align:center;font:600 9px/1.1 -apple-system,system-ui,sans-serif;transform:rotate(-12deg) scale(var(--s,0));transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:8px 12px}.stat.on{border-color:var(--coral);background:#fff6f5}
+.stat small{font-size:10px;letter-spacing:.08em;color:var(--muted);font-weight:600}.stat div{font-size:30px;font-weight:300;line-height:1.1}
+table{width:100%;border-collapse:collapse;margin-top:8px}th{background:var(--th);text-align:left;font-size:11px;color:var(--muted);padding:6px 8px;border:1px solid var(--line)}
+td{padding:6px 8px;border:1px solid var(--line)}td:first-child{font-weight:600}
+tr.due td{background:#fff6f5}tr.new td{animation:land .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes land{from{opacity:0;transform:translateY(-10px)}}
+.ask{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px}
+.bub{display:inline-block;background:var(--th);border-radius:12px;padding:7px 10px;margin-top:6px;max-width:92%}
+.how{position:absolute;right:12px;bottom:10px;z-index:3;min-height:32px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font:inherit;font-size:13px;color:var(--ink);cursor:pointer}
+.how-panel{position:absolute;inset:60px 12px 12px;z-index:4;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;overflow:auto;animation:howIn .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes howIn{from{opacity:0;transform:translateY(8px) scale(.98)}}
+.how-panel p{margin:6px 0 10px}.how-panel ol{margin:10px 0 0;padding-left:18px;line-height:1.55}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12px}
+.flow span{border:1px solid var(--line);border-radius:999px;padding:3px 9px;background:var(--th)}.flow span.t{border-color:var(--coral);color:#c62f2f}.flow i{font-style:normal;color:#a19c96}
+.x{width:32px;height:32px;border:0;border-radius:50%;background:var(--th);font-size:18px;cursor:pointer}
+</style>
+<div id="ip">
+ <div class="top">
+  <div class="wm">lumen <i>IP register</i></div>
+  <div class="tabs"><span data-tab="0">Certificate</span><span data-tab="1">Register</span><span data-tab="2">Renewals</span><span data-tab="3">Ask</span></div>
+  <button class="pill" style="margin-left:auto" id="askbtn">✦ Ask the register</button>
+ </div>
+ <div id="stage">
+  <div class="scene" id="s0">
+   <div class="cert">
+    <div class="seal" id="seal">REGISTERED<br>✓<br>EUIPO</div>
+    <div style="font-size:11px;font-family:-apple-system,system-ui,sans-serif;color:var(--muted)">Certificate of registration (sample)</div>
+    <div style="font-size:19px;margin-top:4px"><span class="strike">This is to certify that</span> the trade mark shown below <span class="strike">has been entered in the Register</span>.</div>
+    <div class="f"><b>Mark</b><span class="fv">LUMEN</span><b>Number</b><span class="fv">019 384 552</span><b>Classes</b><span class="fv">9, 42</span><b>Filed</b><span class="fv">14 Feb 2017</span><b>Expires</b><span class="fv">14 Feb 2027</span></div>
+   </div>
+  </div>
+  <div class="scene" id="s1">
+   <div class="stats"><div class="stat on"><small>ROWS SHOWN</small><div id="nRows">0</div></div><div class="stat"><small>TRADEMARKS</small><div id="nTm">0</div></div><div class="stat"><small>DOMAINS</small><div id="nDom">0</div></div></div>
+   <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px"><small style="font-size:10px;letter-spacing:.08em;color:var(--muted);font-weight:600">BY COUNTRY</small><span id="chips"></span></div>
+   <div id="tbl"></div>
+  </div>
+  <div class="scene" id="s2">
+   <div style="font-size:18px;font-weight:600">Renewals due in the next 12 months</div>
+   <div style="color:var(--muted);margin-top:2px">Rows turn coral when a mark expires soon, so nobody misses a deadline.</div>
+   <div id="tbl2"></div>
+  </div>
+  <div class="scene" id="s3">
+   <div class="ask"><div style="font-weight:600">✦ Ask the register</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px" id="qs"></div><div id="chat"></div></div>
+  </div>
+ </div>
+ <button class="how" id="howBtn" aria-expanded="false" aria-controls="how">How does this work?</button>
+ <div class="how-panel" id="how" role="dialog" aria-label="How the IP register works" hidden>
+  <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:15px">How does this work?</b><button class="x" id="howX" aria-label="Close">×</button></div>
+  <p>One place for every trademark and domain a brand owns, so renewals and gaps are never missed.</p>
+  <div class="flow"><span>Registry exports</span><i>→</i><span>Clean-up script</span><i>→</i><span>Register</span><i>→</i><span class="t">Search and filters</span><span class="t">Renewal flags</span><span class="t">Ask the register</span></div>
+  <ol>
+   <li>Exports from trademark offices and the domain registrar are dropped in each week.</li>
+   <li>A small script turns each file into the same set of fields: mark, country, status, classes and expiry.</li>
+   <li>The register shows everything in one table you can search, filter by country and download as CSV.</li>
+   <li>Anything expiring within a year is flagged so it can be renewed in time.</li>
+   <li>"Ask the register" sends your question and the table to an AI model, which answers from the data only.</li>
+  </ol>
+ </div>
+</div>
+<div class="ctrl">
+ <span style="font-size:14px;color:var(--text-secondary)">Progress</span>
+ <input type="range" id="t" min="0" max="100" value="0" step="1" style="flex:1;min-width:140px" aria-label="Demo progress">
+ <button id="play">Play</button>
+</div>
+<div class="ctrl">
+ <label for="q" style="font-size:14px;color:var(--text-secondary)">Search the register</label>
+ <input id="q" placeholder="lumen, Brazil, class 42…" style="flex:1;min-width:140px">
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const R=[['LUMEN','Trademark','EU','Registered','9, 42','2027-02-14'],['LUMEN','Trademark','UK','Registered','9, 42','2027-03-02'],['LUMEN','Trademark','US','Registered','9','2031-06-11'],['LUMEN','Trademark','Brazil','Registered','42','2029-09-30'],['LUMEN AI','Trademark','India','Ready for examination','9, 42','—'],['LUMEN AI','Trademark','Switzerland','Registered','42','2026-12-20'],['ORBITA','Trademark','EU','Application under examination','35','—'],['ORBITA','Trademark','Benelux','Registration published','35','2034-01-08'],['lumen.ai','Domain','—','Active','—','2027-01-05'],['lumen-app.com','Domain','—','Active','—','2028-04-17'],['getlumen.eu','Domain','—','Active','—','2026-12-01'],['lumen.store','Domain','—','Parked','—','2027-08-22']];
+const now=new Date('2026-11-14');const due=r=>r[5]!=='—'&&(new Date(r[5])-now)/864e5<365;
+let country=null,shown=0;
+function rows(list,cls){return `<table><thead><tr><th>Asset</th><th>Type</th><th>Country</th><th>Status</th><th>Classes</th><th>Expires</th></tr></thead><tbody>${list.map((r,i)=>`<tr class="${(cls&&due(r))?'due':''} ${i>=shown-1&&cls==='fill'?'new':''}">${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`}
+function filtered(){const q=$('q').value.trim().toLowerCase();return R.filter(r=>(!country||r[2]===country)&&(!q||r.join(' ').toLowerCase().includes(q.replace('class ',''))))}
+function chips(){const c={};R.filter(r=>r[1]==='Trademark').forEach(r=>c[r[2]]=(c[r[2]]||0)+1);$('chips').innerHTML=Object.entries(c).map(([k,v])=>`<button class="pill ${country===k?'c':''}" data-c="${k}">${k} ${v}</button>`).join(' ')}
+function counts(list){$('nRows').textContent=list.length;$('nTm').textContent=list.filter(r=>r[1]==='Trademark').length;$('nDom').textContent=list.filter(r=>r[1]==='Domain').length}
+const QA=[['Which marks expire in the next year?',()=>{const d=R.filter(due);return `${d.length} assets: `+d.map(r=>`<b>${r[0]}</b> (${r[2]==='—'?'domain':r[2]}, ${new Date(r[5]).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})})`).join(', ')+'. Earliest is getlumen.eu on 1 Dec 2026.'}],['Is LUMEN protected in the US?',()=>'Yes. LUMEN is registered in the US for class 9 until 11 Jun 2031. Class 42 is not covered there; you may want to file.'],['What is still pending?',()=>'2 applications: LUMEN AI in India (ready for examination) and ORBITA in the EU (under examination).']];
+function ask(i){$('chat').innerHTML=`<div style="text-align:right"><span class="bub" style="background:var(--coral-s)">${QA[i][0]}</span></div><div><span class="bub" id="ans"></span></div>`;const a=QA[i][1]();let k=0;const el=$('ans');const iv=setInterval(()=>{k+=4;el.innerHTML=a.slice(0,k).replace(/<[^>]*$/,'');if(k>=a.length){el.innerHTML=a;clearInterval(iv)}},18)}
+$('qs').innerHTML=QA.map((q,i)=>`<button class="pill" data-q="${i}">${q[0]}</button>`).join('');
+$('qs').addEventListener('click',e=>{const b=e.target.closest('[data-q]');if(b)ask(+b.dataset.q)});
+$('chips').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;country=country===b.dataset.c?null:b.dataset.c;chips();draw()});
+$('askbtn').addEventListener('click',()=>{$('t').value=92;render(92);ask(0)});
+function draw(){const list=filtered().slice(0,Math.max(shown,0));$('tbl').innerHTML=rows(list,'fill');counts(filtered().slice(0,shown));$('tbl2').innerHTML=rows(R.filter(due),'due')}
+function render(v){const t=v/100,sc=t<.25?0:t<.55?1:t<.78?2:3;
+ document.querySelectorAll('.scene').forEach((s,i)=>{s.style.opacity=i===sc?1:0;s.style.transform=i===sc?'none':`translateY(${i<sc?-14:14}px)`;s.style.pointerEvents=i===sc?'auto':'none'});
+ document.querySelectorAll('[data-tab]').forEach(s=>s.classList.toggle('on',+s.dataset.tab===sc));
+ const a=Math.min(1,t/.22);document.querySelectorAll('.strike').forEach(s=>{s.style.textDecoration=a>.25?'line-through':'none';s.style.textDecorationColor='#ff4d4d';s.style.opacity=a>.5?.35:1});
+ document.querySelectorAll('.fv').forEach((f,i)=>{const on=a>.35+i*.1;f.style.background=on?'#ffe7e5':'transparent';f.style.transform=on?'translateX(4px)':'none'});
+ $('seal').style.setProperty('--s',a>.85?1:0);
+ const n=Math.round(Math.max(0,Math.min(1,(t-.25)/.25))*R.length);if(n!==shown){shown=n;draw()}
+ if(sc===3&&!$('chat').innerHTML)ask(0)}
+$('q').addEventListener('input',()=>{if(shown<R.length){shown=R.length;$('t').value=50;render(50)}draw()});
+document.querySelectorAll('[data-tab]').forEach(s=>s.addEventListener('click',()=>{$('t').value=[12,50,66,92][+s.dataset.tab];render(+$('t').value)}));
+$('t').addEventListener('input',()=>render(+$('t').value));
+const howBtn=$('howBtn'),how=$('how');
+function setHow(o){how.hidden=!o;howBtn.setAttribute('aria-expanded',String(o));howBtn.textContent=o?'Back to the demo':'How does this work?';if(o)$('howX').focus();else howBtn.focus()}
+howBtn.addEventListener('click',()=>setHow(how.hidden));$('howX').addEventListener('click',()=>setHow(false));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!how.hidden)setHow(false)});
+let timer=null;$('play').addEventListener('click',e=>{if(timer){clearInterval(timer);timer=null;e.target.textContent='Play';return}if(+$('t').value>=100)$('t').value=0;e.target.textContent='Pause';timer=setInterval(()=>{$('t').value=+$('t').value+1;render(+$('t').value);if(+$('t').value>=100){clearInterval(timer);timer=null;e.target.textContent='Play'}},90)});
+chips();render(0);
+</script>
+
+<script>
+addEventListener('message',e=>{if(e.origin!==location.origin)return;const p=document.getElementById('play');const d=e.data||{};
+ if(d.demo==='play'&&p&&!/pause/i.test(p.textContent))p.click();
+ if(d.demo==='seek'){const r=document.getElementById('t');if(r&&+r.value!==d.v){if(p&&/pause/i.test(p.textContent))p.click();r.value=d.v;r.dispatchEvent(new Event('input'))}}
+ if(d.demo==='pause'&&p&&/pause/i.test(p.textContent))p.click();});
+</script>
+</body></html>

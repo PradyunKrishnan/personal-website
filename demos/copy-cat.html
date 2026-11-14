@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Copy Cat demo</title><meta name="robots" content="noindex">
+<style>
+:root{--border:#e6e4df;--text-secondary:#5f6064;--text-danger:#b42318;--surface-1:#f7f6f3;--border-stronger:#c9c7c2}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:#16171a;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding:14px}
+html *{font-style:normal !important}
+button,input{font:inherit;color:inherit}
+button{min-height:32px;padding:0 14px;border:1px solid var(--border);border-radius:999px;background:#fff;cursor:pointer}
+button:hover{border-color:var(--border-stronger)}
+input:not([type=range]){min-height:32px;padding:0 12px;border:1px solid var(--border);border-radius:999px;background:#fff}
+.ctrl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+:focus-visible{outline:2px solid #2f6fed;outline-offset:2px}
+</style><script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed')</script>
+<style>
+/* embed: shown inside a project tile on the home page. No player controls; the demo fills the frame */
+html.embed,html.embed body{height:100%;background:transparent}
+html.embed body{padding:0}
+html.embed .ctrl{display:none}
+html.embed #cc,html.embed #ip,html.embed #rt{height:100%;display:flex;flex-direction:column;border:0;border-radius:0}
+html.embed #stage{flex:1;height:auto;min-height:0}
+</style>
+<style>
+/* control bar: one quiet toolbar under the demo, in SF Pro, Apple-style */
+.ctrl{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Arial,sans-serif;display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;padding:8px 8px 8px 16px;border-radius:14px;background:#f5f5f7;font-size:14px;letter-spacing:-.01em;color:#1d1d1f}
+.ctrl+.ctrl{margin-top:8px}
+.ctrl>span,.ctrl>label{font-size:13px!important;font-weight:500;color:#6e6e73!important;white-space:nowrap}
+.ctrl button{font-family:inherit;min-height:36px;padding:0 18px;border-radius:999px;border:0;background:#fff;color:#1d1d1f;font-size:14px;font-weight:500;box-shadow:0 0 0 1px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);cursor:pointer;transition:background .2s,transform .1s}
+.ctrl button:hover{background:#fafafa}
+.ctrl button:active{transform:scale(.97)}
+.ctrl button#play{background:#1d1d1f;color:#fff;box-shadow:none;min-width:84px}
+.ctrl button#play:hover{background:#3a3a3c}
+.ctrl input:not([type=range]){font-family:inherit;min-height:36px;padding:0 14px;border:0;border-radius:10px;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1);font-size:14px;color:#1d1d1f;outline:none}
+.ctrl input:not([type=range]):focus{box-shadow:inset 0 0 0 2px #0071e3}
+.ctrl input[type=range]{-webkit-appearance:none;appearance:none;height:28px;background:transparent;cursor:pointer;--p:0%}
+.ctrl input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(to right,#1d1d1f var(--p),#d2d2d7 var(--p))}
+.ctrl input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:#d2d2d7}
+.ctrl input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:#1d1d1f}
+.ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-8px;border-radius:50%;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.2)}
+.ctrl input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.2)}
+.ctrl input[type=range]:focus-visible{outline:2px solid #0071e3;outline-offset:2px;border-radius:6px}
+@media (max-width:520px){.ctrl{padding:8px 10px}.ctrl input[type=range]{flex-basis:100%!important;order:3}}
+</style>
+<script>
+/* keep the slider's filled part in step, including when the demo moves it */
+addEventListener('DOMContentLoaded',()=>{const r=[...document.querySelectorAll('.ctrl input[type=range]')];const up=()=>r.forEach(x=>x.style.setProperty('--p',(x.value-x.min)/(x.max-x.min)*100+'%'));setInterval(up,80);up()});
+</script>
+</head><body>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+#cc{--navy:#1e2a47;--teal:#1b7f78;--bg:#f5f7f9;--line:#dde2e8;--muted:#56627a;--hi:#b42318;--hi-s:#fdecea;--md:#a15c07;--md-s:#fdf3e2;--lo:#2f7a45;--lo-s:#e8f4ec;
+ position:relative;background:var(--bg);color:var(--navy);border-radius:12px;border:1px solid var(--line);overflow:hidden;font-family:"Source Sans 3",system-ui,sans-serif}
+.disp{font-family:"Bricolage Grotesque",system-ui,sans-serif}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+.top{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tabs{margin-left:auto;display:flex;gap:4px;font-size:13px}
+.tabs span{padding:5px 10px;border-radius:999px;color:var(--muted);cursor:pointer}
+.tabs span.on{background:var(--navy);color:#fff}
+#stage{position:relative;height:330px;overflow:hidden}
+.scene{position:absolute;inset:16px;transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.sev{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px}
+.HIGH{color:var(--hi);background:var(--hi-s)}.MEDIUM{color:var(--md);background:var(--md-s)}.LOW{color:var(--lo);background:var(--lo-s)}
+.diff{color:var(--hi);background:var(--hi-s);border-radius:3px}
+.col{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;min-height:220px}
+.k{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 8px;margin-top:7px;font-size:12px}
+.toast{position:absolute;right:16px;bottom:56px;width:250px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--hi);border-radius:8px;padding:9px 11px;font-size:12px;transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.row{display:flex;align-items:center;gap:8px}
+.how{position:absolute;right:12px;bottom:10px;z-index:3;min-height:32px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font:inherit;font-size:13px;color:var(--navy);cursor:pointer}
+.how-panel{position:absolute;inset:60px 12px 12px;z-index:4;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;overflow:auto;animation:howIn .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes howIn{from{opacity:0;transform:translateY(8px) scale(.98)}}
+.how-panel p{margin:6px 0 10px}.how-panel ol{margin:10px 0 0;padding-left:18px;line-height:1.55}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12px}
+.flow span{border:1px solid var(--line);border-radius:999px;padding:3px 9px;background:var(--bg)}.flow span.t{border-color:var(--teal);color:var(--teal)}.flow i{font-style:normal;color:#9aa3b5}
+.x{width:32px;height:32px;border:0;border-radius:50%;background:var(--bg);font-size:18px;cursor:pointer}
+</style>
+<div id="cc">
+ <div class="top">
+  <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect x=".75" y=".75" width="62.5" height="62.5" rx="14" fill="#fff" stroke="#dde2e8" stroke-width="1.5"/><svg x="6" y="6" width="52" height="52" viewBox="90 70 1130 1170"><path fill="#1e2a47" d="M162 502 216 88 465 337Q576 296 687 337L934 88 990 502C1030 590 1045 660 1040 760 1035 880 1010 960 960 1040 880 1160 740 1210 576 1220 410 1210 270 1160 190 1040 140 960 115 880 112 760 108 660 122 590 162 502Z"/><ellipse cx="383" cy="696" rx="83" ry="62" fill="#fff"/><circle cx="383" cy="696" r="33" fill="#1e2a47"/><path d="M521 945h110l-55 68z" fill="#26a39a"/><path d="M905 870 1143 1153" stroke="#26a39a" stroke-width="95" stroke-linecap="round"/><circle cx="769" cy="723" r="228" fill="#26a39a"/><circle cx="769" cy="723" r="159" fill="#46526a"/><ellipse cx="769" cy="723" rx="110" ry="82" fill="#fff"/><circle id="pupil" cx="769" cy="723" r="47" fill="#1e2a47"/></svg></svg>
+  <div><div class="disp" style="font-weight:700;font-size:17px;line-height:1">Copy Cat</div><div style="font-size:12px;color:var(--muted)">Brand protection</div></div>
+  <div class="tabs"><span data-tab="0">Clause</span><span data-tab="1">Scan</span><span data-tab="2">Findings</span><span data-tab="3">Review</span></div>
+ </div>
+ <div id="stage">
+  <div class="scene" id="s0">
+   <div class="card" style="max-width:520px">
+    <div class="mono" style="font-size:11px;color:var(--muted)">Licence agreement · clause 4.1 (sample)</div>
+    <p style="font-size:17px;line-height:1.55;margin:8px 0 0">The Licensee shall not use the mark <span id="mark" class="disp" style="font-weight:700;display:inline-block;transition:transform .5s cubic-bezier(.34,1.56,.64,1)">PIP &amp; PLATE</span>, <span class="fade">or any sign confusingly similar to it,</span> in any domain name, social media handle or app listing <span class="fade">without prior written consent.</span></p>
+   </div>
+   <div id="lift" class="row" style="margin-top:16px;opacity:0;transition:opacity .4s"><span class="mono" style="font-size:12px;color:var(--teal)">brand_profile.json</span><span class="mono" style="font-size:12px;background:#fff;border:1px solid var(--line);padding:4px 8px;border-radius:6px">{ "mark": "<span class="brandname">pip &amp; plate</span>", "watch": ["domains","social","apps"] }</span></div>
+  </div>
+  <div class="scene" id="s1">
+   <div class="row" style="justify-content:space-between"><div class="disp" style="font-weight:700;font-size:18px">Live scan · Friday 09:00</div><div class="mono" style="font-size:11px;color:var(--muted)">certificates · RDAP · web search</div></div>
+   <div id="feed" class="mono" style="margin-top:10px;font-size:13px;line-height:1.9"></div>
+  </div>
+  <div class="scene" id="s2"><div class="disp" style="font-weight:700;font-size:18px;margin-bottom:8px">Findings</div><div id="table"></div></div>
+  <div class="scene" id="s3">
+   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+    <div class="col"><div class="disp" style="font-weight:700">New</div><div id="c0"></div></div>
+    <div class="col"><div class="disp" style="font-weight:700">In review</div><div id="c1"></div></div>
+    <div class="col"><div class="disp" style="font-weight:700">Actioned</div><div id="c2"></div></div>
+   </div>
+   <div class="toast" id="toast"><div class="row"><b style="color:var(--hi)">HIGH</b><span class="mono" style="font-size:11px;color:var(--muted)">#brand-alerts · Slack</span></div><div id="tmsg" style="margin-top:3px">New lookalike found</div></div>
+  </div>
+ </div>
+ <button class="how" id="howBtn" aria-expanded="false" aria-controls="how">How does this work?</button>
+ <div class="how-panel" id="how" role="dialog" aria-label="How Copy Cat works" hidden>
+  <div style="display:flex;justify-content:space-between;align-items:center"><b class="disp" style="font-size:16px">How does this work?</b><button class="x" id="howX" aria-label="Close">×</button></div>
+  <p>Copy Cat looks for anyone copying a brand online and helps the legal team deal with each one.</p>
+  <div class="flow"><span>Brand profile</span><i>→</i><span>Scan agent</span><i>→</i><span>Severity rules</span><i>→</i><span>Findings register</span><i>→</i><span class="t">Review board</span><span class="t">Slack alert</span></div>
+  <ol>
+   <li>The brand's marks, domains and official accounts sit in one profile, taken from the contract and a trademark list.</li>
+   <li>Every Friday a scheduled job asks an AI agent to search the web, new certificates and domain records for anything that looks like the brand.</li>
+   <li>Each hit is scored HIGH, MEDIUM or LOW and saved in a register, so nothing is reported twice.</li>
+   <li>The team moves each finding from New to In review to Actioned, with notes.</li>
+   <li>HIGH findings also go straight to Slack, so someone acts the same day.</li>
+  </ol>
+ </div>
+</div>
+<div class="ctrl">
+ <span style="font-size:14px;color:var(--text-secondary)">Progress</span>
+ <input type="range" id="t" min="0" max="100" value="0" step="1" style="flex:1;min-width:140px" aria-label="Demo progress">
+ <button id="play">Play</button>
+</div>
+<div class="ctrl">
+ <label for="brand" style="font-size:14px;color:var(--text-secondary)">Try any brand</label>
+ <input id="brand" value="Pip & Plate" maxlength="24" style="flex:1;min-width:140px">
+ <span id="err" style="font-size:13px;color:var(--text-danger)"></span>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let finds=[];
+const slug=s=>s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9 ]/g,'').trim();
+function lookalikes(name){const w=slug(name).split(/\s+/).filter(Boolean);const base=w.join('');const hy=w.join('-');const amp=w.length>1?w[0]+'n'+w.slice(1).join(''):base+'s';
+ const swap=base.replace(/o/,'0').replace(/l/,'1')===base?base.replace(/i/,'1'):base.replace(/o/,'0').replace(/l/,'1');
+ const dbl=base.replace(/([a-z])/,'$1$1');
+ return [[hy+'.shop','HIGH','Sells "discount vouchers"',2],[amp+'.co','HIGH','Copies the logo and menu',1],['@'+base+'_deals','MEDIUM','Social account, 2.1k followers',1],[swap+'.app','MEDIUM','Typosquat, no content yet',0],[dbl+'-uk.store','LOW','Parked domain',0],[base+'-recipes.blog','LOW','Fan blog, likely fair use',2]]
+  .map(([d,s,note,st])=>({d,s,note,st,base}));}
+function hl(d,base){let out='';for(const ch of d){const inBase=base.includes(ch);out+=(/[a-z]/.test(ch)&&!inBase)||/[0-9-]/.test(ch)?`<span class="diff">${ch}</span>`:ch}return out}
+function build(){const v=$('brand').value.trim();if(!slug(v)){$('err').textContent='Enter a brand name first';return}$('err').textContent='';
+ finds=lookalikes(v);document.querySelectorAll('.brandname').forEach(e=>e.textContent=slug(v).replace(/ and /,' & '));$('mark').textContent=v.toUpperCase();
+ $('feed').innerHTML=finds.map((f,i)=>`<div class="fl" style="transition:opacity .3s,transform .4s;"><span style="color:var(--muted)">checking</span> ${hl(f.d,f.base)} <span class="sev ${f.s}" style="margin-left:6px">${f.s}</span></div>`).join('');
+ $('table').innerHTML=finds.map((f,i)=>`<div class="card tr" style="padding:8px 12px;margin-bottom:6px;display:grid;grid-template-columns:1.2fr 80px 1.6fr;align-items:center;gap:8px;transition:opacity .3s,transform .4s"><span class="mono" style="font-size:12px">${hl(f.d,f.base)}</span><span class="sev ${f.s}">${f.s}</span><span style="font-size:12px;color:var(--muted)">${f.note}</span></div>`).join('');
+ $('tmsg').innerHTML=`<span class="mono">${finds[0].d}</span> · ${finds[0].note}`;
+ render(+$('t').value)}
+function render(v){const t=v/100;const sc=t<.25?0:t<.5?1:t<.75?2:3;
+ document.querySelectorAll('.scene').forEach((s,i)=>{s.style.opacity=i===sc?1:0;s.style.transform=i===sc?'none':`translateY(${i<sc?-14:14}px)`;s.style.pointerEvents=i===sc?'auto':'none'});
+ document.querySelectorAll('[data-tab]').forEach(s=>s.classList.toggle('on',+s.dataset.tab===sc));
+ const a=Math.min(1,t/.2);document.querySelectorAll('.fade').forEach(f=>{f.style.textDecoration=a>.3?'line-through':'none';f.style.textDecorationColor='#b42318';f.style.opacity=a>.6?.35:1});
+ $('mark').style.transform=a>.5?'translateY(-6px) scale(1.12) rotate(-2deg)':'none';$('lift').style.opacity=a>.8?1:0;
+ const p=Math.max(0,Math.min(1,(t-.25)/.25));document.querySelectorAll('.fl').forEach((e,i)=>{const on=p>i/finds.length;e.style.opacity=on?1:0;e.style.transform=on?'none':'translateX(-10px)'});
+ $('pupil').setAttribute('cx',769+Math.sin(t*30)*40*(sc===1?1:0));
+ const q=Math.max(0,Math.min(1,(t-.5)/.22));document.querySelectorAll('.tr').forEach((e,i)=>{const on=q>i/finds.length;e.style.opacity=on?1:0;e.style.transform=on?'none':'translateY(8px)'});
+ const r=Math.max(0,Math.min(1,(t-.75)/.22));
+ [0,1,2].forEach(c=>$('c'+c).innerHTML='');finds.forEach(f=>{const col=r<.35?0:r<.7?Math.min(1,f.st):f.st;$('c'+col).insertAdjacentHTML('beforeend',`<div class="k"><div class="row" style="justify-content:space-between"><span class="mono" style="font-size:11px">${f.d}</span><span class="sev ${f.s}">${f.s[0]}</span></div>${col===2?'<div style="color:var(--teal);font-size:11px;margin-top:3px">Takedown sent</div>':''}</div>`)});
+ $('toast').style.opacity=r>.15?1:0;$('toast').style.transform=r>.15?'none':'translateY(20px)';}
+$('t').addEventListener('input',()=>render(+$('t').value));
+let timer=null;$('play').addEventListener('click',e=>{if(timer){clearInterval(timer);timer=null;e.target.textContent='Play';return}if(+$('t').value>=100)$('t').value=0;e.target.textContent='Pause';timer=setInterval(()=>{$('t').value=+$('t').value+1;render(+$('t').value);if(+$('t').value>=100){clearInterval(timer);timer=null;e.target.textContent='Play'}},90)});$('brand').addEventListener('input',build);
+document.querySelectorAll('[data-tab]').forEach(s=>s.addEventListener('click',()=>{$('t').value=[10,40,65,95][+s.dataset.tab];render(+$('t').value)}));
+const howBtn=$('howBtn'),how=$('how');
+function setHow(o){how.hidden=!o;howBtn.setAttribute('aria-expanded',String(o));howBtn.textContent=o?'Back to the demo':'How does this work?';if(o)$('howX').focus();else howBtn.focus()}
+howBtn.addEventListener('click',()=>setHow(how.hidden));$('howX').addEventListener('click',()=>setHow(false));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!how.hidden)setHow(false)});
+build();
+</script>
+
+<script>
+addEventListener('message',e=>{if(e.origin!==location.origin)return;const p=document.getElementById('play');const d=e.data||{};
+ if(d.demo==='play'&&p&&!/pause/i.test(p.textContent))p.click();
+ if(d.demo==='seek'){const r=document.getElementById('t');if(r&&+r.value!==d.v){if(p&&/pause/i.test(p.textContent))p.click();r.value=d.v;r.dispatchEvent(new Event('input'))}}
+ if(d.demo==='pause'&&p&&/pause/i.test(p.textContent))p.click();});
+</script>
+</body></html>
