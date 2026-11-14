@@ -1878,3 +1878,17 @@ document.querySelectorAll('.ledger-row').forEach((row) =>
     })
   })
 })()
+
+// Email links: the address is never written in the page, so bots that scrape
+// HTML for addresses don't find it. It is put together only when someone
+// clicks, taps or presses Enter on a contact link.
+;(function mail() {
+  const parts = ['moc.liamg', 'nuydarp.nanhsirk'] // reversed: domain, name
+  const address = () => `${parts[1].split('').reverse().join('')}@${parts[0].split('').reverse().join('')}`
+  document.querySelectorAll('[data-mail]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault()
+      location.href = `mailto:${address()}`
+    })
+  })
+})()
