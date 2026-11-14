@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pradyun Krishnan</title>
+    <meta name="description" content="Pradyun Krishnan, legal tech lawyer. Writing, projects and things I like." />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Bodoni+Moda:ital,opsz,wght@1,6..96,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      // apply the saved ink color before first paint so there's no flash
+      try {
+        const theme = localStorage.getItem('theme')
+        if (theme === 'blue' || theme === 'xmas') document.documentElement.classList.add(theme)
+        if (sessionStorage.getItem('visited')) document.documentElement.dataset.visited = ''
+        sessionStorage.setItem('visited', '1')
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <!-- top bar: contents on the left, contact and LinkedIn on the right -->
+    <header class="topbar">
+      <div class="topbar-start">
+        <a class="pill topbar-mark" href="#intro" aria-label="Pradyun Krishnan, home">PK</a>
+      <div class="menu">
+        <button class="pill" type="button" aria-expanded="false" aria-controls="contents-menu" data-menu>Contents</button>
+        <ol class="menu-panel contents-menu" id="contents-menu" hidden>
+          <li><a href="#intro"><span class="contents-index"></span>The Intro</a></li>
+          <li><a href="#builds"><span class="contents-index">§ 01</span>Builds</a></li>
+          <li><a href="#toolkit"><span class="contents-index">§ 02</span>Toolkit</a></li>
+          <li><a href="#experience"><span class="contents-index">§ 03</span>Experience</a></li>
+          <li><a href="#writing"><span class="contents-index">§ 04</span>Writing</a></li>
+          <li><a href="#film"><span class="contents-index">§ 05</span>The Film Roll</a></li>
+          <li><a href="#places"><span class="contents-index">§ 06</span>Places</a></li>
+        </ol>
+      </div>
+      <div class="menu languages">
+        <!-- the greeting cycles through the languages below; this menu doesn't
+             translate anything, it just says which languages I speak -->
+        <button class="pill pill-greeting" type="button" aria-expanded="false" aria-controls="languages-menu" aria-label="Languages I speak" data-menu data-greetings="Hello|Hola|ನಮಸ್ಕಾರ|नमस्ते|Hallo|Hoi"><span data-greeting>Hello</span></button>
+        <div class="menu-panel languages-menu" id="languages-menu" hidden>
+          <p class="languages-title">I speak</p>
+          <ul>
+            <li lang="en"><span class="lang-native">English</span><span class="lang-name" lang="en">English</span></li>
+            <li lang="es"><span class="lang-native">Español</span><span class="lang-name" lang="en">Spanish</span></li>
+            <li lang="kn"><span class="lang-native">ಕನ್ನಡ</span><span class="lang-name" lang="en">Kannada</span></li>
+            <li lang="hi"><span class="lang-native">हिन्दी</span><span class="lang-name" lang="en">Hindi</span></li>
+            <li lang="de"><span class="lang-native">Deutsch</span><span class="lang-name" lang="en">German · <em>ein bisschen</em></span></li>
+            <li lang="nl"><span class="lang-native">Nederlands</span><span class="lang-name" lang="en">Dutch</span></li>
+          </ul>
+          <p class="languages-note">This isn't a language switch. The site stays in English; this menu is just showing off.</p>
+        </div>
+      </div>
+      </div>
+      <div class="topbar-end">
+        <a class="pill" href="mailto:krishnan.pradyun@gmail.com">Contact</a>
+        <!-- EDIT: your LinkedIn profile URL -->
+        <a class="pill pill-icon" href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.06c.53-1 1.83-1.85 3.76-1.85 4.02 0 4.88 2.4 4.88 5.8v5.55h-4v-4.92c0-1.17-.02-2.68-1.64-2.68-1.64 0-1.9 1.28-1.9 2.6v5h-4v-11Z"/></svg></a>
+      </div>
+    </header>
+
+    <main class="page">
+      <!-- ── Opening: PRADYUN KRISHNAN spreads flat as you scroll, like a
+           letterbox, and the portrait grows between the two lines ───── -->
+      <header class="opening" id="intro">
+        <div class="opening-stage" data-opening>
+          <h1 class="opening-name" aria-label="Pradyun Krishnan">
+            <span class="opening-word" aria-hidden="true">PRADYUN</span>
+            <span class="opening-word" aria-hidden="true">KRISHNAN</span>
+          </h1>
+
+          <!-- Your photo: images/portrait.webp. data-zoom, data-focus-x and data-anchor frame it between the two lines of the name -->
+          <!-- Christmas theme only: a tree in the corner -->
+          <svg class="xmas-tree xmas-only" viewBox="0 0 100 130" aria-hidden="true">
+            <path class="star" d="M50 2 54 12 65 12 56 18 60 29 50 22 40 29 44 18 35 12 46 12Z" />
+            <path class="tree" d="M50 22 70 52H60L80 82H66L92 112H8L34 82H20L40 52H30Z" />
+            <rect class="trunk" x="44" y="112" width="12" height="14" />
+            <circle class="light" cx="44" cy="50" r="3.2" fill="#f3c74b" />
+            <circle class="light" cx="60" cy="66" r="3.2" fill="#e8483b" />
+            <circle class="light" cx="38" cy="78" r="3.2" fill="#fff" />
+            <circle class="light" cx="56" cy="92" r="3.2" fill="#f3c74b" />
+            <circle class="light" cx="30" cy="104" r="3.2" fill="#e8483b" />
+            <circle class="light" cx="72" cy="104" r="3.2" fill="#fff" />
+          </svg>
+
+          <span class="portrait opening-portrait" data-halftone data-src="images/portrait.webp" data-initials="PK" data-zoom="0.82" data-focus-x="0.49" data-anchor="bottom" data-radial>
+            <canvas class="halftone-canvas" role="img" aria-label="Halftone portrait of Pradyun"></canvas>
+          </span>
+
+
+        </div>
+      </header>
+
+      <!-- ── The next screen: who I am, typed out ─────────────────── -->
+      <section class="section intro-more" aria-label="About">
+        <p class="intro-lead">I am a <button class="reveal" type="button" aria-expanded="false" aria-controls="lawyer-note">lawyer</button> who builds.</p>
+        <p class="reveal-note" id="lawyer-note"><span>A commercial and tech lawyer working to be qualified.</span></p>
+
+        <!-- EDIT: the things you do. The paragraph types itself out like a
+             typewriter: each item is struck through in red, then the last
+             line lands on data-end. -->
+        <p class="typed" data-typed data-lead="But I do a lot more than that. I " data-close="I am…." data-end="creative.">
+          <span class="sr-only">But I do a lot more than that. I make videos, take pictures, vibe code and read. I am creative.</span>
+          <span aria-hidden="true" data-typed-out></span>
+          <template data-typed-items>
+            <span>make videos</span>
+            <span>take pictures</span>
+            <span>vibe code</span>
+            <span>read</span>
+          </template>
+        </p>
+      </section>
+
+      <!-- ── § 01 Builds ─────────────────────────────────────────── -->
+      <!-- EDIT: one <article class="build"> per project. Cards stack as you scroll. -->
+      <section class="section" id="builds">
+        <header class="section-head">
+          <p class="section-code" aria-hidden="true">§ 01 <span>·</span> builds.ts</p>
+          <h2 class="section-title" data-reveal-title>Builds</h2>
+        </header>
+        <div class="builds" data-card-stack>
+          <article class="build" style="--i: 0">
+            <div class="build-bar">
+              <span class="build-no">Build 01</span>
+              <!-- the signature: flip each build between how a lawyer reads the problem and what you built -->
+              <div class="view-switch" role="group" aria-label="Choose a view">
+                <button type="button" aria-pressed="true" data-view="lawyer">Lawyer view</button>
+                <button type="button" aria-pressed="false" data-view="engineer">Engineer view</button>
+              </div>
+            </div>
+            <div class="build-body" data-view-panel="lawyer">
+              <h3 class="build-title">[ blank: project name ]</h3>
+              <dl class="build-facts">
+                <div><dt>Problem</dt><dd>[ blank: the legal pain, in one sentence ]</dd></div>
+                <div><dt>Who it helps</dt><dd>[ blank ]</dd></div>
+                <div><dt>Outcome</dt><dd>[ blank: what changed, ideally a number ]</dd></div>
+              </dl>
+            </div>
+            <div class="build-body build-code" data-view-panel="engineer" hidden>
+              <pre><code><span class="c">// [ blank: how it works ]</span>
+<span class="k">input</span>:    [ blank ]
+<span class="k">steps</span>:    [ blank → blank → blank ]
+<span class="k">tools</span>:    [ blank ]
+<span class="k">output</span>:   [ blank ]</code></pre>
+            </div>
+          </article>
+          <article class="build" style="--i: 1">
+            <div class="build-bar">
+              <span class="build-no">Build 02</span>
+              <!-- the signature: flip each build between how a lawyer reads the problem and what you built -->
+              <div class="view-switch" role="group" aria-label="Choose a view">
+                <button type="button" aria-pressed="true" data-view="lawyer">Lawyer view</button>
+                <button type="button" aria-pressed="false" data-view="engineer">Engineer view</button>
+              </div>
+            </div>
+            <div class="build-body" data-view-panel="lawyer">
+              <h3 class="build-title">[ blank: project name ]</h3>
+              <dl class="build-facts">
+                <div><dt>Problem</dt><dd>[ blank: the legal pain, in one sentence ]</dd></div>
+                <div><dt>Who it helps</dt><dd>[ blank ]</dd></div>
+                <div><dt>Outcome</dt><dd>[ blank: what changed, ideally a number ]</dd></div>
+              </dl>
+            </div>
+            <div class="build-body build-code" data-view-panel="engineer" hidden>
+              <pre><code><span class="c">// [ blank: how it works ]</span>
+<span class="k">input</span>:    [ blank ]
+<span class="k">steps</span>:    [ blank → blank → blank ]
+<span class="k">tools</span>:    [ blank ]
+<span class="k">output</span>:   [ blank ]</code></pre>
+            </div>
+          </article>
+          <article class="build" style="--i: 2">
+            <div class="build-bar">
+              <span class="build-no">Build 03</span>
+              <!-- the signature: flip each build between how a lawyer reads the problem and what you built -->
+              <div class="view-switch" role="group" aria-label="Choose a view">
+                <button type="button" aria-pressed="true" data-view="lawyer">Lawyer view</button>
+                <button type="button" aria-pressed="false" data-view="engineer">Engineer view</button>
+              </div>
+            </div>
+            <div class="build-body" data-view-panel="lawyer">
+              <h3 class="build-title">[ blank: project name ]</h3>
+              <dl class="build-facts">
+                <div><dt>Problem</dt><dd>[ blank: the legal pain, in one sentence ]</dd></div>
+                <div><dt>Who it helps</dt><dd>[ blank ]</dd></div>
+                <div><dt>Outcome</dt><dd>[ blank: what changed, ideally a number ]</dd></div>
+              </dl>
+            </div>
+            <div class="build-body build-code" data-view-panel="engineer" hidden>
+              <pre><code><span class="c">// [ blank: how it works ]</span>
+<span class="k">input</span>:    [ blank ]
+<span class="k">steps</span>:    [ blank → blank → blank ]
+<span class="k">tools</span>:    [ blank ]
+<span class="k">output</span>:   [ blank ]</code></pre>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ── § 02 Toolkit ────────────────────────────────────────── -->
+      <!-- EDIT: only tools and skills you actually use -->
+      <section class="section" id="toolkit">
+        <header class="section-head">
+          <p class="section-code" aria-hidden="true">§ 02 <span>·</span> toolkit.json</p>
+          <h2 class="section-title" data-reveal-title>Toolkit</h2>
+        </header>
+        <div class="toolkit">
+        <div class="tool-col">
+          <h3 class="tool-title">Law <span class="tool-code" aria-hidden="true">law[]</span></h3>
+          <ul>
+            <li>[ blank ]</li>
+            <li>[ blank ]</li>
+            <li>[ blank ]</li>
+            <li>[ blank ]</li>
+          </ul>
+        </div>
+        <div class="tool-col">
+          <h3 class="tool-title">Engineering <span class="tool-code" aria-hidden="true">eng[]</span></h3>
+          <ul>
+            <li>[ blank ]</li>
+            <li>[ blank ]</li>
+            <li>[ blank ]</li>
+            <li>[ blank ]</li>
+          </ul>
+        </div>
+        <div class="tool-col">
+          <h3 class="tool-title">Bridging <span class="tool-code" aria-hidden="true">bridge[]</span></h3>
+          <ul>
+            <li>[ blank ]</li>
+            <li>[ blank ]</li>
+            <li>[ blank ]</li>
+            <li>[ blank ]</li>
+          </ul>
+        </div>
+        </div>
+      </section>
+
+      <!-- ── § 03 Experience ─────────────────────────────────────── -->
+      <!-- EDIT: one <li> per role, newest first; tag each legal, tech or both -->
+      <section class="section" id="experience">
+        <header class="section-head">
+          <p class="section-code" aria-hidden="true">§ 03 <span>·</span> experience.log</p>
+          <h2 class="section-title" data-reveal-title>Experience</h2>
+        </header>
+        <ul class="list">
+          <li class="hairline-top">
+            <div class="experience-row">
+              <div class="experience-details">
+                <span class="experience-company">[ blank: organisation ]</span>
+                <span class="experience-role">[ blank: role ]</span>
+              </div>
+              <span class="experience-meta"><span class="exp-tag">both</span><span class="experience-date">[ yyyy–yyyy ]</span></span>
+            </div>
+          </li>
+          <li class="hairline-top">
+            <div class="experience-row">
+              <div class="experience-details">
+                <span class="experience-company">[ blank: organisation ]</span>
+                <span class="experience-role">[ blank: role ]</span>
+              </div>
+              <span class="experience-meta"><span class="exp-tag">legal</span><span class="experience-date">[ yyyy–yyyy ]</span></span>
+            </div>
+          </li>
+          <li class="hairline-top">
+            <div class="experience-row">
+              <div class="experience-details">
+                <span class="experience-company">[ blank: organisation ]</span>
+                <span class="experience-role">[ blank: role ]</span>
+              </div>
+              <span class="experience-meta"><span class="exp-tag">tech</span><span class="experience-date">[ yyyy–yyyy ]</span></span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ── § 04 Writing ─────────────────────────────────────────── -->
+      <section class="section" id="writing">
+        <header class="section-head">
+          <p class="section-code" aria-hidden="true">§ 04 <span>·</span> notes.md</p>
+          <h2 class="section-title" data-reveal-title>Writing</h2>
+          <a class="view-all" href="writing/">View all</a>
+        </header>
+        <ul class="list focus-list">
+          <li class="enter-swing" style="--d: 240ms">
+            <a class="blog-row hairline-top" href="writing/hello-world.html">
+              <span class="print-pile" aria-hidden="true">
+                <span class="print-pile-sheet"></span>
+                <span class="print-pile-sheet"></span>
+                <span class="print-thumb"></span>
+              </span>
+              <h3 class="blog-row-title">Hello, world</h3>
+              <span class="blog-row-leader" aria-hidden="true"></span>
+              <time class="blog-row-date" datetime="2026-10-31">Oct 31</time>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ── § 05 The Film Roll ───────────────────────────────────── -->
+      <section class="section film" id="film">
+        <header class="section-head">
+          <p class="section-code" aria-hidden="true">§ 05 <span>·</span> film/roll-01</p>
+          <h2 class="section-title" data-reveal-title>The Film Roll</h2>
+        </header>
+        <!-- EDIT: one line about why you shoot film -->
+        <p class="film-sub">Shot on film, one frame at a time.</p>
+        <p class="film-hint" data-film-hint>scratch a frame to develop it</p>
+
+        <!-- EDIT: one .roll per roll of film. List your scans in shooting order
+             (normal positive photos; the negatives are made automatically).
+             data-caption is optional and shows in the viewer. The strips,
+             leader, frame numbers and empty frames are built for you. -->
+        <div class="roll" data-roll data-title="Roll 01" data-stock="Kodak Colorplus 200" data-camera="Camera" data-shot="2025">
+          <img src="images/film/roll-01-01.svg" alt="" data-caption="" />
+          <img src="images/film/roll-01-02.svg" alt="" data-caption="" />
+          <img src="images/film/roll-01-03.svg" alt="" data-caption="" />
+          <img src="images/film/roll-01-04.svg" alt="" data-caption="" />
+          <img src="images/film/roll-01-05.svg" alt="" data-caption="" />
+          <img src="images/film/roll-01-06.svg" alt="" data-caption="" />
+          <img src="images/film/roll-01-07.svg" alt="" data-caption="" />
+          <img src="images/film/roll-01-08.svg" alt="" data-caption="" />
+          <img src="images/film/roll-01-09.svg" alt="" data-caption="" />
+          <img src="images/film/roll-01-10.svg" alt="" data-caption="" />
+        </div>
+
+        <!-- the roll viewer: opens out of the frame you click -->
+        <div class="viewer" role="dialog" aria-modal="true" aria-label="Roll viewer" hidden data-viewer>
+          <div class="viewer-inner">
+            <p class="viewer-count" data-viewer-count></p>
+            <div class="viewer-row">
+              <button class="viewer-nav" type="button" aria-label="Previous frame" data-viewer-prev>‹</button>
+              <div class="viewer-strip" data-viewer-strip></div>
+              <button class="viewer-nav" type="button" aria-label="Next frame" data-viewer-next>›</button>
+            </div>
+            <p class="viewer-caption" data-viewer-caption></p>
+            <button class="viewer-button" type="button" data-viewer-develop>develop this frame</button>
+            <button class="viewer-button" type="button" data-viewer-close>close</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── § 06 Places ─────────────────────────────────────────── -->
+      <section class="section" id="places">
+        <header class="section-head">
+          <p class="section-code" aria-hidden="true">§ 06 <span>·</span> travel.geojson</p>
+          <h2 class="section-title" data-reveal-title>Places</h2>
+        </header>
+        <p class="film-sub">[ blank: one line about travelling ]</p>
+        <!-- EDIT: countries you've been to, by English name, separated by | .
+             Optional year and note: "Netherlands:2024:a line about it" -->
+        <figure class="world" data-world data-visited="">
+          <canvas class="world-canvas" role="img" aria-label="Map of the countries I've visited"></canvas>
+          <figcaption class="world-caption" data-world-caption aria-live="polite">[ blank: hover a lit country ]</figcaption>
+        </figure>
+      </section>
+
+      <footer class="footer">
+        <div class="signature">
+          <span class="signature-line">Pradyun Krishnan</span>
+          <span>Signed · <span data-year>2026</span></span>
+        </div>
+        <span class="footer-links">
+          <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="mailto:krishnan.pradyun@gmail.com">Email</a>
+        </span>
+        <p class="disclaimer">Nothing on this site is legal advice.</p>
+      </footer>
+    </main>
+
+    <nav class="dock" aria-label="Main">
+      <a class="dock-item" href="./" aria-current="page">
+        <span class="dock-avatar">PK</span>
+        <span class="dock-tip">Home</span>
+      </a>
+      <a class="dock-item" href="writing/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <span class="dock-tip">Writing</span>
+      </a>
+      <a class="dock-item" href="projects.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M7 21h10"/><path d="M3 7h18"/><path d="M5 7l-3 7a3.5 3.5 0 0 0 6 0Z"/><path d="M19 7l-3 7a3.5 3.5 0 0 0 6 0Z"/></svg>
+        <span class="dock-tip">Projects</span>
+      </a>
+      <span class="dock-rule" aria-hidden="true"></span>
+      <!-- theme: hover (or tap) the icon and a three-stop slider appears -->
+      <div class="theme-control" data-theme-control>
+        <button class="dock-item" type="button" aria-label="Theme" aria-expanded="false" aria-controls="theme-slider">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor"/></svg>
+        </button>
+        <div class="theme-slider" id="theme-slider" role="radiogroup" aria-label="Theme">
+          <span class="ts-knob" aria-hidden="true"></span>
+          <button type="button" role="radio" aria-checked="true" data-theme="mono" aria-label="Black ink"><span class="ts-dot ts-mono"></span></button>
+          <button type="button" role="radio" aria-checked="false" data-theme="blue" aria-label="Blue ink"><span class="ts-dot ts-blue"></span></button>
+          <button type="button" role="radio" aria-checked="false" data-theme="xmas" aria-label="Christmas"><span class="ts-dot ts-xmas"></span></button>
+          <span class="ts-label" aria-hidden="true">Black ink</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- motion: GSAP 3.15.1 (+ ScrollTrigger, SplitText) and Lenis 1.3.27, self-hosted -->
+    <script src="vendor/gsap.min.js"></script>
+    <script src="vendor/ScrollTrigger.min.js"></script>
+    <script src="vendor/SplitText.min.js"></script>
+    <script src="vendor/lenis.min.js"></script>
+    <script src="data/world-dots.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

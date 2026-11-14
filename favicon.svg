@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    rect.bg { fill: #f7f9fc; stroke: #1f3fd6; }
+    text { fill: #1f3fd6; }
+    @media (prefers-color-scheme: dark) {
+      rect.bg { fill: #1d4384; stroke: #f2f6ff; }
+      text { fill: #f2f6ff; }
+    }
+  </style>
+  <rect class="bg" x="1" y="1" width="30" height="30" rx="6" stroke-width="1.5"/>
+  <text x="16" y="23" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="20" font-weight="500" text-anchor="middle">§</text>
+</svg>
