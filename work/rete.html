@@ -15,6 +15,17 @@
         sessionStorage.setItem('visited', '1')
       } catch {}
     </script>
+    <!-- Vercel Web Analytics (cookieless). Only on the live site, so local
+         previews don't count as visits or log a missing-file error. -->
+    <script>
+      if (/(^|\.)pradyunkrishnan\.com$|\.vercel\.app$/.test(location.hostname)) {
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments) }
+        const s = document.createElement('script')
+        s.defer = true
+        s.src = '/_vercel/insights/script.js'
+        document.head.append(s)
+      }
+    </script>
   </head>
   <body>
     <!-- top bar: contents on the left, contact and LinkedIn on the right -->
