@@ -645,8 +645,8 @@ document.querySelectorAll('.reveal').forEach((button) => {
   const ctx = canvas.getContext('2d')
   if (!ctx) return
 
-  const CELL = 3 // CSS px between dot centers
-  const MOBILE_CELL = 2 // only for the small phone-size portrait
+  const CELL = 2 // CSS px between dot centers
+  const MOBILE_CELL = 1.6 // only for the small phone-size portrait
   const MOBILE_MAX = 170 // portraits narrower than this use the finer grid
   const EDGE_FADE = 0.1 // fraction of each edge where dots taper out
   const RADIUS = 110 // pointer influence radius
@@ -707,6 +707,7 @@ document.querySelectorAll('.reveal').forEach((button) => {
     const scale = Math.max(cols / sw, rows / sh) * zoom
     o.fillStyle = '#fff'
     o.fillRect(0, 0, cols, rows)
+    o.filter = 'contrast(1.15)'
     const dx = cols / 2 - sw * scale * focusX
     const dy = wrapper.dataset.anchor === 'bottom' ? rows - sh * scale : (rows - sh * scale) / 2
     o.drawImage(source, dx, dy, sw * scale, sh * scale)
@@ -718,6 +719,27 @@ document.querySelectorAll('.reveal').forEach((button) => {
       const j = i * 4
       lums[i] = (0.2126 * data[j] + 0.7152 * data[j + 1] + 0.0722 * data[j + 2]) / 255
     }
+    // sharpen (unsharp mask): shrinking the photo to the dot grid softens
+    // edges, so push each dot away from its neighbours' average. This keeps
+    // the glasses, eyes and hair crisp.
+    const blur = new Float32Array(lums.length)
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        let sum = 0
+        let n = 0
+        for (let a = -1; a <= 1; a++) {
+          for (let b = -1; b <= 1; b++) {
+            const rr = r + a
+            const cc = c + b
+            if (rr < 0 || rr >= rows || cc < 0 || cc >= cols) continue
+            sum += lums[rr * cols + cc]
+            n++
+          }
+        }
+        blur[r * cols + c] = sum / n
+      }
+    }
+    for (let i = 0; i < lums.length; i++) lums[i] = Math.min(1, Math.max(0, lums[i] + 0.9 * (lums[i] - blur[i])))
     // stretch contrast between the 5th and 95th percentile
     const sorted = Float32Array.from(lums).sort()
     const lo = sorted[Math.floor(sorted.length * 0.05)]
@@ -754,6 +776,7 @@ document.querySelectorAll('.reveal').forEach((button) => {
     ctx.clearRect(0, 0, cssW, cssH)
     ctx.fillStyle = ink()
     const maxR = cell * 0.52
+    ctx.beginPath()
     for (const p of cells) {
       let { x, y } = p
       let r = p.tone * maxR
@@ -769,10 +792,10 @@ document.querySelectorAll('.reveal').forEach((button) => {
         y += dy * push
       }
       if (r < 0.3) continue
-      ctx.beginPath()
+      ctx.moveTo(x + r, y)
       ctx.arc(x, y, r, 0, Math.PI * 2)
-      ctx.fill()
     }
+    ctx.fill()
     if (cells.length) wrapper.dataset.ready = ''
   }
 
