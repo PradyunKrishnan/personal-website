@@ -43,6 +43,8 @@ html.embed #stage{flex:1;height:auto;min-height:0}
 .ctrl input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.2)}
 .ctrl input[type=range]:focus-visible{outline:2px solid #0071e3;outline-offset:2px;border-radius:6px}
 @media (max-width:520px){.ctrl{padding:8px 10px}.ctrl input[type=range]{flex-basis:100%!important;order:3}}
+/* phones and small cards: drop the Type and Classes columns so the table fits */
+@media (max-width:520px){th:nth-child(2),td:nth-child(2),th:nth-child(5),td:nth-child(5){display:none}th,td{padding:5px 6px;font-size:11px}}
 </style>
 <script>
 /* keep the slider's filled part in step, including when the demo moves it */

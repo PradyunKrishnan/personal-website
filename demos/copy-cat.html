@@ -43,6 +43,8 @@ html.embed #stage{flex:1;height:auto;min-height:0}
 .ctrl input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.2)}
 .ctrl input[type=range]:focus-visible{outline:2px solid #0071e3;outline-offset:2px;border-radius:6px}
 @media (max-width:520px){.ctrl{padding:8px 10px}.ctrl input[type=range]{flex-basis:100%!important;order:3}}
+/* phones and small cards: three narrow columns that still fit, and the Slack alert across the bottom */
+@media (max-width:520px){.board{gap:6px!important}.col{padding:7px;min-height:180px}.col .disp{font-size:12px}.k{font-size:10.5px;padding:5px 6px;overflow-wrap:anywhere}.k .row{gap:4px}.toast{left:10px;right:10px;width:auto;bottom:10px;font-size:11px}}
 </style>
 <script>
 /* keep the slider's filled part in step, including when the demo moves it */
@@ -96,7 +98,7 @@ addEventListener('DOMContentLoaded',()=>{if(document.documentElement.classList.c
   </div>
   <div class="scene" id="s2"><div class="disp" style="font-weight:700;font-size:18px;margin-bottom:8px">Findings</div><div id="table"></div></div>
   <div class="scene" id="s3">
-   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+   <div class="board" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
     <div class="col"><div class="disp" style="font-weight:700">New</div><div id="c0"></div></div>
     <div class="col"><div class="disp" style="font-weight:700">In review</div><div id="c1"></div></div>
     <div class="col"><div class="disp" style="font-weight:700">Actioned</div><div id="c2"></div></div>
