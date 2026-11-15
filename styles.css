@@ -1585,7 +1585,7 @@ html.lenis-stopped { overflow: hidden; }
 }
 
 /* credit line under the film roll */
-.film-credit { margin: 28px auto 0; max-width: 40rem; text-align: center; font-size: 13px; line-height: 1.5; color: color-mix(in oklch, var(--ink) 55%, var(--sheet)); }
+.film-credit { margin: 28px auto 0; max-width: 40rem; text-align: center; font-size: 11px; line-height: 1.5; color: color-mix(in oklch, var(--ink) 55%, var(--sheet)); }
 .film-credit a { color: inherit; text-underline-offset: 3px; }
 .film-credit a:hover { color: var(--ink); }
 
@@ -1869,4 +1869,19 @@ button.tl-name { padding: 0; border: 0; background: none; font-family: inherit; 
   .topbar .menu::after, .topbar .theme-menu::after { display: none; }
   .topbar .pill:hover::after { transform: scaleX(0); }
   .topbar .pill[aria-expanded='true']::after { transform: scaleX(1); }
+}
+
+/* four projects: the hovered card takes more of the row, so its demo is big enough to read */
+@media (min-width: 901px) { .tiles > li.is-wide { flex-grow: 4.5; } }
+
+/* switching between projects: one soft, unhurried ease for everything that
+   changes, the text fading in only once its card has started to open */
+@media (min-width: 901px) {
+  .tiles > li { transition: flex-grow .75s cubic-bezier(.32, .72, 0, 1); }
+  .tiles .tile-cover { transition: filter .6s ease, transform .75s cubic-bezier(.32, .72, 0, 1), box-shadow .75s ease; }
+  .tiles .tile-desc, .tiles .tile-foot .tile-cta { transition: opacity .4s ease .18s; }
+  .tiles > li:not(.is-wide) .tile-desc, .tiles > li:not(.is-wide) .tile-foot .tile-cta { transition-delay: 0s; transition-duration: .2s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tiles > li, .tiles .tile-cover, .tiles .tile-desc, .tiles .tile-foot .tile-cta { transition: none; }
 }

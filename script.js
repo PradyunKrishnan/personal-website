@@ -1271,7 +1271,10 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
   const scrolling = () => performance.now() - lastScroll < 200
   const hoverable = matchMedia('(hover: hover)').matches
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches
-  tiles.forEach((tile) => {
+  // only one demo plays at a time: starting one puts every other card back
+  // on its resting example
+  const stops = []
+  tiles.forEach((tile, k) => {
     const frame = tile.querySelector('iframe')
     const cover = tile.querySelector('.tile-cover')
     const win = tile.querySelector('.tile-window')
@@ -1297,26 +1300,27 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
     const fit = () => {
       const row = tile.closest('.tiles')
       const narrow = innerWidth <= 900
-      // the widened card gets 3.2 shares of the row; every other card gets 1
+      // the widened card gets 4.5 shares of the row (see .is-wide in the CSS); every other card gets 1
       const n = tiles.length
-      const open = narrow ? win.clientWidth : ((row.clientWidth - (n - 1) * 16) * 3.2) / (n - 1 + 3.2) * 0.9
-      const base = narrow ? 520 : 760
-      const sc = Math.min(1, open / base)
+      const open = narrow ? win.clientWidth : ((row.clientWidth - (n - 1) * 16) * 4.5) / (n - 1 + 4.5) * 0.9
+      // a narrower layout scaled up, so the demo text is big enough to read
+      const base = narrow ? 420 : 580
+      const sc = Math.min(1.35, open / base)
       win.style.setProperty('--s', sc)
       win.style.setProperty('--w', `${base}px`)
     }
     new ResizeObserver(fit).observe(tile.closest('.tiles'))
-    let started = false
     const start = () => {
+      stops.forEach((s, j) => j !== k && s())
       tile.classList.add('is-live')
       const c = ctl()
       if (!c.t || !c.b) return // not loaded yet: the load handler below starts it
       // every hover plays the demo from the beginning
-      if (!playing(c)) set(0, true)
-      started = true
+      set(0, true)
     }
-    // at rest each card shows the start of its demo (Rete on Text, and so on)
-    frame.addEventListener('load', () => (tile.classList.contains('is-live') ? start() : set(0, false)))
+    // at rest a card shows a telling moment of its demo (data-rest, 0–100)
+    const rest = +tile.dataset.rest || 0
+    frame.addEventListener('load', () => (tile.classList.contains('is-live') ? start() : set(rest, false)))
     // the coloured background opens the project page
     cover.addEventListener('click', (e) => {
       if (!e.target.closest('.tile-window')) location.href = tile.dataset.href
@@ -1325,11 +1329,11 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
     // in the three-across grid the demos are previews: a click opens the project page
     shield.addEventListener('click', () => (location.href = tile.dataset.href))
     const stop = () => {
+      if (!tile.classList.contains('is-live')) return
       tile.classList.remove('is-live')
-      const c = ctl()
-      if (playing(c)) c.b.click()
-      set(0, false) // back to the beginning for next time
+      set(rest, false) // back to its resting example for next time
     }
+    stops[k] = stop
     if (hoverable) {
       // only a real hover plays it: a card sliding under a still pointer while
       // the page scrolls does not count
@@ -1352,7 +1356,22 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
   // one row: the card you hover widens, the others slim down
   const items = [...document.querySelectorAll('.tiles > li')].slice(0, tiles.length)
   const widen = (li) => items.forEach((x) => x.classList.toggle('is-wide', x === li))
-  items.forEach((li) => li.addEventListener('pointermove', () => !li.classList.contains('is-wide') && !scrolling() && widen(li)))
+  // a short pause before a card widens, so sweeping the pointer across the
+  // row doesn't flick every card open on the way past
+  let intent = 0
+  items.forEach((li) => {
+    li.addEventListener('pointermove', () => {
+      if (li.classList.contains('is-wide') || scrolling() || intent) return
+      intent = setTimeout(() => {
+        intent = 0
+        if (li.matches(':hover')) widen(li)
+      }, 110)
+    })
+    li.addEventListener('pointerleave', () => {
+      clearTimeout(intent)
+      intent = 0
+    })
+  })
   items.forEach((li) => li.addEventListener('focusin', () => widen(li)))
   widen(items[0])
 
