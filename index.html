@@ -19,7 +19,7 @@
     <meta name="twitter:description" content="Legal tech projects, experience in EU digital regulation, film photography and the places I've been." />
     <link rel="icon" href="favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=117" />
+    <link rel="stylesheet" href="styles.css?v=123" />
     <script>
       // apply the saved ink color before first paint so there's no flash
       try {
@@ -243,53 +243,35 @@
           <p class="section-code" aria-hidden="true">§ 01 <span>·</span> projects</p>
           <h2 class="section-title" data-reveal-title>Things I have built</h2>
         </header>
-        <ul class="tiles" role="list">
-          <li>
-            <div class="tile" data-tile data-href="work/redline.html" data-rest="23">
-              <span class="tile-head"><a class="tile-name" href="work/redline.html">Redline</a><span class="tile-desc">Checks a contract against your playbook and flags what a lawyer should look at.</span></span>
-              <span class="tile-cover" style="--bg: linear-gradient(150deg, #7a1f1f 0%, #c2553d 55%, #efd9c4 100%); --ar: 5 / 4">
-                <span class="tile-window"><iframe src="demos/redline.html?embed&v=1"  title="Redline demo" loading="lazy"></iframe><button type="button" class="tile-shield" aria-label="Open the project"><span>Open the project</span></button></span>
-              </span>
-              <span class="tile-foot"><span>CONTRACTS</span><a class="tile-cta" href="work/redline.html">View project <i aria-hidden="true">↗</i></a></span>
-            </div>
-          </li>
-          <li>
-            <div class="tile" data-tile data-href="work/rete.html" data-rest="22">
-              <span class="tile-head"><a class="tile-name" href="work/rete.html">Rete</a><span class="tile-desc">Tracks regulatory changes, shows what changed in the text, and sends anything unverified to a lawyer.</span></span>
-              <span class="tile-cover" style="--bg: linear-gradient(150deg, #1F7A80 0%, #5f9c8f 50%, #D0812F 100%); --ar: 5 / 4">
-                <span class="tile-window"><iframe src="demos/rete.html?embed&v=2"  title="Rete demo" loading="lazy"></iframe><button type="button" class="tile-shield" aria-label="Open the project"><span>Open the project</span></button></span>
-              </span>
-              <span class="tile-foot"><span>REGULATORY</span><a class="tile-cta" href="work/rete.html">View project <i aria-hidden="true">↗</i></a></span>
-            </div>
-          </li>
-          <li>
-            <div class="tile" data-tile data-href="work/copy-cat.html" data-rest="65">
-              <span class="tile-head"><a class="tile-name" href="work/copy-cat.html">Copy Cat</a><span class="tile-desc">Finds look-alike brands, ranks the risk and queues each case for a person to review.</span></span>
-              <span class="tile-cover" style="--bg: linear-gradient(150deg, #1e2a47 0%, #1b7f78 70%, #7fd1c7 100%); --ar: 4 / 5">
-                <span class="tile-window"><iframe src="demos/copy-cat.html?embed&v=3"  title="Copy Cat demo" loading="lazy"></iframe><button type="button" class="tile-shield" aria-label="Open the project"><span>Open the project</span></button></span>
-              </span>
-              <span class="tile-foot"><span>BRAND PROTECTION</span><a class="tile-cta" href="work/copy-cat.html">View project <i aria-hidden="true">↗</i></a></span>
-            </div>
-          </li>
-          <li>
-            <div class="tile" data-tile data-href="work/ip-register.html" data-rest="50">
-              <span class="tile-head"><a class="tile-name" href="work/ip-register.html">IP register</a><span class="tile-desc">Every trademark and domain in one register, with renewals flagged and questions answered from the data.</span></span>
-              <span class="tile-cover" style="--bg: linear-gradient(150deg, #2b2350 0%, #6a5acd 55%, #d9d4f5 100%); --ar: 5 / 4">
-                <span class="tile-window"><iframe src="demos/ip-register.html?embed&v=3"  title="IP register demo" loading="lazy"></iframe><button type="button" class="tile-shield" aria-label="Open the project"><span>Open the project</span></button></span>
-              </span>
-              <span class="tile-foot"><span>TRADEMARKS</span><a class="tile-cta" href="work/ip-register.html">View project <i aria-hidden="true">↗</i></a></span>
-            </div>
-          </li>
-          <li class="more-li">
-            <a class="more-panel" href="#contact" data-mail>
-              <span class="more-text">
-                <span class="more-title">…and a lot more.</span>
-                <span class="more-sub">Agents, apps and automations I can't show here. Get in touch and I'd love to chat 🙂</span>
-              </span>
-              <span class="more-cta">Say hello <i aria-hidden="true">↗</i></span>
-            </a>
-          </li>
-        </ul>
+        <!-- four equal cards, the right column half a card lower. Grey at rest;
+             hovering one colours it in and plays its demo from the start -->
+        <div class="proj-grid">
+          <article class="proj" data-proj data-rest="23">
+            <div class="proj-top"><a class="proj-name" href="work/redline.html">Redline</a><p class="proj-desc">Checks a contract against your playbook and flags what a lawyer should look at.</p></div>
+            <a class="proj-cover" href="work/redline.html" aria-label="Open Redline" style="--bg: linear-gradient(150deg, #7a1f1f 0%, #c2553d 55%, #efd9c4 100%)"><span class="proj-win"><iframe src="demos/redline.html?embed&v=2" title="Redline demo" loading="lazy" tabindex="-1"></iframe></span></a>
+            <div class="proj-foot"><span>CONTRACTS</span><a href="work/redline.html">View project ↗</a></div>
+          </article>
+          <article class="proj" data-proj data-rest="22">
+            <div class="proj-top"><a class="proj-name" href="work/rete.html">Rete</a><p class="proj-desc">Tracks what changed in the law, and sends anything unverified to a lawyer.</p></div>
+            <a class="proj-cover" href="work/rete.html" aria-label="Open Rete" style="--bg: linear-gradient(150deg, #1F7A80 0%, #5f9c8f 50%, #D0812F 100%)"><span class="proj-win"><iframe src="demos/rete.html?embed&v=3" title="Rete demo" loading="lazy" tabindex="-1"></iframe></span></a>
+            <div class="proj-foot"><span>REGULATORY</span><a href="work/rete.html">View project ↗</a></div>
+          </article>
+          <article class="proj" data-proj data-rest="65">
+            <div class="proj-top"><a class="proj-name" href="work/copy-cat.html">Copy Cat</a><p class="proj-desc">Finds look-alike brands and queues each case for a person to review.</p></div>
+            <a class="proj-cover" href="work/copy-cat.html" aria-label="Open Copy Cat" style="--bg: linear-gradient(150deg, #1e2a47 0%, #1b7f78 70%, #7fd1c7 100%)"><span class="proj-win"><iframe src="demos/copy-cat.html?embed&v=4" title="Copy Cat demo" loading="lazy" tabindex="-1"></iframe></span></a>
+            <div class="proj-foot"><span>BRAND PROTECTION</span><a href="work/copy-cat.html">View project ↗</a></div>
+          </article>
+          <article class="proj" data-proj data-rest="50">
+            <div class="proj-top"><a class="proj-name" href="work/ip-register.html">IP register</a><p class="proj-desc">Every trademark and domain in one register, with renewals flagged.</p></div>
+            <a class="proj-cover" href="work/ip-register.html" aria-label="Open IP register" style="--bg: linear-gradient(150deg, #2b2350 0%, #6a5acd 55%, #d9d4f5 100%)"><span class="proj-win"><iframe src="demos/ip-register.html?embed&v=4" title="IP register demo" loading="lazy" tabindex="-1"></iframe></span></a>
+            <div class="proj-foot"><span>TRADEMARKS</span><a href="work/ip-register.html">View project ↗</a></div>
+          </article>
+        </div>
+        <!-- the work I can't show: one quiet editorial row under the cards -->
+        <a class="proj-more" href="#contact" data-mail>
+          <span class="proj-more-text"><span class="proj-more-title">…and a lot more.</span><span class="proj-more-sub">Agents, apps and automations I can’t show here. Get in touch and I’d love to chat.</span></span>
+          <span class="proj-more-cta">Say hello <i aria-hidden="true">↗</i></span>
+        </a>
       </section>
 
       <!-- ── § 02 Experience and education ─────────────────────────── -->
@@ -490,6 +472,6 @@
     <script src="vendor/d3-array.min.js"></script>
     <script src="vendor/d3-geo.min.js"></script>
     <script src="vendor/topojson-client.min.js"></script>
-    <script src="script.js?v=117"></script>
+    <script src="script.js?v=123"></script>
   </body>
 </html>

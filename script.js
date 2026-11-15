@@ -1260,29 +1260,28 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
   sync()
 })()
 
-// § 01 Projects: tiles. Each one shows a still of its demo, muted. Hovering
-// brings it into colour, a soft light follows the pointer, and the demo plays.
-// On touch screens a tile plays when it is mostly on screen.
-;(function projectTiles() {
-  const tiles = [...document.querySelectorAll('[data-tile]')]
-  if (!tiles.length) return
-  let lastScroll = 0
-  addEventListener('scroll', () => (lastScroll = performance.now()), { passive: true })
-  const scrolling = () => performance.now() - lastScroll < 200
-  const hoverable = matchMedia('(hover: hover)').matches
+// § 01 Projects: four equal cards. Each is grey and rests on a telling moment
+// of its demo (data-rest). Hovering a card colours it in and plays its demo
+// from the start; leaving puts it back. Only one demo plays at a time. On touch
+// screens the card in the middle of the screen plays.
+;(function projects() {
+  const cards = [...document.querySelectorAll('[data-proj]')]
+  if (!cards.length) return
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches
-  // only one demo plays at a time: starting one puts every other card back
-  // on its resting example
+  const hover = matchMedia('(hover: hover)').matches
   const stops = []
-  tiles.forEach((tile, k) => {
-    const frame = tile.querySelector('iframe')
-    const cover = tile.querySelector('.tile-cover')
-    const win = tile.querySelector('.tile-window')
+  cards.forEach((card, k) => {
+    const frame = card.querySelector('iframe')
+    const win = card.querySelector('.proj-win')
+    const cover = card.querySelector('.proj-cover')
+    const rest = +card.dataset.rest || 0
     const ctl = () => {
       try {
         const d = frame.contentDocument
         return { t: d.getElementById('t'), b: d.getElementById('play') }
-      } catch { return {} }
+      } catch {
+        return {}
+      }
     }
     const playing = (c) => /pause/i.test(c.b?.textContent || '')
     const set = (v, play) => {
@@ -1293,95 +1292,61 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
       c.t.dispatchEvent(new Event('input'))
       if (play && !still) c.b.click()
     }
-    // the demo is laid out at a readable width (900px, 560px on phones) and
-    // scaled down only when the window is narrower than that
-    // the demo keeps one size while its card widens and narrows (a narrow card
-    // just crops it), scaled to fit the card at its widest
+    // the demo is laid out at the width it was designed for (680px, or 420px
+    // on phones) so nothing is cropped or squeezed, then shrunk to fit its
+    // window. It is never scaled up, which would blur it
     const fit = () => {
-      const row = tile.closest('.tiles')
-      const narrow = innerWidth <= 900
-      // the widened card gets 4.5 shares of the row (see .is-wide in the CSS); every other card gets 1
-      const n = tiles.length
-      const open = narrow ? win.clientWidth : ((row.clientWidth - (n - 1) * 16) * 4.5) / (n - 1 + 4.5) * 0.9
-      // a narrower layout scaled up, so the demo text is big enough to read
-      const base = narrow ? 420 : 580
-      const sc = Math.min(1.35, open / base)
-      win.style.setProperty('--s', sc)
+      const w = win.clientWidth
+      if (!w) return
+      const base = Math.max(innerWidth <= 900 ? 420 : 680, w)
       win.style.setProperty('--w', `${base}px`)
+      win.style.setProperty('--s', w / base)
     }
-    new ResizeObserver(fit).observe(tile.closest('.tiles'))
+    new ResizeObserver(fit).observe(win)
+    let live = false
     const start = () => {
       stops.forEach((s, j) => j !== k && s())
-      tile.classList.add('is-live')
-      const c = ctl()
-      if (!c.t || !c.b) return // not loaded yet: the load handler below starts it
-      // every hover plays the demo from the beginning
+      live = true
+      card.classList.add('is-live')
       set(0, true)
     }
-    // at rest a card shows a telling moment of its demo (data-rest, 0–100)
-    const rest = +tile.dataset.rest || 0
-    frame.addEventListener('load', () => (tile.classList.contains('is-live') ? start() : set(rest, false)))
-    // the coloured background opens the project page
-    cover.addEventListener('click', (e) => {
-      if (!e.target.closest('.tile-window')) location.href = tile.dataset.href
-    })
-    const shield = win.querySelector('.tile-shield')
-    // in the three-across grid the demos are previews: a click opens the project page
-    shield.addEventListener('click', () => (location.href = tile.dataset.href))
     const stop = () => {
-      if (!tile.classList.contains('is-live')) return
-      tile.classList.remove('is-live')
-      set(rest, false) // back to its resting example for next time
+      if (!live) return
+      live = false
+      card.classList.remove('is-live')
+      set(rest, false)
     }
     stops[k] = stop
-    if (hoverable) {
-      // only a real hover plays it: a card sliding under a still pointer while
-      // the page scrolls does not count
-      tile.addEventListener('pointermove', () => {
-        if (!tile.classList.contains('is-live') && !scrolling()) start()
-      })
-      tile.addEventListener('pointerleave', stop)
-      tile.addEventListener('pointermove', (e) => {
+    frame.addEventListener('load', () => (live ? start() : set(rest, false)))
+    if (hover) {
+      card.addEventListener('pointerenter', start)
+      card.addEventListener('pointerleave', stop)
+      cover.addEventListener('pointermove', (e) => {
         const r = cover.getBoundingClientRect()
         cover.style.setProperty('--mx', `${e.clientX - r.left}px`)
         cover.style.setProperty('--my', `${e.clientY - r.top}px`)
       })
     } else {
-      // phones: the card in the middle of the screen plays and lights up as you scroll
       new IntersectionObserver(([e]) => (e.isIntersecting ? start() : stop()), {
-        rootMargin: '-38% 0px -38% 0px',
+        rootMargin: '-35% 0px -35% 0px',
       }).observe(cover)
     }
   })
-  // one row: the card you hover widens, the others slim down
-  const items = [...document.querySelectorAll('.tiles > li')].slice(0, tiles.length)
-  const widen = (li) => items.forEach((x) => x.classList.toggle('is-wide', x === li))
-  // a short pause before a card widens, so sweeping the pointer across the
-  // row doesn't flick every card open on the way past
-  let intent = 0
-  items.forEach((li) => {
-    li.addEventListener('pointermove', () => {
-      if (li.classList.contains('is-wide') || scrolling() || intent) return
-      intent = setTimeout(() => {
-        intent = 0
-        if (li.matches(':hover')) widen(li)
-      }, 110)
-    })
-    li.addEventListener('pointerleave', () => {
-      clearTimeout(intent)
-      intent = 0
-    })
-  })
-  items.forEach((li) => li.addEventListener('focusin', () => widen(li)))
-  widen(items[0])
+  // the cards rise in as they scroll into view
+  if (!still) {
+    const io = new IntersectionObserver(
+      (es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add('is-in'), io.unobserve(e.target))),
+      { threshold: 0.15 },
+    )
+    cards.forEach((c) => (c.classList.add('will-rise'), io.observe(c)))
+  }
 
-  // the "more" tile gets the same light
+  // the "more" panel gets the same soft light
   document.querySelectorAll('.more-panel').forEach((tile) => {
-    const cover = tile
     tile.addEventListener('pointermove', (e) => {
-      const r = cover.getBoundingClientRect()
-      cover.style.setProperty('--mx', `${e.clientX - r.left}px`)
-      cover.style.setProperty('--my', `${e.clientY - r.top}px`)
+      const r = tile.getBoundingClientRect()
+      tile.style.setProperty('--mx', `${e.clientX - r.left}px`)
+      tile.style.setProperty('--my', `${e.clientY - r.top}px`)
     })
   })
 })()
