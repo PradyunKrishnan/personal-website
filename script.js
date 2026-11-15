@@ -1,3 +1,18 @@
+// Email links: the address is never written in the page, so bots that scrape
+// HTML for addresses don't find it. It is put together only when someone
+// clicks, taps or presses Enter on a contact link.
+// It runs first so a later error can't break the Contact links.
+;(function mail() {
+  const parts = ['moc.liamg', 'nuydarp.nanhsirk'] // reversed: domain, name
+  const address = () => `${parts[1].split('').reverse().join('')}@${parts[0].split('').reverse().join('')}`
+  document.querySelectorAll('[data-mail]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault()
+      location.href = `mailto:${address()}`
+    })
+  })
+})()
+
 // Theme toggle + interactive halftone portrait. The halftone sampler is
 // adapted from cali.so's components/halftone-portrait.tsx (MIT).
 
@@ -993,21 +1008,6 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
   host.append(rollText(text))
 })
 
-// Lawyer view / Engineer view: one switch per build
-document.querySelectorAll('.build').forEach((card) => {
-  const buttons = card.querySelectorAll('[data-view]')
-  buttons.forEach((b) =>
-    b.addEventListener('click', () => {
-      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)))
-      card.querySelectorAll('[data-view-panel]').forEach((p) => {
-        const show = p.dataset.viewPanel === b.dataset.view
-        p.hidden = !show
-        if (show && window.gsap && !reducedMotion) gsap.fromTo(p, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' })
-      })
-    }),
-  )
-})
-
 ;(function scrollEffects() {
   if (reducedMotion || !window.gsap || !window.ScrollTrigger) return
   gsap.registerPlugin(ScrollTrigger)
@@ -1173,6 +1173,7 @@ document.querySelectorAll('.build').forEach((card) => {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
   const root = document.documentElement
   let canvas = null
+  let onResize = null
   let raf = 0
   let flakes = []
 
@@ -1189,7 +1190,8 @@ document.querySelectorAll('.build').forEach((card) => {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
     size()
-    addEventListener('resize', size)
+    onResize = size
+    addEventListener('resize', onResize)
     const count = Math.round(Math.min(140, (innerWidth * innerHeight) / 9000))
     flakes = Array.from({ length: count }, () => ({
       x: Math.random() * innerWidth,
@@ -1220,6 +1222,7 @@ document.querySelectorAll('.build').forEach((card) => {
 
   function stop() {
     cancelAnimationFrame(raf)
+    removeEventListener('resize', onResize)
     canvas?.remove()
     canvas = null
   }
@@ -1227,39 +1230,6 @@ document.querySelectorAll('.build').forEach((card) => {
   const sync = () => (root.classList.contains('xmas') ? !canvas && start() : canvas && stop())
   new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ['class'] })
   sync()
-})()
-
-// Demos sit in iframes. When a demo has nothing left to scroll, it hands the
-// wheel back to the page so the deck keeps turning.
-addEventListener('message', (e) => {
-  if (e.origin !== location.origin || !e.data || typeof e.data.wheel !== 'number') return
-  if (window.__deckWheel?.(e.data.wheel)) return
-  if (window.__lenis) window.__lenis.scrollTo(window.__lenis.targetScroll + e.data.wheel)
-  else scrollBy(0, e.data.wheel)
-})
-
-// Enlarge: open a demo in a big window people can click around in
-;(function enlarge() {
-  const dlg = document.querySelector('[data-demo-dialog]')
-  if (!dlg) return
-  const frame = dlg.querySelector('iframe')
-  const title = dlg.querySelector('[data-demo-title]')
-  document.querySelectorAll('[data-enlarge]').forEach((b) =>
-    b.addEventListener('click', () => {
-      frame.src = b.dataset.enlarge
-      frame.title = b.dataset.name + ' demo, enlarged'
-      title.textContent = b.dataset.name
-      window.__lenis?.stop()
-      dlg.showModal()
-    }),
-  )
-  const close = () => dlg.open && dlg.close()
-  dlg.querySelector('[data-demo-close]').addEventListener('click', close)
-  dlg.addEventListener('click', (e) => e.target === dlg && close())
-  dlg.addEventListener('close', () => {
-    if (!document.documentElement.classList.contains('deck-locked')) window.__lenis?.start()
-    frame.src = 'about:blank'
-  })
 })()
 
 // § 01 Projects: tiles. Each one shows a still of its demo, muted. Hovering
@@ -1321,12 +1291,9 @@ addEventListener('message', (e) => {
     cover.addEventListener('click', (e) => {
       if (!e.target.closest('.tile-window')) location.href = tile.dataset.href
     })
-    // the demo ignores the mouse wheel (so the page scrolls smoothly over it)
-    // until it is clicked; then it is fully interactive until the pointer leaves
     const shield = win.querySelector('.tile-shield')
     // in the three-across grid the demos are previews: a click opens the project page
     shield.addEventListener('click', () => (location.href = tile.dataset.href))
-    tile.addEventListener('pointerleave', () => tile.classList.remove('is-using'))
     const stop = () => {
       tile.classList.remove('is-live')
       const c = ctl()
@@ -1891,20 +1858,6 @@ document.querySelectorAll('.ledger-row').forEach((row) =>
           { duration: Math.min(3200, Math.abs(dist) * 2.6), easing: 'cubic-bezier(.4,0,.6,1)' },
         )
         .finished.then(done, done)
-    })
-  })
-})()
-
-// Email links: the address is never written in the page, so bots that scrape
-// HTML for addresses don't find it. It is put together only when someone
-// clicks, taps or presses Enter on a contact link.
-;(function mail() {
-  const parts = ['moc.liamg', 'nuydarp.nanhsirk'] // reversed: domain, name
-  const address = () => `${parts[1].split('').reverse().join('')}@${parts[0].split('').reverse().join('')}`
-  document.querySelectorAll('[data-mail]').forEach((link) => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault()
-      location.href = `mailto:${address()}`
     })
   })
 })()
