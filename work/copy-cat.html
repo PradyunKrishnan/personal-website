@@ -6,7 +6,7 @@
     <title>Copy Cat · Pradyun Krishnan</title>
     <link rel="icon" href="../favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
-    <link rel="stylesheet" href="../styles.css?v=108" />
+    <link rel="stylesheet" href="../styles.css?v=109" />
     <script>
       try {
         const theme = localStorage.getItem('theme')
@@ -80,17 +80,37 @@
       <p class="project-kind">Brand protection</p>
       <h1 class="work-title">Copy Cat</h1>
       <p class="work-lede">Finds look-alike brands and copied wording, ranks the risk and sends each case to the right reviewer.</p>
-      <p class="work-note">Rebuilt with made-up data. The real tool is under NDA.</p>
+      <p class="work-note">A rebuild with fictional data. In this demo the AI steps are scripted, and nothing is sent to a model. The real tool is under NDA.</p>
 
       <div class="work-demo" style="--bg: linear-gradient(150deg, #1e2a47 0%, #1b7f78 70%, #7fd1c7 100%)">
         <iframe src="../demos/copy-cat.html?v=3" title="Copy Cat demo"></iframe>
       </div>
+
+      <section class="work-how" aria-labelledby="problem-title">
+        <h2 id="problem-title" class="work-h2">The problem</h2>
+        <p class="work-intro">Brands get copied online all the time: look-alike domains, fake social accounts, shops using a protected name. Finding them means searching many places by hand. The harder part is deciding which ones matter, and making sure each one is followed up rather than reported twice or forgotten.</p>
+      </section>
 
       <section class="work-how" aria-labelledby="how-title">
         <h2 id="how-title" class="work-h2">How it works</h2>
         <p class="work-intro">Copy Cat looks for anyone copying a brand online and helps the legal team deal with each one.</p>
         <div class="work-flow"><span class="flow-step">Brand profile</span><i aria-hidden="true">→</i><span class="flow-step">Scan agent</span><i aria-hidden="true">→</i><span class="flow-step">Severity rules</span><i aria-hidden="true">→</i><span class="flow-step">Findings register</span><i aria-hidden="true">→</i><span class="flow-step is-out">Review board</span><span class="flow-step is-out">Slack alert</span></div>
         <ol class="work-steps"><li>The brand's marks, domains and official accounts sit in one profile, taken from the contract and a trademark list.</li><li>Every Friday a scheduled job asks an AI agent to search the web, new certificates and domain records for anything that looks like the brand.</li><li>Each hit is scored HIGH, MEDIUM or LOW and saved in a register, so nothing is reported twice.</li><li>The team moves each finding from New to In review to Actioned, with notes.</li><li>HIGH findings also go straight to Slack, so someone acts the same day.</li></ol>
+      </section>
+
+      <section class="work-how" aria-labelledby="choices-title">
+        <h2 id="choices-title" class="work-h2">Design decisions</h2>
+        <ul class="work-steps work-points"><li><b>Rules set the severity.</b> The agent finds candidates; fixed rules rank them HIGH, MEDIUM or LOW, so the same kind of hit is always ranked the same way.</li><li><b>One register, no duplicates.</b> Every finding is saved once with its status, so nothing is reported twice and nothing gets lost.</li><li><b>People decide what happens next.</b> The team moves each case from New to In review to Actioned, with notes. The tool never acts on its own.</li><li><b>Only the urgent goes to Slack.</b> HIGH findings reach the team the same day; the rest wait on the review board.</li></ul>
+      </section>
+
+      <section class="work-how" aria-labelledby="built-title">
+        <h2 id="built-title" class="work-h2">How I built it</h2>
+        <p class="work-intro">I built the brand profile, the scan agent and the severity rules as separate steps, tested each one on its own, then joined them into one app with the register, the review board and the Slack alert.</p>
+      </section>
+
+      <section class="work-how" aria-labelledby="demo-title">
+        <h2 id="demo-title" class="work-h2">About this demo</h2>
+        <p class="work-intro">The licence clause, brand, domains and accounts are made up. The scan plays prepared results; nothing searches the web and no AI model is called.</p>
       </section>
 
       <a class="work-next" href="ip-register.html"><span>Next project</span><b>IP register →</b></a>
@@ -108,6 +128,6 @@
       </footer>
     </main>
 
-    <script src="../script.js?v=108"></script>
+    <script src="../script.js?v=109"></script>
   </body>
 </html>

@@ -6,7 +6,7 @@
     <title>Rete · Pradyun Krishnan</title>
     <link rel="icon" href="../favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
-    <link rel="stylesheet" href="../styles.css?v=108" />
+    <link rel="stylesheet" href="../styles.css?v=109" />
     <script>
       try {
         const theme = localStorage.getItem('theme')
@@ -80,17 +80,37 @@
       <p class="project-kind">Regulatory tracking</p>
       <h1 class="work-title">Rete</h1>
       <p class="work-lede">Tracks regulatory changes as laws move through the process, shows exactly what changed in the text and posts updates to Slack.</p>
-      <p class="work-note">Rebuilt with made-up data. The real tool is under NDA.</p>
+      <p class="work-note">A rebuild with fictional data. In this demo the AI steps are scripted, and nothing is sent to a model. The real tool is under NDA.</p>
 
       <div class="work-demo" style="--bg: linear-gradient(150deg, #1F7A80 0%, #5f9c8f 50%, #D0812F 100%)">
         <iframe src="../demos/rete.html?v=2" title="Rete demo"></iframe>
       </div>
+
+      <section class="work-how" aria-labelledby="problem-title">
+        <h2 id="problem-title" class="work-h2">The problem</h2>
+        <p class="work-intro">EU digital laws keep changing while they are negotiated. Every new Council, Parliament or trilogue text has to be found, compared with the last one and checked for what actually changed for the business. By hand, that means reading long texts side by side every week, and a small change, like “may” becoming “shall”, is easy to miss.</p>
+      </section>
 
       <section class="work-how" aria-labelledby="how-title">
         <h2 id="how-title" class="work-h2">How it works</h2>
         <p class="work-intro">Rete tracks regulation as it changes, shows the team exactly what changed in the law, and flags it the moment something moves.</p>
         <div class="work-flow"><span class="flow-step">Public registers</span><i aria-hidden="true">→</i><span class="flow-step">Extractor agent</span><i aria-hidden="true">→</i><span class="flow-step">Verifier agent</span><i aria-hidden="true">→</i><span class="flow-step">Change log</span><i aria-hidden="true">→</i><span class="flow-step is-out">Map</span><span class="flow-step is-out">Slack app</span><span class="flow-step is-out">This Week</span></div>
         <ol class="work-steps"><li>Every week a scheduled job looks for new texts in the public registers.</li><li>An AI agent quotes each watched provision word for word; a second agent checks that quote against the source page. Both reply in JSON through an API.</li><li>The app compares each quote with the last version and saves what changed.</li><li>The map links members' public statements to the provisions they mention, so their positions move when a text moves.</li><li>A Slack app posts what changed. Anything the verifier can't confirm goes to a lawyer's review queue instead.</li></ol>
+      </section>
+
+      <section class="work-how" aria-labelledby="choices-title">
+        <h2 id="choices-title" class="work-h2">Design decisions</h2>
+        <ul class="work-steps work-points"><li><b>Quote, don’t summarise.</b> The extractor has to copy each watched provision word for word, so every change in the log traces back to the source text, not to a model’s paraphrase.</li><li><b>A second agent checks the first.</b> The verifier compares each quote with the source page. Anything it can’t confirm goes to a lawyer’s review queue instead of Slack.</li><li><b>The software compares, the lawyer interprets.</b> Changes are found by comparing texts, not by asking a model what changed. Deciding what a change means stays with the legal team.</li><li><b>Fixed answers, not prose.</b> Both agents reply in set JSON fields, so the app can check, store and compare what they return.</li></ul>
+      </section>
+
+      <section class="work-how" aria-labelledby="built-title">
+        <h2 id="built-title" class="work-h2">How I built it</h2>
+        <p class="work-intro">I built each step as its own agent first: the monitor, the extractor and the verifier. I tested each one on real texts until its output was reliable, then joined them into one app with the change log, the map and the Slack posts.</p>
+      </section>
+
+      <section class="work-how" aria-labelledby="demo-title">
+        <h2 id="demo-title" class="work-h2">About this demo</h2>
+        <p class="work-intro">The texts, dates and members are all made up. “Simulate a new text” plays a prepared example; nothing is fetched and no AI model is called.</p>
       </section>
 
       <a class="work-next" href="copy-cat.html"><span>Next project</span><b>Copy Cat →</b></a>
@@ -108,6 +128,6 @@
       </footer>
     </main>
 
-    <script src="../script.js?v=108"></script>
+    <script src="../script.js?v=109"></script>
   </body>
 </html>

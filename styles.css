@@ -1840,3 +1840,8 @@ button.tl-name { padding: 0; border: 0; background: none; font-family: inherit; 
 @keyframes elfBob { from { margin-top: 0; } to { margin-top: -5px; } }
 
 @media (prefers-reduced-motion: reduce) { .xelf, .xtree-svg { transition: none; } .xelf-runner, .xelf-runner .elf-leg { animation: none; } }
+
+/* project pages: the "Design decisions" list leads each point with its idea in bold */
+.work-points { list-style: disc; }
+.work-points b { font-weight: 600; }
+.work-how + .work-how { margin-top: 48px; }

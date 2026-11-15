@@ -6,7 +6,7 @@
     <title>IP register · Pradyun Krishnan</title>
     <link rel="icon" href="../favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
-    <link rel="stylesheet" href="../styles.css?v=108" />
+    <link rel="stylesheet" href="../styles.css?v=109" />
     <script>
       try {
         const theme = localStorage.getItem('theme')
@@ -80,17 +80,37 @@
       <p class="project-kind">Trademarks and domains</p>
       <h1 class="work-title">IP register</h1>
       <p class="work-lede">Every trademark and domain in one register, searchable by country, with renewals flagged a year ahead.</p>
-      <p class="work-note">Rebuilt with made-up data. The real tool is under NDA.</p>
+      <p class="work-note">A rebuild with fictional data. In this demo the AI steps are scripted, and nothing is sent to a model. The real tool is under NDA.</p>
 
       <div class="work-demo" style="--bg: linear-gradient(150deg, #ff4d4d 0%, #ff8a7a 55%, #ffe1dc 100%)">
         <iframe src="../demos/ip-register.html?v=2" title="IP register demo"></iframe>
       </div>
+
+      <section class="work-how" aria-labelledby="problem-title">
+        <h2 id="problem-title" class="work-h2">The problem</h2>
+        <p class="work-intro">A brand’s trademarks and domains sit with different offices and registrars, each with its own export format. Keeping track of what is registered where, and what expires when, usually means spreadsheets that drift out of date, and a missed renewal can mean losing the right.</p>
+      </section>
 
       <section class="work-how" aria-labelledby="how-title">
         <h2 id="how-title" class="work-h2">How it works</h2>
         <p class="work-intro">One place for every trademark and domain a brand owns, so renewals and gaps are never missed.</p>
         <div class="work-flow"><span class="flow-step">Registry exports</span><i aria-hidden="true">→</i><span class="flow-step">Clean-up script</span><i aria-hidden="true">→</i><span class="flow-step">Register</span><i aria-hidden="true">→</i><span class="flow-step is-out">Search and filters</span><span class="flow-step is-out">Renewal flags</span><span class="flow-step is-out">Ask the register</span></div>
         <ol class="work-steps"><li>Exports from trademark offices and the domain registrar are dropped in each week.</li><li>A small script turns each file into the same set of fields: mark, country, status, classes and expiry.</li><li>The register shows everything in one table you can search, filter by country and download as CSV.</li><li>Anything expiring within a year is flagged so it can be renewed in time.</li><li>"Ask the register" sends your question and the table to an AI model, which answers from the data only.</li></ol>
+      </section>
+
+      <section class="work-how" aria-labelledby="choices-title">
+        <h2 id="choices-title" class="work-h2">Design decisions</h2>
+        <ul class="work-steps work-points"><li><b>The same fields for every source.</b> A small script turns each export into one set of fields (mark, country, status, classes and expiry), so everything can be searched and compared.</li><li><b>Renewals a year ahead.</b> Anything expiring within a year is flagged, so there is time to decide and act.</li><li><b>Answers from the table only.</b> “Ask the register” sends the question together with the register’s data and has the model answer from that data alone, not from general knowledge.</li><li><b>Easy to take out.</b> The whole register downloads as CSV, so the data never gets stuck in the tool.</li></ul>
+      </section>
+
+      <section class="work-how" aria-labelledby="built-title">
+        <h2 id="built-title" class="work-h2">How I built it</h2>
+        <p class="work-intro">I built the clean-up script, the register and the question step separately, tested each one, then joined them into one app.</p>
+      </section>
+
+      <section class="work-how" aria-labelledby="demo-title">
+        <h2 id="demo-title" class="work-h2">About this demo</h2>
+        <p class="work-intro">The marks, certificate and registrations are made up. “Ask the register” plays prepared answers; no AI model is called.</p>
       </section>
 
       <a class="work-next" href="rete.html"><span>Next project</span><b>Rete →</b></a>
@@ -108,6 +128,6 @@
       </footer>
     </main>
 
-    <script src="../script.js?v=108"></script>
+    <script src="../script.js?v=109"></script>
   </body>
 </html>
