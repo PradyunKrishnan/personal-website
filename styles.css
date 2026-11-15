@@ -1885,3 +1885,13 @@ button.tl-name { padding: 0; border: 0; background: none; font-family: inherit; 
 @media (prefers-reduced-motion: reduce) {
   .tiles > li, .tiles .tile-cover, .tiles .tile-desc, .tiles .tile-foot .tile-cta { transition: none; }
 }
+
+/* each demo window now ends inside its own card. Before, it was a fixed
+   580px wide and relied on the card's rounded corners to crop it. Safari
+   doesn't always clip an animated iframe with rounded corners, so the last
+   card's demo showed past the edge of the section. The window crops the demo
+   itself now, with a plain rectangle that every browser respects. */
+@media (min-width: 901px) {
+  .tiles .tile-window, .tiles > li .tile-window, .tiles > li:not(.is-wide) .tile-window, .tiles > li.is-wide .tile-window { right: 6%; width: auto; overflow: hidden; }
+  .tiles .tile-cover { contain: paint; }
+}
