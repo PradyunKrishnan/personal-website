@@ -38,7 +38,7 @@ html.embed #stage{flex:1;height:auto;min-height:0}
 </style>
 <script>
 /* keep the slider's filled part in step, including when the demo moves it */
-addEventListener('DOMContentLoaded',()=>{const r=[...document.querySelectorAll('.ctrl input[type=range]')];const up=()=>r.forEach(x=>x.style.setProperty('--p',(x.value-x.min)/(x.max-x.min)*100+'%'));setInterval(up,80);up()});
+addEventListener('DOMContentLoaded',()=>{if(document.documentElement.classList.contains('embed'))return;const r=[...document.querySelectorAll('.ctrl input[type=range]')];const up=()=>r.forEach(x=>x.style.setProperty('--p',(x.value-x.min)/(x.max-x.min)*100+'%'));setInterval(up,80);up()});
 </script>
 </head><body>
 <style>

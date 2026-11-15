@@ -1059,9 +1059,6 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
     })
   }
 
-  // "I am a lawyer who builds." holds still for a moment before the projects
-  const intro = document.querySelector('.intro-more')
-  if (intro && !matchMedia('(max-width: 760px)').matches) ScrollTrigger.create({ trigger: intro, start: 'top top', end: '+=35%', pin: true, anticipatePin: 1 })
 
 })()
 
@@ -1270,6 +1267,29 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches
   const hover = matchMedia('(hover: hover)').matches
   const stops = []
+  const starts = []
+  // while the page scrolls, cards slide under a still pointer. Changing them
+  // then (colour, restarting a demo) makes the scroll stutter, so hover
+  // changes wait until the scroll has settled, and then follow the pointer
+  let scrolling = false
+  let settle = 0
+  let px = -1
+  let py = -1
+  addEventListener('pointermove', (e) => ((px = e.clientX), (py = e.clientY)), { passive: true })
+  const onScroll = () => {
+    scrolling = true
+    clearTimeout(settle)
+    settle = setTimeout(() => {
+      scrolling = false
+      if (!hover || px < 0) return
+      const under = document.elementFromPoint(px, py)?.closest('[data-proj]')
+      const k = cards.indexOf(under)
+      if (k >= 0) starts[k]()
+      else stops.forEach((s) => s())
+    }, 160)
+  }
+  addEventListener('scroll', onScroll, { passive: true })
+  addEventListener('wheel', onScroll, { passive: true })
   cards.forEach((card, k) => {
     const frame = card.querySelector('iframe')
     const win = card.querySelector('.proj-win')
@@ -1305,6 +1325,7 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
     new ResizeObserver(fit).observe(win)
     let live = false
     const start = () => {
+      if (live) return
       stops.forEach((s, j) => j !== k && s())
       live = true
       card.classList.add('is-live')
@@ -1317,10 +1338,11 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
       set(rest, false)
     }
     stops[k] = stop
-    frame.addEventListener('load', () => (live ? start() : set(rest, false)))
+    starts[k] = start
+    frame.addEventListener('load', () => (live ? set(0, true) : set(rest, false)))
     if (hover) {
-      card.addEventListener('pointerenter', start)
-      card.addEventListener('pointerleave', stop)
+      card.addEventListener('pointerenter', () => !scrolling && start())
+      card.addEventListener('pointerleave', () => !scrolling && stop())
       cover.addEventListener('pointermove', (e) => {
         const r = cover.getBoundingClientRect()
         cover.style.setProperty('--mx', `${e.clientX - r.left}px`)

@@ -1907,22 +1907,22 @@ button.tl-name { padding: 0; border: 0; background: none; font-family: inherit; 
 .proj-desc { margin: 0; max-width: 26rem; font-size: 1rem; line-height: 1.45; color: color-mix(in oklch, var(--ink) 60%, var(--sheet)); }
 .proj-cover { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: 20px; overflow: hidden; contain: paint; background: var(--bg); cursor: pointer;
   filter: saturate(0.12) brightness(0.97); transition: filter .7s ease; }
-.proj:hover .proj-cover, .proj.is-live .proj-cover { filter: none; }
+.proj.is-live .proj-cover { filter: none; }
 .proj-cover::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 40%), rgb(255 255 255 / .18), transparent 60%); opacity: 0; transition: opacity .5s ease; }
-.proj:hover .proj-cover::after { opacity: 1; }
+.proj.is-live .proj-cover::after { opacity: 1; }
 .proj-win { position: absolute; z-index: 1; left: 6%; right: 6%; top: 9%; bottom: 9%; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 24px 50px -20px rgb(0 0 0 / .45); transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
-.proj:hover .proj-win { transform: translateY(-4px); }
+.proj.is-live .proj-win { transform: translateY(-4px); }
 .proj-win iframe { position: absolute; left: 0; top: 0; border: 0; width: var(--w, 580px); height: calc(100% / var(--s, 1)); transform: scale(var(--s, 1)); transform-origin: 0 0; pointer-events: none; }
 .proj-foot { display: flex; justify-content: space-between; margin-top: 12px; font: 500 12px/1.2 var(--font-mono); letter-spacing: .06em; color: color-mix(in oklch, var(--ink) 60%, var(--sheet)); }
 .proj-foot a { color: inherit; text-decoration: none; transition: color .3s; }
-.proj:hover .proj-foot a { color: var(--ink); }
+.proj.is-live .proj-foot a { color: var(--ink); }
 .tiles.proj-more { margin-top: clamp(64px, 7vw, 96px); }
 @media (max-width: 900px) {
   .proj-grid { grid-template-columns: 1fr; row-gap: 56px; }
   .proj:nth-child(n) { margin-top: 0; }
   .proj-cover { aspect-ratio: 4 / 3; }
 }
-@media (prefers-reduced-motion: reduce) { .proj-cover, .proj-win { transition: none; } .proj:hover .proj-win { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .proj-cover, .proj-win { transition: none; } .proj.is-live .proj-win { transform: none; } }
 
 /* bigger demo windows: less coloured frame around each one */
 .proj-win { left: 4%; right: 4%; top: 6%; bottom: 6%; }
