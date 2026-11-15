@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Redline demo</title><meta name="robots" content="noindex">
+<style>
+:root{--border:#e8e1d9;--border-stronger:#c9c0b6}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:#1a1715;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding:14px}
+html *{font-style:normal !important}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid #9b2c24;outline-offset:2px}
+</style><script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('embed')</script>
+<style>
+/* embed: shown inside a project tile on the home page. No player controls; the demo fills the frame */
+html.embed,html.embed body{height:100%;background:transparent}
+html.embed body{padding:0}
+html.embed .ctrl{display:none}
+html.embed #rl{height:100%;display:flex;flex-direction:column;border:0;border-radius:0}
+html.embed #stage{flex:1;height:auto;min-height:0}
+</style>
+<style>
+/* control bar: the same quiet toolbar as the other demos */
+.ctrl{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Arial,sans-serif;display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;padding:8px 8px 8px 16px;border-radius:14px;background:#f5f5f7;font-size:14px;letter-spacing:-.01em;color:#1d1d1f}
+.ctrl>span{font-size:13px;font-weight:500;color:#6e6e73;white-space:nowrap}
+.ctrl button{font-family:inherit;min-height:36px;padding:0 18px;border-radius:999px;border:0;background:#fff;color:#1d1d1f;font-size:14px;font-weight:500;box-shadow:0 0 0 1px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);cursor:pointer;transition:background .2s,transform .1s}
+.ctrl button:hover{background:#fafafa}
+.ctrl button:active{transform:scale(.97)}
+.ctrl button#play{background:#1d1d1f;color:#fff;box-shadow:none;min-width:84px}
+.ctrl button#play:hover{background:#3a3a3c}
+.ctrl input[type=range]{-webkit-appearance:none;appearance:none;height:28px;background:transparent;cursor:pointer;--p:0%}
+.ctrl input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(to right,#1d1d1f var(--p),#d2d2d7 var(--p))}
+.ctrl input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:#d2d2d7}
+.ctrl input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:#1d1d1f}
+.ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-8px;border-radius:50%;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.2)}
+.ctrl input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.2)}
+@media (max-width:520px){.ctrl{padding:8px 10px}.ctrl input[type=range]{flex-basis:100%!important;order:3}}
+</style>
+<script>
+/* keep the slider's filled part in step, including when the demo moves it */
+addEventListener('DOMContentLoaded',()=>{const r=[...document.querySelectorAll('.ctrl input[type=range]')];const up=()=>r.forEach(x=>x.style.setProperty('--p',(x.value-x.min)/(x.max-x.min)*100+'%'));setInterval(up,80);up()});
+</script>
+</head><body>
+<style>
+#rl{--bg:#F8F5F1;--panel:#fff;--ink:#1A1715;--sub:#6B625C;--line:#E8E1D9;--R:#9B2C24;--Rs:#F6E3DF;--G:#3D7A57;--Gs:#E3F0E8;--A:#A86B12;--As:#F7ECD8;--serif:Georgia,"Times New Roman",serif;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+ position:relative;background:var(--bg);color:var(--ink);border-radius:12px;border:0.5px solid #ddd;overflow:hidden;font-size:13px}
+.top{display:flex;align-items:center;gap:10px;padding:10px 14px 0;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.tabs{position:relative;display:flex;gap:22px;margin-left:auto}
+.tabs button{height:40px;padding:0;border:0;background:none;font-size:14px;color:var(--sub);cursor:pointer;transition:color .2s}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--ink);font-weight:600}
+.ind{position:absolute;bottom:-1px;left:0;height:2px;background:var(--ink);border-radius:2px;transition:transform .32s cubic-bezier(.2,.8,.2,1),width .32s cubic-bezier(.2,.8,.2,1)}
+@media (pointer:coarse){.tabs button{height:44px}}
+.mono{font-family:var(--mono)}
+#stage{position:relative;height:360px;overflow:hidden}
+.scene{position:absolute;inset:12px 14px;overflow:hidden;transition:opacity .3s,transform .35s cubic-bezier(.2,.8,.2,1)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.cl{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-top:1px solid var(--line)}
+.cl:first-child{border-top:0}
+.cl .no{font-family:var(--mono);font-size:11px;color:var(--sub);width:24px;flex:none}
+.cl .tx{flex:1;font-family:var(--serif);font-size:13.5px;line-height:1.45}
+.chip{flex:none;font-size:11px;font-weight:600;border-radius:999px;padding:2px 8px;opacity:0;transform:translateY(3px);transition:opacity .25s,transform .25s}
+.chip.on{opacity:1;transform:none}
+.ok{background:var(--Gs);color:var(--G)}.dev{background:var(--Rs);color:var(--R)}.rev{background:var(--As);color:var(--A)}
+.reveal{opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
+.reveal.on{opacity:1;transform:none}
+mark{background:var(--Rs);color:inherit;border-radius:3px;padding:0 2px;transition:background .3s}
+del{color:var(--R);text-decoration-thickness:2px}
+ins{background:var(--Gs);color:var(--G);text-decoration:none;border-radius:3px;padding:0 2px}
+.lab{font-size:11px;font-weight:600;color:var(--sub);letter-spacing:.02em;margin:0 0 3px}
+.act{display:flex;gap:6px;margin-top:10px}
+.act button{min-height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12px;cursor:pointer}
+.act button.pri{background:var(--ink);color:#fff;border-color:var(--ink)}
+.done{font-size:12px;color:var(--G);font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{font-size:11px;text-align:left;color:var(--sub);font-weight:600;padding:0 8px 6px 0}
+td{padding:6px 8px 6px 0;border-top:1px solid var(--line);vertical-align:top}
+tr.hit td{background:var(--Rs)}
+.grid{display:grid;grid-template-columns:auto repeat(3,1fr);gap:4px;font-size:11.5px}
+.grid div{border-radius:6px;padding:6px 4px;text-align:center}
+.grid .h{color:var(--sub);font-weight:600;background:none;padding:2px}
+.grid .m{background:var(--Gs);color:var(--G);font-weight:700;font-size:14px}
+.grid .x{background:#f1ece6;color:var(--sub);font-size:14px}
+.grid .x.bad{background:var(--Rs);color:var(--R);font-weight:700}
+.score b{font-family:var(--serif);font-size:30px;font-weight:600;display:block;line-height:1}
+.miss{font-size:12px;line-height:1.45;padding:6px 0;border-top:1px solid var(--line)}
+.how{position:absolute;right:12px;bottom:10px;z-index:3;min-height:32px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:13px;color:var(--ink);cursor:pointer}
+@media (pointer:coarse){.how{min-height:44px}}
+.how-panel{position:absolute;inset:56px 12px 12px;z-index:4;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;overflow:auto;box-shadow:0 18px 40px -20px rgba(0,0,0,.35)}
+.how-panel p{margin:6px 0 10px;color:#3c3836}
+.how-panel ol{margin:10px 0 0;padding-left:18px;line-height:1.55;color:#3c3836}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12px}
+.flow span{border:1px solid var(--line);border-radius:999px;padding:3px 9px;background:var(--bg)}
+.flow span.t{border-color:var(--R);color:var(--R)}.flow i{color:#9A918A}
+.xb{width:32px;height:32px;border:0;border-radius:50%;background:var(--bg);font-size:18px;cursor:pointer}
+@media (max-width:560px){.two{grid-template-columns:1fr!important}.hide-s{display:none}}
+@media (prefers-reduced-motion:reduce){.ind,.scene,.chip,.reveal{transition:none}}
+</style>
+<div id="rl">
+ <div class="top">
+  <svg width="26" height="22" viewBox="0 0 26 22" aria-hidden="true" style="margin-bottom:8px"><rect x="2" y="4" width="22" height="2.4" rx="1.2" fill="#C9C0B6"/><rect x="2" y="10" width="16" height="2.4" rx="1.2" fill="#C9C0B6"/><rect x="2" y="16" width="19" height="2.4" rx="1.2" fill="#C9C0B6"/><path d="M1 11.2 L19 11.2" stroke="#9B2C24" stroke-width="2.4" stroke-linecap="round"/></svg>
+  <span style="font-size:19px;font-weight:500;margin-bottom:8px">redline</span>
+  <div class="tabs" role="tablist" aria-label="View" id="tabs">
+   <button role="tab" aria-selected="true" data-s="0">Contract</button><button role="tab" aria-selected="false" data-s="1" tabindex="-1">Finding</button><button role="tab" aria-selected="false" data-s="2" tabindex="-1">Playbook</button><button role="tab" aria-selected="false" data-s="3" tabindex="-1">Reliability</button>
+   <span class="ind" id="ind"></span>
+  </div>
+ </div>
+ <div id="stage">
+  <div class="scene" id="s0" role="tabpanel">
+   <div class="mono" style="font-size:11px;color:var(--sub)">Mutual NDA · Northwind Ltd and Halcyon BV (fictional)</div>
+   <div class="panel" style="margin-top:8px" id="clauses"></div>
+   <div class="reveal" id="sum" style="margin-top:8px;font-size:12px;color:var(--sub)">6 clauses checked · <b style="color:var(--G)">3 aligned</b> · <b style="color:var(--R)">2 deviations</b> · <b style="color:var(--A)">1 for a lawyer</b></div>
+  </div>
+  <div class="scene" id="s1" role="tabpanel">
+   <div class="mono" style="font-size:11px;color:var(--sub)">Clause 9.2 · Residuals · <span style="color:var(--R)">Deviation</span></div>
+   <div class="two" style="display:grid;grid-template-columns:1.25fr 1fr;gap:10px;margin-top:8px">
+    <div class="panel">
+     <p class="lab">In the contract</p>
+     <p style="font-family:var(--serif);font-size:14px;line-height:1.55;margin:0">Nothing in this Agreement restricts the Recipient from using <span id="q">information retained in the unaided memory of its personnel</span>, including ideas and know-how.</p>
+     <div class="reveal" id="fix" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line)">
+      <p class="lab">Suggested redline</p>
+      <p style="font-family:var(--serif);font-size:13.5px;line-height:1.55;margin:0"><del>Nothing in this Agreement restricts the Recipient from using information retained in memory.</del> <ins>Nothing in this Agreement grants the Recipient any right to use Confidential Information, whether or not it is retained in memory.</ins></p>
+      <div class="act" id="act"><button class="pri" data-a="Accepted">Accept</button><button data-a="Sent back for editing">Edit</button><button data-a="Kept as drafted">Reject</button></div>
+     </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+     <div class="panel reveal" id="rule"><p class="lab">Playbook rule</p><div>No residuals clause. Confidential information stays protected even if someone remembers it.</div></div>
+     <div class="panel reveal" id="why"><p class="lab">Why it was flagged</p><div>This clause lets the other side use anything its staff remember, which empties the confidentiality duty.</div></div>
+    </div>
+   </div>
+  </div>
+  <div class="scene" id="s2" role="tabpanel">
+   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><div style="font-family:var(--serif);font-weight:600;font-size:18px">NDA playbook</div><div class="mono" style="font-size:11px;color:var(--sub)">v3 · edited by the legal team</div></div>
+   <div class="panel" style="margin-top:8px"><table><thead><tr><th>Topic</th><th>Our position</th><th class="hide-s">Fallback</th></tr></thead><tbody id="rules"></tbody></table></div>
+  </div>
+  <div class="scene" id="s3" role="tabpanel">
+   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><div style="font-family:var(--serif);font-weight:600;font-size:18px">Reliability</div><div class="mono" style="font-size:11px;color:var(--sub)">24 clauses labelled by a lawyer · illustrative</div></div>
+   <div class="two" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+    <div class="panel">
+     <div class="score"><b id="score">0 of 24</b><span style="font-size:12px;color:var(--sub)">answers match the lawyer’s</span></div>
+     <div class="grid" style="margin-top:10px" id="grid"></div>
+     <div style="font-size:11px;color:var(--sub);margin-top:6px">Rows: the lawyer’s answer · columns: Redline’s</div>
+    </div>
+    <div class="panel">
+     <p class="lab">Where they disagree</p>
+     <div id="misses"></div>
+     <div class="reveal" id="caveat" style="font-size:11.5px;color:var(--sub);margin-top:8px">24 examples are too few to prove anything; the point is to see where the rules break.</div>
+    </div>
+   </div>
+  </div>
+ </div>
+ <button class="how" id="howBtn" aria-expanded="false" aria-controls="how">How does this work?</button>
+ <div class="how-panel" id="how" role="dialog" aria-label="How Redline works" hidden>
+  <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:15px">How does this work?</b><button class="xb" id="howX" aria-label="Close">×</button></div>
+  <p>Redline reads a contract against the team’s playbook and sorts every clause into three piles, so the lawyer starts with what matters. In this demo every step is scripted.</p>
+  <div class="flow"><span>Contract</span><i>→</i><span>Clause splitter</span><i>→</i><span>Playbook rules</span><i>→</i><span>Findings</span><i>→</i><span class="t">Lawyer review</span></div>
+  <ol>
+   <li>The contract is split into numbered clauses, each kept with its exact wording.</li>
+   <li>Each clause is matched to a playbook rule and marked aligned, a deviation, or for a lawyer.</li>
+   <li>Deviations get suggested wording from the playbook’s fallback positions.</li>
+   <li>The reliability tab compares Redline’s answers with a lawyer’s on clauses that are already labelled.</li>
+  </ol>
+ </div>
+</div>
+<div class="ctrl">
+ <span>Progress</span>
+ <input type="range" id="t" min="0" max="100" value="0" step="1" style="flex:1;min-width:160px" aria-label="Demo progress">
+ <button id="play">Play</button>
+ <button id="reset">Start over</button>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const CL=[
+ ['4.1','Confidentiality lasts for five (5) years from the date of disclosure.','dev','Deviation'],
+ ['7.1','This Agreement is governed by the laws of the Netherlands.','ok','Aligned'],
+ ['5.2','The Recipient may disclose information to its professional advisers bound by duties of confidentiality.','ok','Aligned'],
+ ['9.2','Nothing restricts the Recipient from using information retained in the unaided memory of its personnel.','dev','Deviation'],
+ ['11.1','Either party may assign this Agreement to an affiliate without the other’s consent.','rev','Lawyer review'],
+ ['6.3','On request, the Recipient will return or destroy all information within 30 days.','ok','Aligned']];
+$('clauses').innerHTML=CL.map(([n,t,c,l],i)=>`<div class="cl"><span class="no">${n}</span><span class="tx">${t}</span><span class="chip ${c}" id="c${i}">${l}</span></div>`).join('');
+const RU=[['Term','At most 3 years','5 years for trade secrets only',0],['Governing law','Netherlands or England','Ireland',0],['Advisers','Allowed if bound by confidentiality','—',0],['Residuals','Not accepted','None',1],['Assignment','Only with consent','Affiliates, with notice',0],['Return or deletion','Within 30 days','One archive copy may be kept',0]];
+$('rules').innerHTML=RU.map(([a,b,c,h],i)=>`<tr id="r${i}" class="reveal"><td><b>${a}</b></td><td>${b}</td><td class="hide-s" style="color:var(--sub)">${c}</td></tr>`).join('');
+// illustrative counts: rows = lawyer, columns = Redline (aligned, deviation, review)
+const M=[[8,1,0],[0,7,1],[1,0,6]];const L=['Aligned','Deviation','Review'];
+const MISS=[['“Thirty-six months” read as a deviation.','The term rule only understood years. Expected: aligned.'],['“Group company” not recognised as an affiliate.','So an assignment clause slipped through as aligned. Expected: review.'],['A residuals clause hidden in the definitions.','Caught, but marked for review instead of a deviation.']];
+$('misses').innerHTML=MISS.map(([a,b],i)=>`<div class="miss reveal" id="m${i}"><b>${a}</b> ${b}</div>`).join('');
+function grid(k){let h='<div class="h"></div>'+L.map(x=>`<div class="h">${x}</div>`).join('');M.forEach((row,i)=>{h+=`<div class="h" style="text-align:right">${L[i]}</div>`+row.map((n,j)=>`<div class="${i===j?'m':'x'+(n&&i!==j?' bad':'')}">${Math.round(n*k)}</div>`).join('')});$('grid').innerHTML=h}
+const on=(id,v)=>$(id).classList.toggle('on',v);
+let sc=-1;
+function moveInd(){const b=document.querySelector(`#tabs button[data-s="${sc}"]`);if(!b)return;$('ind').style.width=b.offsetWidth+'px';$('ind').style.transform=`translateX(${b.offsetLeft}px)`}
+function show(n){if(n===sc)return;sc=n;document.querySelectorAll('.scene').forEach((s,i)=>{s.style.opacity=i===n?1:0;s.style.transform=i===n?'none':`translateY(${i<n?-10:10}px)`;s.style.pointerEvents=i===n?'auto':'none';s.setAttribute('aria-hidden',String(i!==n))});
+ document.querySelectorAll('#tabs button').forEach(b=>{const o=+b.dataset.s===n;b.setAttribute('aria-selected',String(o));b.tabIndex=o?0:-1});moveInd()}
+let decided='';
+function render(v){const t=v/100;show(t<.25?0:t<.5?1:t<.75?2:3);
+ const a=Math.min(1,t/.22);CL.forEach((_,i)=>on('c'+i,a>(i+1)/7.2));on('sum',a>.95);
+ const b=Math.max(0,Math.min(1,(t-.25)/.22));const q=$('q');q.style.background=b>.12?'var(--Rs)':'transparent';q.style.borderRadius='3px';on('rule',b>.3);on('why',b>.5);on('fix',b>.7);
+ if(!decided){$('act').querySelectorAll('button').forEach(x=>x.style.outline=b>.92&&x.classList.contains('pri')?'3px solid var(--Gs)':'')}
+ const c=Math.max(0,Math.min(1,(t-.5)/.22));RU.forEach((r,i)=>{on('r'+i,c>i/7);$('r'+i).classList.toggle('hit',!!r[3]&&c>.85)});
+ const d=Math.max(0,Math.min(1,(t-.75)/.2));grid(d);const ok=Math.round(21*d);$('score').textContent=`${ok} of 24`;MISS.forEach((_,i)=>on('m'+i,d>.45+i*.15));on('caveat',d>.95)}
+$('act').addEventListener('click',e=>{const x=e.target.closest('button');if(!x)return;decided=x.dataset.a;$('act').innerHTML=`<span class="done">✓ ${decided} by the reviewer</span> <button data-undo>Undo</button>`});
+$('act').addEventListener('click',e=>{if(!e.target.closest('[data-undo]'))return;decided='';$('act').innerHTML='<button class="pri" data-a="Accepted">Accept</button><button data-a="Sent back for editing">Edit</button><button data-a="Kept as drafted">Reject</button>'},true);
+const at=[23,48,73,98];
+document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>{$('t').value=at[+b.dataset.s];render(+$('t').value)}));
+$('tabs').addEventListener('keydown',e=>{const k={ArrowRight:1,ArrowLeft:-1}[e.key];if(!k)return;e.preventDefault();const n=(sc+k+4)%4;$('t').value=at[n];render(at[n]);document.querySelector(`#tabs button[data-s="${n}"]`).focus()});
+$('t').addEventListener('input',()=>render(+$('t').value));
+addEventListener('resize',moveInd);document.fonts&&document.fonts.ready.then(moveInd);
+let timer=null;$('play').addEventListener('click',e=>{if(timer){clearInterval(timer);timer=null;e.target.textContent='Play';return}if(+$('t').value>=100)$('t').value=0;e.target.textContent='Pause';timer=setInterval(()=>{$('t').value=+$('t').value+1;render(+$('t').value);if(+$('t').value>=100){clearInterval(timer);timer=null;e.target.textContent='Play'}},90)});
+$('reset').addEventListener('click',()=>{if(timer)$('play').click();decided='';$('act').innerHTML='<button class="pri" data-a="Accepted">Accept</button><button data-a="Sent back for editing">Edit</button><button data-a="Kept as drafted">Reject</button>';$('t').value=0;render(0)});
+const howBtn=$('howBtn'),how=$('how');
+function setHow(o){how.hidden=!o;howBtn.setAttribute('aria-expanded',String(o));howBtn.textContent=o?'Back to the demo':'How does this work?';if(o)$('howX').focus();else howBtn.focus()}
+howBtn.addEventListener('click',()=>setHow(how.hidden));$('howX').addEventListener('click',()=>setHow(false));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!how.hidden)setHow(false)});
+render(0);
+</script>
+</body></html>

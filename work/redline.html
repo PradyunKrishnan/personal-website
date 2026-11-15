@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redline · Pradyun Krishnan</title>
+    <link rel="icon" href="../favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+    <link rel="stylesheet" href="../styles.css?v=111" />
+    <script>
+      try {
+        const theme = localStorage.getItem('theme')
+        if (theme === 'blue' || theme === 'xmas') document.documentElement.classList.add(theme)
+        if (sessionStorage.getItem('visited')) document.documentElement.dataset.visited = ''
+        sessionStorage.setItem('visited', '1')
+      } catch {}
+    </script>
+    <!-- Vercel Web Analytics (cookieless). Only on the live site, so local
+         previews don't count as visits or log a missing-file error. -->
+    <script>
+      if (/(^|\.)pradyunkrishnan\.com$|\.vercel\.app$/.test(location.hostname)) {
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments) }
+        const s = document.createElement('script')
+        s.defer = true
+        s.src = '/_vercel/insights/script.js'
+        document.head.append(s)
+      }
+    </script>
+  </head>
+  <body>
+    <!-- top bar: contents on the left, contact and LinkedIn on the right -->
+    <header class="topbar">
+      <div class="topbar-start">
+        <a class="pill topbar-mark" href="../index.html" aria-label="Pradyun Krishnan, home">PK</a>
+      <div class="menu">
+        <button class="pill" type="button" aria-expanded="false" aria-controls="contents-menu" data-menu>Contents</button>
+        <ol class="menu-panel contents-menu" id="contents-menu" hidden>
+          <li><a href="../index.html#intro"><span class="contents-index"></span>The Intro</a></li>
+          <li><a href="../index.html#projects"><span class="contents-index">§ 01</span>Projects</a></li>
+          <li><a href="../index.html#experience"><span class="contents-index">§ 02</span>Experience</a></li>
+          <li><a href="../index.html#awards"><span class="contents-index">§ 03</span>Awards</a></li>
+          <li><a href="../index.html#film"><span class="contents-index">§ 04</span>The Film Roll</a></li>
+          <li><a href="../index.html#places"><span class="contents-index">§ 05</span>Places</a></li>
+        </ol>
+      </div>
+      <div class="menu languages">
+        <!-- the greeting cycles through the languages below; this menu doesn't
+             translate anything, it just says which languages I speak -->
+        <button class="pill pill-greeting" type="button" aria-expanded="false" aria-controls="languages-menu" aria-label="Languages I speak" data-menu data-greetings="Hello|Hola|ನಮಸ್ಕಾರ|नमस्ते|Hallo|Hoi"><span data-greeting>Hello</span></button>
+        <div class="menu-panel languages-menu" id="languages-menu" hidden>
+          <p class="languages-title">I speak</p>
+          <ul>
+            <li lang="en"><span class="lang-native">English</span><span class="lang-name" lang="en">English</span></li>
+            <li lang="es"><span class="lang-native">Español</span><span class="lang-name" lang="en">Spanish</span></li>
+            <li lang="kn"><span class="lang-native">ಕನ್ನಡ</span><span class="lang-name" lang="en">Kannada</span></li>
+            <li lang="hi"><span class="lang-native">हिन्दी</span><span class="lang-name" lang="en">Hindi</span></li>
+            <li lang="de"><span class="lang-native">Deutsch</span><span class="lang-name" lang="en">German · <em>ein bisschen</em></span></li>
+            <li lang="nl"><span class="lang-native">Nederlands</span><span class="lang-name" lang="en">Dutch</span></li>
+          </ul>
+          <p class="languages-note">This isn't a language switch. The site stays in English; this menu is just showing off.</p>
+        </div>
+      </div>
+      </div>
+      <div class="topbar-end">
+        <div class="theme-menu" data-theme-menu>
+          <button class="pill theme-pill" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-pop" aria-label="Theme"><span class="theme-swatch" aria-hidden="true"></span><span class="theme-pill-label">Theme</span></button>
+          <div class="theme-pop" id="theme-pop" role="menu" aria-label="Theme" hidden>
+            <button type="button" role="menuitemradio" aria-checked="true" data-theme="mono"><span class="ts-dot ts-mono" aria-hidden="true"></span>Black<svg class="theme-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" role="menuitemradio" aria-checked="false" data-theme="blue"><span class="ts-dot ts-blue" aria-hidden="true"></span>Blue<svg class="theme-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" role="menuitemradio" aria-checked="false" data-theme="xmas" ><span class="ts-dot ts-xmas" aria-hidden="true"></span>Christmas<svg class="theme-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+        <a class="pill" href="#contact" data-mail>Contact</a>
+        <a class="pill pill-icon" href="https://nl.linkedin.com/in/pradyun-krishnan" target="_blank" rel="noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.06c.53-1 1.83-1.85 3.76-1.85 4.02 0 4.88 2.4 4.88 5.8v5.55h-4v-4.92c0-1.17-.02-2.68-1.64-2.68-1.64 0-1.9 1.28-1.9 2.6v5h-4v-11Z"/></svg></a>
+      </div>
+    </header>
+
+    <main class="page work-page">
+      <a class="work-back" href="../index.html#projects">← All projects</a>
+      <p class="project-kind">Contract review</p>
+      <h1 class="work-title">Redline</h1>
+      <p class="work-lede">Checks a contract against your playbook, flags each clause as aligned, a deviation or one for a lawyer, and suggests the redline.</p>
+      <p class="work-note">A concept demo with fictional contracts. Everything in it is scripted; nothing is sent to a model.</p>
+
+      <div class="work-demo" style="--bg: linear-gradient(150deg, #7a1f1f 0%, #c2553d 55%, #efd9c4 100%)">
+        <iframe src="../demos/redline.html?v=1" title="Redline demo"></iframe>
+      </div>
+
+      <section class="work-how" aria-labelledby="problem-title">
+        <h2 id="problem-title" class="work-h2">The problem</h2>
+        <p class="work-intro">Most contracts a legal team sees are routine, like NDAs, but each one still has to be read against the team’s playbook: how long confidentiality may last, which law applies, whether a residuals clause is acceptable. It is slow, repetitive work, and the risky clauses hide among the standard ones.</p>
+      </section>
+
+      <section class="work-how" aria-labelledby="how-title">
+        <h2 id="how-title" class="work-h2">How it works</h2>
+        <p class="work-intro">Redline splits a contract into clauses, matches each one to a rule in the playbook and sorts it into one of three piles, so the lawyer starts with what matters.</p>
+        <div class="work-flow"><span class="flow-step">Contract</span><i aria-hidden="true">→</i><span class="flow-step">Clause splitter</span><i aria-hidden="true">→</i><span class="flow-step">Playbook rules</span><i aria-hidden="true">→</i><span class="flow-step">Findings</span><i aria-hidden="true">→</i><span class="flow-step is-out">Lawyer review</span></div>
+        <ol class="work-steps"><li>The contract is split into numbered clauses, each kept with its exact wording.</li><li>Each clause is matched to a playbook rule, such as “confidentiality lasts at most three years”.</li><li>It is marked aligned, a deviation, or for a lawyer to review, with the reason and the playbook rule beside it.</li><li>For deviations, Redline suggests replacement wording taken from the playbook’s fallback positions.</li><li>A reliability tab runs the reviewer on clauses a lawyer has already labelled and shows where the two disagree.</li></ol>
+      </section>
+
+      <section class="work-how" aria-labelledby="choices-title">
+        <h2 id="choices-title" class="work-h2">Design decisions</h2>
+        <ul class="work-steps work-points"><li><b>Every finding points to its clause.</b> The exact wording that triggered a flag sits next to the rule it was checked against, so a lawyer can verify it in seconds.</li><li><b>Three outcomes, not two.</b> When a clause doesn’t clearly pass or fail, it goes to a lawyer instead of being forced into a yes or no.</li><li><b>The playbook is the source of truth.</b> Positions and fallbacks are written by the legal team and can be edited; the tool applies them, it doesn’t invent them.</li><li><b>Measure before trusting.</b> The reliability tab compares the tool’s answers with a lawyer’s on known clauses, and shows every disagreement, not just a score.</li></ul>
+      </section>
+
+      <section class="work-how" aria-labelledby="built-title">
+        <h2 id="built-title" class="work-h2">How I’d build it</h2>
+        <p class="work-intro">The same way I built my other tools: one step at a time. First the clause splitter, then each playbook rule as its own check, each tested on labelled examples before joining them into one review screen with the reliability tab.</p>
+      </section>
+
+      <section class="work-how" aria-labelledby="demo-title">
+        <h2 id="demo-title" class="work-h2">About this demo</h2>
+        <p class="work-intro">The NDA, the parties, the playbook and the test results are all made up. The reliability numbers are illustrative, from a small fictional test set; they show what the tab would report, not a measured result.</p>
+      </section>
+
+      <a class="work-next" href="rete.html"><span>Next project</span><b>Rete →</b></a>
+
+      <footer class="footer">
+        <div class="signature">
+          <span class="signature-line">Pradyun Krishnan</span>
+          <span>Signed · <span data-year>2026</span></span>
+        </div>
+        <span class="footer-links">
+          <a href="https://nl.linkedin.com/in/pradyun-krishnan" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://github.com/PradyunKrishnan" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="#contact" data-mail>Email</a>
+        </span>
+      </footer>
+    </main>
+
+    <script src="../script.js?v=111"></script>
+  </body>
+</html>

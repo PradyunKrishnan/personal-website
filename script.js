@@ -109,6 +109,20 @@ document.querySelectorAll('[data-year]').forEach((el) => {
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.menu')) buttons.forEach((b) => set(b, false))
   })
+  // touch screens: iOS Safari doesn't always send a click for a tap on plain
+  // page content, so close on the touch itself; and close once the visitor
+  // scrolls away, so an open panel doesn't ride along over the page
+  if (matchMedia('(hover: none)').matches) {
+    const closeAll = () => buttons.forEach((b) => !panel(b).hidden && set(b, false))
+    document.addEventListener('pointerdown', (e) => {
+      if (!e.target.closest('.menu')) closeAll()
+    }, { passive: true })
+    let openedAt = 0
+    buttons.forEach((b) => b.addEventListener('click', () => { openedAt = scrollY }))
+    addEventListener('scroll', () => {
+      if (Math.abs(scrollY - openedAt) > 24) closeAll()
+    }, { passive: true })
+  }
 })()
 
 // The languages pill says hello in the next language each time the visitor
@@ -122,9 +136,23 @@ document.querySelectorAll('[data-year]').forEach((el) => {
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches
   let i = 0
   let current = null
+  // on a small phone the pill has a fixed width; a word too long for it
+  // (ನಮಸ್ಕಾರ) is set a little smaller rather than pushing the bar about
+  function fit() {
+    word.style.fontSize = ''
+    const cs = getComputedStyle(button)
+    const room = button.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)
+    const need = word.scrollWidth
+    if (need > room && room > 0) word.style.fontSize = `${Math.floor((room / need) * 100) / 100}em`
+  }
+  fit()
+  matchMedia('(max-width: 420px)').addEventListener('change', fit)
   function swap() {
     i = (i + 1) % words.length
-    const set = (w) => word.replaceChildren(rollText(w))
+    const set = (w) => {
+      word.replaceChildren(rollText(w))
+      fit()
+    }
     if (still) return set(words[i])
     word.dataset.out = ''
     setTimeout(() => {
@@ -1269,7 +1297,9 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forE
     const fit = () => {
       const row = tile.closest('.tiles')
       const narrow = innerWidth <= 900
-      const open = narrow ? win.clientWidth : ((row.clientWidth - 2 * 16) * 3.2) / 5.2 * 0.9
+      // the widened card gets 3.2 shares of the row; every other card gets 1
+      const n = tiles.length
+      const open = narrow ? win.clientWidth : ((row.clientWidth - (n - 1) * 16) * 3.2) / (n - 1 + 3.2) * 0.9
       const base = narrow ? 520 : 760
       const sc = Math.min(1, open / base)
       win.style.setProperty('--s', sc)

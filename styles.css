@@ -487,26 +487,23 @@ ul {
 
 /* the typed list: each item is written out, then struck through in red */
 .typed-item {
-  position: relative;
+  /* the red line is a background on the word itself, not a positioned
+     ::after: iPhone Safari measured the ::after while the word was still
+     being typed, then jumped and redrew it a moment later */
+  --strike: var(--redline);
   white-space: nowrap;
+  padding-inline: 1px;
+  margin-inline: -1px;
+  background: linear-gradient(var(--strike), var(--strike)) no-repeat 0 58% / 0% 3px;
+  transition: background-size 260ms var(--ease-swift);
 }
 
-.typed-item::after {
-  content: '';
-  position: absolute;
-  left: -1px;
-  right: -1px;
-  top: 58%;
-  height: 3px;
-  border-radius: 3px;
-  background: color-mix(in oklab, var(--redline) 55%, transparent);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 260ms var(--ease-swift);
+@supports (color: color-mix(in oklab, red 50%, transparent)) {
+  .typed-item { --strike: color-mix(in oklab, var(--redline) 55%, transparent); }
 }
 
-.typed-item[data-struck]::after {
-  transform: scaleX(1);
+.typed-item[data-struck] {
+  background-size: 100% 3px;
 }
 
 .typed-caret {
@@ -1845,3 +1842,31 @@ button.tl-name { padding: 0; border: 0; background: none; font-family: inherit; 
 .work-points { list-style: disc; }
 .work-points b { font-weight: 600; }
 .work-how + .work-how { margin-top: 48px; }
+
+/* language menu on phones */
+@media (max-width: 760px) {
+  /* hang the panel from the start of the bar, not from the greeting pill,
+     so it stays on screen (.topbar .menu above made every menu relative) */
+  .topbar .topbar-start { position: relative; }
+  .topbar .menu.languages { position: static; }
+  .topbar .languages-menu {
+    left: 0.5rem;
+    right: auto;
+    width: max-content;
+    min-width: 0;
+    max-width: calc(100vw - 32px);
+    box-sizing: border-box;
+  }
+  .topbar .languages-menu .languages-note { max-width: none; }
+}
+@media (max-width: 420px) {
+  /* a fixed width so the bar doesn't jump as the word changes; script.js
+     shrinks a long word (ನಮಸ್ಕಾರ) to fit instead of widening the pill */
+  .topbar .pill.pill-greeting { width: 3.875rem; min-width: 0; padding-inline: 0.25rem; }
+}
+@media (hover: none) {
+  /* the hover bridge under each menu only catches stray taps on touch */
+  .topbar .menu::after, .topbar .theme-menu::after { display: none; }
+  .topbar .pill:hover::after { transform: scaleX(0); }
+  .topbar .pill[aria-expanded='true']::after { transform: scaleX(1); }
+}
