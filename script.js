@@ -177,6 +177,11 @@ document.querySelectorAll('.reveal').forEach((button) => {
   const wait = (ms) => new Promise((r) => setTimeout(r, ms))
   const span = (cls, text = '') => Object.assign(document.createElement('span'), { className: cls, textContent: text })
 
+  // "curious" and "creative" become underlined words; hovering or clicking
+  // one shows what drives it, in a line beneath
+  // (declared before the reduced-motion branch below, which uses it)
+  const NOTES = { curious: 'Curiosity drives me to consume.', creative: 'Creativity drives me to create.' }
+
   if (still) {
     out.append(lead)
     items.forEach((text, i) => {
@@ -190,9 +195,6 @@ document.querySelectorAll('.reveal').forEach((button) => {
     return
   }
 
-  // "curious" and "creative" become underlined words; hovering or clicking
-  // one shows what drives it, in a line beneath
-  const NOTES = { curious: 'Curiosity drives me to consume.', creative: 'Creativity drives me to create.' }
   function words(e) {
     const note = document.getElementById('am-note')
     if (!note) return
@@ -314,7 +316,8 @@ document.querySelectorAll('.reveal').forEach((button) => {
     mask.width = MASK_W
     mask.height = MASK_H
     const frame = {
-      src: img.getAttribute('src'),
+      // the page lists photos as data-src, so none download until needed
+      src: img.dataset.src || img.getAttribute('src'),
       caption: img.dataset.caption || '',
       alt: img.getAttribute('alt') || '',
       img: new Image(),
@@ -325,7 +328,8 @@ document.querySelectorAll('.reveal').forEach((button) => {
       strokes: 0,
     }
     frame.img.onload = () => frame.views.forEach(render)
-    frame.img.src = frame.src
+    // the full photo for scratching loads only when its roll nears the screen
+    // (see the observer below), not with the page
     return frame
   }
 
@@ -402,7 +406,8 @@ document.querySelectorAll('.reveal').forEach((button) => {
     }
     if (frame.developed) view.el.dataset.developed = ''
     frame.views.push(view)
-    new ResizeObserver(() => render(view)).observe(view.el)
+    view.ro = new ResizeObserver(() => render(view))
+    view.ro.observe(view.el)
     return view
   }
 
@@ -479,6 +484,14 @@ document.querySelectorAll('.reveal').forEach((button) => {
     head.append(h, meta, all)
     root.append(head)
     roll.refresh = () => (all.hidden = roll.frames.every((f) => f.developed))
+    new IntersectionObserver(
+      ([e], io) => {
+        if (!e.isIntersecting) return
+        io.disconnect()
+        roll.frames.forEach((f) => (f.img.src = f.src))
+      },
+      { rootMargin: '800px 0px' },
+    ).observe(root)
 
     // leader, the photos, then plain film base to the end of the last strip,
     // so the roll ends the way it begins
@@ -558,7 +571,10 @@ document.querySelectorAll('.reveal').forEach((button) => {
 
     function show() {
       const frame = roll.frames[index]
-      if (big) big.frame.views.splice(big.frame.views.indexOf(big), 1)
+      if (big) {
+        big.ro.disconnect()
+        big.frame.views.splice(big.frame.views.indexOf(big), 1)
+      }
       stage.textContent = ''
       big = makeView(frame, { large: true, label: `Frame ${index + 1}${frame.alt ? `, ${frame.alt}` : ''}, scratch to develop` })
       big.el.tabIndex = -1

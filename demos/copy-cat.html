@@ -48,12 +48,11 @@ html.embed #stage{flex:1;height:auto;min-height:0}
 addEventListener('DOMContentLoaded',()=>{const r=[...document.querySelectorAll('.ctrl input[type=range]')];const up=()=>r.forEach(x=>x.style.setProperty('--p',(x.value-x.min)/(x.max-x.min)*100+'%'));setInterval(up,80);up()});
 </script>
 </head><body>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 #cc{--navy:#1e2a47;--teal:#1b7f78;--bg:#f5f7f9;--line:#dde2e8;--muted:#56627a;--hi:#b42318;--hi-s:#fdecea;--md:#a15c07;--md-s:#fdf3e2;--lo:#2f7a45;--lo-s:#e8f4ec;
- position:relative;background:var(--bg);color:var(--navy);border-radius:12px;border:1px solid var(--line);overflow:hidden;font-family:"Source Sans 3",system-ui,sans-serif}
-.disp{font-family:"Bricolage Grotesque",system-ui,sans-serif}
-.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+ position:relative;background:var(--bg);color:var(--navy);border-radius:12px;border:1px solid var(--line);overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+.disp{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;letter-spacing:-.01em}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 .top{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .tabs{margin-left:auto;display:flex;gap:4px;font-size:13px}
 .tabs span{padding:5px 10px;border-radius:999px;color:var(--muted);cursor:pointer}
