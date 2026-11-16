@@ -230,7 +230,7 @@ document.querySelectorAll('.reveal').forEach((button) => {
     items.forEach((text, i) => {
       const s = span('typed-item', text)
       s.dataset.struck = ''
-      out.append(s, i < items.length - 1 ? ', ' : '.')
+      out.append(s, i < items.length - 2 ? ', ' : i === items.length - 2 ? ' and ' : '.')
     })
     const e = span('typed-end', end)
     out.append(span('typed-close', close + ' '), e)
@@ -296,7 +296,7 @@ document.querySelectorAll('.reveal').forEach((button) => {
       out.insertBefore(s, caret)
       await type(s, text, true)
       written.push(s)
-      out.insertBefore(document.createTextNode(i < items.length - 1 ? ', ' : '.'), caret)
+      out.insertBefore(document.createTextNode(i < items.length - 2 ? ', ' : i === items.length - 2 ? ' and ' : '.'), caret)
       await wait(60)
     }
     // …then the red line runs through them all, one after another
