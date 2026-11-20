@@ -230,7 +230,12 @@ document.querySelectorAll('.reveal').forEach((button) => {
     items.forEach((text, i) => {
       const s = span('typed-item', text)
       s.dataset.struck = ''
-      out.append(s, i < items.length - 2 ? ', ' : i === items.length - 2 ? ' and ' : '.')
+      out.append(s)
+      if (i === items.length - 2) {
+        const a = span('typed-item', 'and')
+        a.dataset.struck = ''
+        out.append(' ', a, ' ')
+      } else out.append(i < items.length - 1 ? ', ' : '.')
     })
     const e = span('typed-end', end)
     out.append(span('typed-close', close + ' '), e)
@@ -296,7 +301,15 @@ document.querySelectorAll('.reveal').forEach((button) => {
       out.insertBefore(s, caret)
       await type(s, text, true)
       written.push(s)
-      out.insertBefore(document.createTextNode(i < items.length - 2 ? ', ' : i === items.length - 2 ? ' and ' : '.'), caret)
+      if (i === items.length - 2) {
+        // "and" is part of the list, so it gets struck through with the rest
+        out.insertBefore(document.createTextNode(' '), caret)
+        const a = span('typed-item')
+        out.insertBefore(a, caret)
+        await type(a, 'and', true)
+        written.push(a)
+        out.insertBefore(document.createTextNode(' '), caret)
+      } else out.insertBefore(document.createTextNode(i < items.length - 1 ? ', ' : '.'), caret)
       await wait(60)
     }
     // …then the red line runs through them all, one after another
