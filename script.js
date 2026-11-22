@@ -17,7 +17,7 @@
 // adapted from cali.so's components/halftone-portrait.tsx (MIT).
 
 ;(function themeMenu() {
-  // Theme menu in the top bar: Black (default), Blue or Christmas
+  // Theme menu in the top bar: Black (default) or Blue
   const menu = document.querySelector('[data-theme-menu]')
   if (!menu) return
   const root = document.documentElement
@@ -1114,30 +1114,6 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon)').forEach((pill) => {
     stage.style.setProperty('--seal-size', `${S}px`)
     geo = { W, H, cx: W / 2, cy: H / 2, fs, widths, S }
     letters.forEach((l) => (l.el.style.fontSize = `${fs}px`))
-    stage.dispatchEvent(new CustomEvent('opening:layout'))
-  }
-
-  // Where the name and portrait ever sit, in stage pixels: every letter at
-  // several points of its scroll path, plus the full-size portrait and hat.
-  // The Christmas trees use this to stay clear of them.
-  stage.openingBoxes = () => {
-    if (!geo) return []
-    const { cx, cy, fs, widths, S } = geo
-    const boxes = [{ x: cx - S / 2, y: cy - S / 2 - S * 0.12, w: S, h: S * 1.12 }]
-    for (let k = 0; k <= 10; k++) {
-      const flat = ease(k / 10)
-      letters.forEach(({ row, i, n }) => {
-        const ws = widths[row]
-        const total = ws.reduce((a, b) => a + b, 0)
-        let before = 0
-        for (let j = 0; j < i; j++) before += ws[j]
-        const x = lerp(cx - total / 2 + before, 24 + ((geo.W - 48) * (i + 0.5)) / n - ws[i] * 0.3, flat)
-        const y = lerp(cy + (row ? fs * 0.02 : -fs * 0.9), row ? cy + S / 2 + fs * 0.15 : cy - S / 2 - fs, flat)
-        const s = lerp(1, 0.62, flat)
-        boxes.push({ x: x + (ws[i] / 2) * (1 - s), y: y + 0.6 * fs * (1 - s), w: ws[i] * s, h: fs * s })
-      })
-    }
-    return boxes
   }
 
   function render(p) {
@@ -1204,71 +1180,6 @@ document.querySelectorAll('.topbar .pill:not(.pill-icon)').forEach((pill) => {
     render(progress)
   }
   ;(document.fonts?.ready || Promise.resolve()).then(start)
-})()
-
-// Snow for the Christmas theme: soft flakes drifting down the whole page.
-// Only while the theme is on, and not for reduced motion.
-;(function snow() {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
-  const root = document.documentElement
-  let canvas = null
-  let onResize = null
-  let raf = 0
-  let flakes = []
-
-  function start() {
-    canvas = Object.assign(document.createElement('canvas'), { className: 'snow' })
-    canvas.setAttribute('aria-hidden', 'true')
-    document.body.append(canvas)
-    const ctx = canvas.getContext('2d')
-    const size = () => {
-      if (!canvas) return
-      const dpr = devicePixelRatio || 1
-      canvas.width = innerWidth * dpr
-      canvas.height = innerHeight * dpr
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-    }
-    size()
-    onResize = size
-    addEventListener('resize', onResize)
-    const count = Math.round(Math.min(140, (innerWidth * innerHeight) / 9000))
-    flakes = Array.from({ length: count }, () => ({
-      x: Math.random() * innerWidth,
-      y: Math.random() * innerHeight,
-      r: 1 + Math.random() * 2.6,
-      vy: 0.3 + Math.random() * 0.9,
-      sway: Math.random() * Math.PI * 2,
-    }))
-    const tick = () => {
-      ctx.clearRect(0, 0, innerWidth, innerHeight)
-      ctx.fillStyle = '#c7d3e0' // pale blue-grey, so flakes show on white
-      for (const f of flakes) {
-        f.y += f.vy
-        f.sway += 0.01
-        f.x += Math.sin(f.sway) * 0.4
-        if (f.y > innerHeight + 5) {
-          f.y = -5
-          f.x = Math.random() * innerWidth
-        }
-        ctx.beginPath()
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2)
-        ctx.fill()
-      }
-      raf = requestAnimationFrame(tick)
-    }
-    tick()
-  }
-
-  function stop() {
-    cancelAnimationFrame(raf)
-    removeEventListener('resize', onResize)
-    canvas?.remove()
-    canvas = null
-  }
-
-  const sync = () => (root.classList.contains('xmas') ? !canvas && start() : canvas && stop())
-  new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ['class'] })
-  sync()
 })()
 
 // § 01 Projects: four equal cards. Each is grey and rests on a telling moment
@@ -1821,93 +1732,4 @@ document.querySelectorAll('.ledger-row').forEach((row) =>
       draw()
     })
     .catch(() => root.classList.add('is-offline'))
-})()
-
-// Christmas theme: three trees on the landing page. Tap one and an elf peeks
-// out from behind it; tap again and the elf runs across the page and away.
-;(function forest() {
-  const forest = document.querySelector('[data-forest]')
-  const stage = forest?.closest('[data-opening]')
-  if (!forest || !stage) return
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches
-  const trees = [...forest.querySelectorAll('.xtree')]
-
-  // Scatter the trees at random in the free space of the landing page:
-  // clear of the top bar, the name (wherever the scroll takes it), the
-  // portrait and each other. A tree that finds no room stays hidden.
-  let placedFor = 0
-  function place() {
-    const W = stage.clientWidth
-    const H = stage.clientHeight
-    if (!W || W === placedFor) return
-    const boxes = stage.openingBoxes?.()
-    if (!boxes?.length || !trees[0].offsetWidth) return
-    placedFor = W
-    const pad = 10
-    const hits = (a) => boxes.some((b) => a.x < b.x + b.w + pad && a.x + a.w + pad > b.x && a.y < b.y + b.h + pad && a.y + a.h + pad > b.y)
-    trees.forEach((tree) => {
-      tree.style.visibility = 'hidden'
-      tree.style.left = '0px'
-      tree.style.top = '0px'
-      const w = tree.offsetWidth
-      const h = w * 1.3
-      // room on the left for the elf when it peeks out
-      const elf = w * 0.45
-      let spot = null
-      for (let t = 0; t < 300 && !spot; t++) {
-        const x = elf + 8 + Math.random() * (W - w - elf - 16)
-        const y = 76 + Math.random() * (H - h - 84)
-        const box = { x: x - elf, y, w: w + elf, h }
-        if (!hits(box)) spot = { x, y, box }
-      }
-      if (!spot) return
-      boxes.push(spot.box)
-      tree.style.left = `${spot.x.toFixed(0)}px`
-      tree.style.top = `${spot.y.toFixed(0)}px`
-      tree.style.visibility = 'visible'
-    })
-  }
-  stage.addEventListener('opening:layout', () => setTimeout(place))
-  // the trees only show in the Christmas theme, so place them when it turns on
-  new MutationObserver(place).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
-  place()
-
-  trees.forEach((tree) => {
-    const elf = tree.querySelector('.xelf')
-    tree.addEventListener('click', () => {
-      if (tree.dataset.state === 'running') return
-      if (tree.dataset.state !== 'peek') {
-        tree.dataset.state = 'peek'
-        return
-      }
-      // second tap: a copy of the elf runs across the landing page. It lives
-      // inside the landing page, so it scrolls away with it.
-      tree.dataset.state = 'running'
-      const s = stage.getBoundingClientRect()
-      const r = elf.getBoundingClientRect()
-      const from = { left: r.left - s.left, top: r.top - s.top, width: r.width, height: r.height }
-      const runner = elf.cloneNode(true)
-      runner.classList.add('xelf-runner')
-      Object.assign(runner.style, { left: `${from.left}px`, top: `${from.top}px`, width: `${from.width}px`, height: `${from.height}px` })
-      forest.append(runner)
-      const goLeft = from.left + from.width / 2 > s.width / 2
-      runner.classList.toggle('is-left', goLeft)
-      const dist = goLeft ? -(from.left + from.width + 40) : s.width - from.left + 40
-      const done = () => {
-        runner.remove()
-        tree.dataset.state = ''
-      }
-      if (still) return setTimeout(done, 300)
-      runner
-        .animate(
-          [
-            { transform: 'translate(0, 0)' },
-            { transform: `translate(${dist * 0.5}px, -6px)`, offset: 0.5 },
-            { transform: `translate(${dist}px, 0)` },
-          ],
-          { duration: Math.min(3200, Math.abs(dist) * 2.6), easing: 'cubic-bezier(.4,0,.6,1)' },
-        )
-        .finished.then(done, done)
-    })
-  })
 })()

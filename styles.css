@@ -66,13 +66,6 @@
   --muted-foreground: var(--gray-9);
 }
 
-/* Christmas: holly-red ink, evergreen for the red marks, snow and a hat */
-:root.xmas {
-  --ink: oklch(0.44 0.17 25);
-  --redline: oklch(0.47 0.12 150);
-  --muted-foreground: var(--gray-9);
-}
-
 @media (prefers-contrast: more) {
   :root {
     --body: var(--gray-12);
@@ -1237,74 +1230,6 @@ html.has-lenis {
   line-height: 1.6;
 }
 
-/* ── Christmas extras: only drawn in the Christmas theme ───────────── */
-
-.xmas-only {
-  display: none;
-}
-
-:root.xmas .xmas-only {
-  display: block;
-}
-
-/* the hat sits on the N of PRADYUN and travels with it */
-.santa-hat {
-  position: absolute;
-  left: -0.12em;
-  top: -0.5em;
-  width: 0.95em;
-  transform: rotate(-14deg);
-  overflow: visible;
-}
-
-.santa-hat .hat-red {
-  fill: oklch(0.52 0.2 27);
-}
-
-.santa-hat .hat-white {
-  fill: #fff;
-  stroke: oklch(0.85 0 0);
-  stroke-width: 1;
-}
-
-.xtree-svg .tree {
-  fill: oklch(0.47 0.12 150);
-}
-
-.xtree-svg .trunk {
-  fill: oklch(0.42 0.06 55);
-}
-
-.xtree-svg .star {
-  fill: oklch(0.8 0.15 85);
-}
-
-.xtree-svg .light {
-  animation: twinkle 1.6s ease-in-out infinite;
-}
-
-.xtree-svg .light:nth-of-type(2n) {
-  animation-delay: 0.5s;
-}
-
-.xtree-svg .light:nth-of-type(3n) {
-  animation-delay: 1s;
-}
-
-@keyframes twinkle {
-  50% {
-    opacity: 0.25;
-  }
-}
-
-/* falling snow over the page, never in the way of clicks */
-.snow {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  pointer-events: none;
-}
-
 .ts-dot {
   width: 1.125rem;
   height: 1.125rem;
@@ -1318,11 +1243,6 @@ html.has-lenis {
 
 .ts-blue {
   background: oklch(0.4 0.2 264);
-}
-
-/* Christmas: holly red and evergreen, split down the middle */
-.ts-xmas {
-  background: linear-gradient(90deg, oklch(0.44 0.17 25) 50%, oklch(0.47 0.12 150) 50%);
 }
 
 /* Kannada and Devanagari sit taller than Latin letters; give the rolling
@@ -1615,7 +1535,6 @@ html.lenis-stopped { overflow: hidden; }
 .theme-menu { position: relative; }
 .theme-pill { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font: inherit; }
 .theme-swatch { width: 12px; height: 12px; border-radius: 50%; background: var(--foreground); box-shadow: 0 0 0 1px color-mix(in oklch, var(--foreground) 30%, transparent); }
-.theme-pill[data-theme='xmas'] .theme-swatch { background: linear-gradient(90deg, oklch(0.47 0.17 25) 50%, oklch(0.47 0.12 150) 50%); }
 .theme-pop { position: absolute; top: calc(100% + 8px); right: 0; z-index: 80; min-width: 200px; padding: 6px; border-radius: 14px; background: color-mix(in oklch, var(--background) 92%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); box-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.12), 0 12px 32px -8px rgb(0 0 0 / 0.25); transform-origin: top right; animation: menu-in 160ms var(--ease-swift); }
 .theme-pop[hidden] { display: none; }
 .theme-pop button { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 36px; padding: 0 10px; border: 0; border-radius: 8px; background: none; color: var(--foreground); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; font-size: 14px; font-weight: 500; text-align: left; cursor: pointer; }
@@ -1800,42 +1719,6 @@ button.tl-name { padding: 0; border: 0; background: none; font-family: inherit; 
   .atlas:not(.is-folded) .atlas-flat { display: none; }
 }
 .project-kind { margin: 0 0 8px; font: 500 12px/1.2 var(--font-mono); color: color-mix(in oklch, var(--ink) 65%, var(--sheet)); }
-
-/* ── Christmas: the hat on my head, trees with elves behind them ─────── */
-.portrait-hat.santa-hat { left: 27%; top: -1%; width: 48%; z-index: 3; transform: rotate(-14deg); pointer-events: none; filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.18)); }
-
-.xmas-forest { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
-:root.xmas .xmas-forest { display: block; }
-.xtree { position: absolute; width: clamp(3.6rem, 7vw, 6.5rem); padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent; }
-.xtree { left: 0; top: 0; visibility: hidden; }
-.xtree-c { width: clamp(2.8rem, 5vw, 4.6rem); }
-.xtree-svg { position: relative; z-index: 2; display: block; width: 100%; overflow: visible; transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
-.xtree:hover .xtree-svg { transform: rotate(-3deg); }
-.xtree:active .xtree-svg { transform: scale(.95); }
-.xtree:focus-visible { outline: 2px solid #0a84ff; outline-offset: 4px; border-radius: 12px; }
-
-/* the elf waits behind the tree, peeks out on the first tap */
-.xelf { position: absolute; z-index: 1; left: 22%; bottom: 6%; width: 58%; overflow: visible; transform: translate(0, 0) rotate(0); transition: transform .55s cubic-bezier(.34,1.56,.64,1), opacity .2s ease; }
-.xtree[data-state='peek'] .xelf { transform: translate(-70%, -6%) rotate(-14deg); }
-.xtree[data-state='running'] .xelf { opacity: 0; transition: none; }
-.xelf .elf-hat, .xelf .elf-body { fill: oklch(0.5 0.14 150); }
-.xelf .elf-band, .xelf .elf-leg { fill: oklch(0.55 0.2 27); }
-.xelf .elf-pom { fill: #fff; }
-.xelf .elf-face, .xelf .elf-ear { fill: #f2c7a2; }
-.xelf .elf-eye { fill: #222; }
-.xelf .elf-cheek { fill: #f09a92; opacity: .7; }
-.xelf .elf-smile { fill: none; stroke: #7a3d22; stroke-width: 1.6; stroke-linecap: round; }
-.xelf .elf-belt { fill: #2a2a2a; }
-
-/* the runner: a copy of the elf that dashes across the screen */
-.xelf-runner { position: absolute; z-index: 4; pointer-events: none; animation: elfBob .26s ease-in-out infinite alternate; transition: none; }
-.xelf-runner.is-left { scale: -1 1; }
-.xelf-runner .elf-leg { transform-box: fill-box; transform-origin: 50% 0; animation: elfStep .18s ease-in-out infinite alternate; }
-.xelf-runner .elf-leg-r { animation-delay: -.18s; }
-@keyframes elfStep { from { transform: rotate(28deg); } to { transform: rotate(-28deg); } }
-@keyframes elfBob { from { margin-top: 0; } to { margin-top: -5px; } }
-
-@media (prefers-reduced-motion: reduce) { .xelf, .xtree-svg { transition: none; } .xelf-runner, .xelf-runner .elf-leg { animation: none; } }
 
 /* project pages: the "Design decisions" list leads each point with its idea in bold */
 .work-points { list-style: disc; }
