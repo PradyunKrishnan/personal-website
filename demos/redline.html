@@ -134,7 +134,7 @@ tr.hit td{background:var(--Rs)}
    <div class="panel" style="margin-top:8px"><table><thead><tr><th>Topic</th><th>Our position</th><th class="hide-s">Fallback</th></tr></thead><tbody id="rules"></tbody></table></div>
   </div>
   <div class="scene" id="s3" role="tabpanel">
-   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><div style="font-family:var(--serif);font-weight:600;font-size:18px">Reliability</div><div class="mono" style="font-size:11px;color:var(--sub)">24 clauses labelled by a lawyer · illustrative</div></div>
+   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><div style="font-family:var(--serif);font-weight:600;font-size:18px">Reliability</div><div class="mono" style="font-size:11px;color:var(--sub)">24 clauses labelled by a lawyer · checked live</div></div>
    <div class="two" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
     <div class="panel">
      <div class="score"><b id="score">0 of 24</b><span style="font-size:12px;color:var(--sub)">answers match the lawyer’s</span></div>
@@ -144,7 +144,7 @@ tr.hit td{background:var(--Rs)}
     <div class="panel">
      <p class="lab">Where they disagree</p>
      <div id="misses"></div>
-     <div class="reveal" id="caveat" style="font-size:11.5px;color:var(--sub);margin-top:8px">24 examples are too few to prove anything; the point is to see where the rules break.</div>
+     <div class="reveal" id="caveat" style="font-size:11.5px;color:var(--sub);margin-top:8px">Runs live on every load. 24 examples prove little; the point is to see where rules break.</div>
     </div>
    </div>
   </div>
@@ -152,13 +152,13 @@ tr.hit td{background:var(--Rs)}
  <button class="how" id="howBtn" aria-expanded="false" aria-controls="how">How does this work?</button>
  <div class="how-panel" id="how" role="dialog" aria-label="How Redline works" hidden>
   <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:15px">How does this work?</b><button class="xb" id="howX" aria-label="Close">×</button></div>
-  <p>Redline reads a contract against the team’s playbook and sorts every clause into three piles, so the lawyer starts with what matters. In this demo every step is scripted.</p>
+  <p>Redline reads a contract against the team’s playbook and sorts every clause into three piles, so the lawyer starts with what matters. The animation is scripted, but the reliability check is real: simple playbook rules run in your browser, with no AI model.</p>
   <div class="flow"><span>Contract</span><i>→</i><span>Clause splitter</span><i>→</i><span>Playbook rules</span><i>→</i><span>Findings</span><i>→</i><span class="t">Lawyer review</span></div>
   <ol>
    <li>The contract is split into numbered clauses, each kept with its exact wording.</li>
    <li>Each clause is matched to a playbook rule and marked aligned, a deviation, or for a lawyer.</li>
    <li>Deviations get suggested wording from the playbook’s fallback positions.</li>
-   <li>The reliability tab compares Redline’s answers with a lawyer’s on clauses that are already labelled.</li>
+   <li>The reliability tab really runs the rule checker on 24 clauses a lawyer has labelled, and shows every case where the two disagree.</li>
   </ol>
  </div>
 </div>
@@ -180,9 +180,52 @@ const CL=[
 $('clauses').innerHTML=CL.map(([n,t,c,l],i)=>`<div class="cl"><span class="no">${n}</span><span class="tx">${t}</span><span class="chip ${c}" id="c${i}">${l}</span></div>`).join('');
 const RU=[['Term','At most 3 years','5 years for trade secrets only',0],['Governing law','Netherlands or England','Ireland',0],['Advisers','Allowed if bound by confidentiality','—',0],['Residuals','Not accepted','None',1],['Assignment','Only with consent','Affiliates, with notice',0],['Return or deletion','Within 30 days','One archive copy may be kept',0]];
 $('rules').innerHTML=RU.map(([a,b,c,h],i)=>`<tr id="r${i}" class="reveal"><td><b>${a}</b></td><td>${b}</td><td class="hide-s" style="color:var(--sub)">${c}</td></tr>`).join('');
-// illustrative counts: rows = lawyer, columns = Redline (aligned, deviation, review)
-const M=[[8,1,0],[0,7,1],[1,0,6]];const L=['Aligned','Deviation','Review'];
-const MISS=[['“Thirty-six months” read as a deviation.','The term rule only understood years. Expected: aligned.'],['“Group company” not recognised as an affiliate.','So an assignment clause slipped through as aligned. Expected: review.'],['A residuals clause hidden in the definitions.','Caught, but marked for review instead of a deviation.']];
+// The checker: one plain rule per playbook topic. It is deliberately simple,
+// so the reliability tab can show honestly where rules like these break.
+const WORDS={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,fourteen:14,fifteen:15,eighteen:18,twenty:20,thirty:30,forty:40,fifty:50,sixty:60,ninety:90};
+const num=w=>/^\d+$/.test(w)?+w:w.split('-').reduce((a,x)=>a+(WORDS[x]||0),0);
+const DUR=/\b(\d+|[a-z]+(?:-[a-z]+)?)\s*(?:\(\d+\)\s*)?(years?|months?|days?)\b/i;
+function dur(t){const m=t.match(DUR);if(!m)return null;const n=num(m[1].toLowerCase());if(!n)return null;const u=m[2].toLowerCase();return u.startsWith('y')?n*12:u.startsWith('m')?n:n/30}
+function check(raw){const t=raw.toLowerCase();
+ if(/unaided memory|residual|retained in memory/.test(t))return['Deviation','Residuals rule: residuals are not accepted.'];
+ if(/govern/.test(t)){if(/netherlands|england/.test(t))return['Aligned','Governing law rule: Netherlands or England.'];if(/ireland|irish/.test(t))return['Review','Governing law rule: Ireland is only a fallback.'];return['Deviation','Governing law rule: not a listed law.']}
+ if(/assign/.test(t)){if(/(neither|not|no)\b.*consent/.test(t))return['Aligned','Assignment rule: only with consent.'];if(/affiliate/.test(t))return['Review','Assignment rule: affiliates are a fallback.'];return['Deviation','Assignment rule: assignment without consent.']}
+ if(/archive copy/.test(t))return['Review','Return rule: one archive copy is a fallback.'];
+ if(/return|destroy|delete/.test(t)){const d=dur(t);return d!==null&&d<=1?['Aligned','Return rule: within 30 days.']:['Deviation','Return rule: longer than 30 days.']}
+ if(/advis|lawyers|accountants/.test(t))return /bound by|confidentiality obligations|duties of confidentiality/.test(t)?['Aligned','Advisers rule: bound by confidentiality.']:['Review','Advisers rule: no duty of confidentiality stated.'];
+ if(/indefinitely|perpetual/.test(t))return['Deviation','Term rule: no end date.'];
+ const d=dur(t);if(d!==null){if(d<=36)return['Aligned','Term rule: at most 3 years.'];if(d<=60&&/trade secret/.test(t))return['Review','Term rule: 5 years for trade secrets is a fallback.'];return['Deviation','Term rule: longer than 3 years.']}
+ return['Review','No playbook rule matched, so it goes to a lawyer.']}
+// 24 fictional clauses, each with the answer a lawyer gave under the playbook
+const TEST=[
+ ['Confidentiality obligations last three (3) years from disclosure.','Aligned'],
+ ['The obligations survive for two years after termination.','Aligned'],
+ ['Confidentiality lasts for thirty-six months from the Effective Date.','Aligned'],
+ ['Obligations continue for five years, but only for information that is a trade secret.','Review'],
+ ['Confidentiality lasts for seven years from disclosure.','Deviation'],
+ ['The obligations of confidentiality shall continue indefinitely.','Deviation'],
+ ['This Agreement is governed by the laws of England and Wales.','Aligned'],
+ ['Dutch law governs this Agreement.','Aligned'],
+ ['This Agreement is governed by Irish law.','Review'],
+ ['The laws of the State of New York govern this Agreement.','Deviation'],
+ ['The Recipient may share information with its lawyers and accountants who are bound by confidentiality obligations.','Aligned'],
+ ['The Recipient may disclose information to its professional advisers.','Review'],
+ ['Information may be shared with financing sources and potential investors.','Deviation'],
+ ['Nothing restricts the Recipient from using information retained in the unaided memory of its personnel.','Deviation'],
+ ['Each party may freely use the general skills and experience its staff gain under this Agreement.','Review'],
+ ['Residual knowledge may be used by the Recipient for any purpose.','Deviation'],
+ ['Neither party may assign this Agreement without the other party’s prior written consent.','Aligned'],
+ ['Either party may assign this Agreement to an affiliate on written notice.','Review'],
+ ['Either party may assign this Agreement to a group company without consent.','Review'],
+ ['Either party may assign this Agreement to any third party without consent.','Deviation'],
+ ['On request, the Recipient will return or destroy all information within 30 days.','Aligned'],
+ ['The Recipient will delete all information within fourteen days of termination.','Aligned'],
+ ['The Recipient will return all information within 90 days.','Deviation'],
+ ['The Recipient may keep one archive copy for legal and compliance purposes.','Review']];
+const L=['Aligned','Deviation','Review'];
+const M=L.map(()=>L.map(()=>0));const MISS=[];
+TEST.forEach(([text,want])=>{const [got,why]=check(text);M[L.indexOf(want)][L.indexOf(got)]++;if(got!==want)MISS.push([`“${text}”`,`<span style="color:var(--sub)">Redline: ${got.toLowerCase()} · lawyer: ${want.toLowerCase()}</span>`])});
+const HITS=TEST.length-MISS.length;
 $('misses').innerHTML=MISS.map(([a,b],i)=>`<div class="miss reveal" id="m${i}"><b>${a}</b> ${b}</div>`).join('');
 function grid(k){let h='<div class="h"></div>'+L.map(x=>`<div class="h">${x}</div>`).join('');M.forEach((row,i)=>{h+=`<div class="h" style="text-align:right">${L[i]}</div>`+row.map((n,j)=>`<div class="${i===j?'m':'x'+(n&&i!==j?' bad':'')}">${Math.round(n*k)}</div>`).join('')});$('grid').innerHTML=h}
 const on=(id,v)=>$(id).classList.toggle('on',v);
@@ -196,7 +239,7 @@ function render(v){const t=v/100;show(t<.25?0:t<.5?1:t<.75?2:3);
  const b=Math.max(0,Math.min(1,(t-.25)/.22));const q=$('q');q.style.background=b>.12?'var(--Rs)':'transparent';q.style.borderRadius='3px';on('rule',b>.3);on('why',b>.5);on('fix',b>.7);
  if(!decided){$('act').querySelectorAll('button').forEach(x=>x.style.outline=b>.92&&x.classList.contains('pri')?'3px solid var(--Gs)':'')}
  const c=Math.max(0,Math.min(1,(t-.5)/.22));RU.forEach((r,i)=>{on('r'+i,c>i/7);$('r'+i).classList.toggle('hit',!!r[3]&&c>.85)});
- const d=Math.max(0,Math.min(1,(t-.75)/.2));grid(d);const ok=Math.round(21*d);$('score').textContent=`${ok} of 24`;MISS.forEach((_,i)=>on('m'+i,d>.45+i*.15));on('caveat',d>.95)}
+ const d=Math.max(0,Math.min(1,(t-.75)/.2));grid(d);const ok=Math.round(HITS*d);$('score').textContent=`${ok} of ${TEST.length}`;MISS.forEach((_,i)=>on('m'+i,d>.45+i*(.4/Math.max(1,MISS.length))));on('caveat',d>.95)}
 $('act').addEventListener('click',e=>{const x=e.target.closest('button');if(!x)return;decided=x.dataset.a;$('act').innerHTML=`<span class="done">✓ ${decided} by the reviewer</span> <button data-undo>Undo</button>`});
 $('act').addEventListener('click',e=>{if(!e.target.closest('[data-undo]'))return;decided='';$('act').innerHTML='<button class="pri" data-a="Accepted">Accept</button><button data-a="Sent back for editing">Edit</button><button data-a="Kept as drafted">Reject</button>'},true);
 const at=[23,48,73,98];

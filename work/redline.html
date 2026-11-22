@@ -6,7 +6,7 @@
     <title>Redline · Pradyun Krishnan</title>
     <link rel="icon" href="../favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
-    <link rel="stylesheet" href="../styles.css?v=131" />
+    <link rel="stylesheet" href="../styles.css?v=132" />
     <script>
       try {
         const theme = localStorage.getItem('theme')
@@ -80,7 +80,7 @@
       <p class="project-kind">Contract review</p>
       <h1 class="work-title">Redline</h1>
       <p class="work-lede">Checks a contract against your playbook, flags each clause as aligned, a deviation or one for a lawyer, and suggests the redline.</p>
-      <p class="work-note">A concept demo with fictional contracts. Everything in it is scripted; nothing is sent to a model.</p>
+      <p class="work-note">A concept demo with fictional contracts. The animation is scripted, but the reliability check is real: simple playbook rules run in your browser, and nothing is sent to a model.</p>
 
       <div class="work-demo" style="--bg: linear-gradient(150deg, #7a1f1f 0%, #c2553d 55%, #efd9c4 100%)">
         <iframe src="../demos/redline.html?v=1" title="Redline demo"></iframe>
@@ -110,7 +110,7 @@
 
       <section class="work-how" aria-labelledby="demo-title">
         <h2 id="demo-title" class="work-h2">About this demo</h2>
-        <p class="work-intro">The NDA, the parties, the playbook and the test results are all made up. The reliability numbers are illustrative, from a small fictional test set; they show what the tab would report, not a measured result.</p>
+        <p class="work-intro">The NDA, the parties and the playbook are made up. The reliability tab is not: every time it loads, it runs the rule checker on 24 fictional clauses a lawyer has labelled and counts the matches. It gets 21 right. The three it misses (Dutch law written as “Dutch”, sharing with investors, and a “group company” instead of an affiliate) show exactly where plain rules break, and where a lawyer or a model needs to step in.</p>
       </section>
 
       <a class="work-next" href="rete.html"><span>Next project</span><b>Rete →</b></a>
@@ -128,6 +128,6 @@
       </footer>
     </main>
 
-    <script src="../script.js?v=131"></script>
+    <script src="../script.js?v=132"></script>
   </body>
 </html>

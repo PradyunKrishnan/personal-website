@@ -1827,3 +1827,14 @@ button.tl-name { padding: 0; border: 0; background: none; font-family: inherit; 
 /* Theme matches the other top tabs: the underline sits under the word, not the dot */
 .theme-pill::after { left: calc(0.5rem + 20px); }
 @media (max-width: 520px) { .theme-pill::after { left: 12px; right: 12px; } }
+
+/* projects: one grey line under each description on how the tool is checked */
+.proj-check { margin: 6px 0 0; max-width: 26rem; font-size: 0.8125rem; line-height: 1.45; color: color-mix(in oklch, var(--ink) 45%, var(--sheet)); }
+
+/* projects: "how I work" in four steps, a quiet row above "and a lot more" */
+.proj-how { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; max-width: 1240px; margin: clamp(72px, 8vw, 112px) auto 0; padding: 24px 0 0; border-top: 1px solid color-mix(in oklch, var(--ink) 18%, var(--sheet)); list-style: none; }
+.proj-how li { display: flex; flex-direction: column; gap: 4px; }
+.proj-how b { font-family: var(--font-display); font-size: clamp(1.3rem, 2vw, 1.7rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; color: var(--ink); }
+.proj-how span { font-size: 0.9375rem; line-height: 1.45; color: color-mix(in oklch, var(--ink) 60%, var(--sheet)); }
+.proj-how + .proj-more { margin-top: clamp(40px, 5vw, 64px); }
+@media (max-width: 700px) { .proj-how { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px; } }
