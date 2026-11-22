@@ -717,9 +717,9 @@ document.querySelectorAll('.reveal').forEach((button) => {
   const ctx = canvas.getContext('2d')
   if (!ctx) return
 
-  const CELL = 2 // CSS px between dot centers
-  const MOBILE_CELL = 1.6 // only for the small phone-size portrait
-  const MOBILE_MAX = 170 // portraits narrower than this use the finer grid
+  const CELL = 2 // CSS px between dot centers on the full-size (desktop) portrait
+  const DOTS = 190 // dots across: smaller portraits use a finer grid, so a phone
+  // shows the same detail as the desktop instead of fewer, bigger dots
   const EDGE_FADE = 0.1 // fraction of each edge where dots taper out
   const RADIUS = 110 // pointer influence radius
   const SWELL = 0.45 // extra dot growth right under the pointer
@@ -762,7 +762,7 @@ document.querySelectorAll('.reveal').forEach((button) => {
 
   function build() {
     if (!source || cssW < 4) return
-    cell = cssW < MOBILE_MAX ? MOBILE_CELL : CELL
+    cell = Math.min(CELL, Math.max(1, cssW / DOTS))
     const cols = Math.max(1, Math.round(cssW / cell))
     const rows = Math.max(1, Math.round(cssH / cell))
     const off = document.createElement('canvas')
@@ -1039,9 +1039,10 @@ function rollText(text) {
   return roll
 }
 
-document.querySelectorAll('.topbar .pill:not(.pill-icon):not(.theme-pill)').forEach((pill) => {
-  // the greeting's word changes as you scroll, so it rolls its inner word
-  const host = pill.querySelector('[data-greeting]') || pill
+document.querySelectorAll('.topbar .pill:not(.pill-icon)').forEach((pill) => {
+  // the greeting's word changes as you scroll, so it rolls its inner word;
+  // Theme rolls its label and leaves the colour dot alone
+  const host = pill.querySelector('[data-greeting], .theme-pill-label') || pill
   const text = host.textContent.trim()
   if (!text) return
   pill.setAttribute('aria-label', pill.getAttribute('aria-label') || text)

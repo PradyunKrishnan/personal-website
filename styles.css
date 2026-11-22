@@ -1616,9 +1616,8 @@ html.lenis-stopped { overflow: hidden; }
 .theme-pill { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font: inherit; }
 .theme-swatch { width: 12px; height: 12px; border-radius: 50%; background: var(--foreground); box-shadow: 0 0 0 1px color-mix(in oklch, var(--foreground) 30%, transparent); }
 .theme-pill[data-theme='xmas'] .theme-swatch { background: linear-gradient(90deg, oklch(0.47 0.17 25) 50%, oklch(0.47 0.12 150) 50%); }
-.theme-pop { position: absolute; top: calc(100% + 8px); right: 0; z-index: 80; min-width: 200px; padding: 6px; border-radius: 14px; background: color-mix(in oklch, var(--background) 92%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); box-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.12), 0 12px 32px -8px rgb(0 0 0 / 0.25); transform-origin: top right; animation: themePop .18s cubic-bezier(.2,.8,.2,1); }
+.theme-pop { position: absolute; top: calc(100% + 8px); right: 0; z-index: 80; min-width: 200px; padding: 6px; border-radius: 14px; background: color-mix(in oklch, var(--background) 92%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); box-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.12), 0 12px 32px -8px rgb(0 0 0 / 0.25); transform-origin: top right; animation: menu-in 160ms var(--ease-swift); }
 .theme-pop[hidden] { display: none; }
-@keyframes themePop { from { opacity: 0; transform: scale(.96) translateY(-4px); } }
 .theme-pop button { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 36px; padding: 0 10px; border: 0; border-radius: 8px; background: none; color: var(--foreground); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; font-size: 14px; font-weight: 500; text-align: left; cursor: pointer; }
 .theme-pop button:hover, .theme-pop button:focus-visible { background: color-mix(in oklch, var(--foreground) 8%, transparent); outline: none; }
 .theme-pop .ts-dot { flex: none; width: 14px; height: 14px; }
@@ -1941,3 +1940,7 @@ button.tl-name { padding: 0; border: 0; background: none; font-family: inherit; 
 .proj-more-cta i { display: inline-block; font-style: normal; transition: transform .3s ease; }
 .proj-more:hover .proj-more-cta i { transform: translate(2px, -2px); }
 .proj-more:hover .proj-more-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
+
+/* Theme matches the other top tabs: the underline sits under the word, not the dot */
+.theme-pill::after { left: calc(0.5rem + 20px); }
+@media (max-width: 520px) { .theme-pill::after { left: 12px; right: 12px; } }
