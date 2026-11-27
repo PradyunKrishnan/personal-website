@@ -1844,3 +1844,45 @@ button.tl-name { padding: 0; border: 0; background: none; font-family: inherit; 
 .theme-pill-label { display: inline-flex; line-height: 1; }
 .theme-pill { gap: 7px; }
 .theme-swatch { width: 9px; height: 9px; box-shadow: 0 0 0 0.5px color-mix(in oklch, var(--foreground) 25%, transparent); }
+
+/* ── Section titles sit on the content's left edge (no § labels) ───── */
+.section-head { align-items: flex-start; text-align: left; width: 100%; max-width: 1240px; margin-inline: auto; }
+#awards .section-head { text-align: left; }
+.author-note { text-align: left; }
+
+/* awards: a plain list, the date on the left, no logo squares */
+.aw-list { max-width: 1240px; }
+.aw-list .ledger-row { grid-template-columns: 7rem minmax(0, 1fr); padding: 20px 0; border-radius: 0; }
+.aw-list .ledger-row::before { display: none; }
+.aw-list .ledger-meta { order: -1; text-align: left; padding-top: 6px; }
+.aw-list .ledger-org { font-size: clamp(1.3rem, 2vw, 1.6rem); }
+@media (max-width: 600px) { .aw-list .ledger-row { grid-template-columns: 1fr; gap: 2px; } .aw-list .ledger-meta { padding-top: 0; } }
+
+/* experience: the role's details as plain text beside the name, no box */
+.tl-card-inner { padding: 4px 0 0; border-radius: 0; background: none; }
+.tl-card-inner .tl-desc { color: var(--ink); }
+
+/* ── The close: a big "Say hello", then the name across the page ────── */
+.footer.footer-close { display: block; max-width: 1240px; margin: clamp(7rem, 14vw, 12rem) auto 0; padding: 0 0 2rem; border-top: 0; color: var(--foreground); font-size: 1rem; }
+.footer-hello { display: inline-flex; align-items: baseline; gap: 0.3em; min-height: 0; font-family: var(--font-display); font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1; color: var(--foreground); text-decoration: none; }
+.footer-hello i { font-style: normal; font-size: 0.6em; display: inline-block; transition: transform .3s ease; }
+.footer-hello:hover i, .footer-hello:focus-visible i { transform: translate(4px, -4px); }
+.footer-hello:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 10px; }
+.footer-sub { margin: 1rem 0 0; font-size: 1.125rem; color: color-mix(in oklch, var(--ink) 60%, var(--sheet)); }
+.footer-end { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; flex-wrap: wrap; margin-top: clamp(4rem, 9vw, 8rem); }
+.footer-name { margin: 0; font-family: var(--font-display); font-size: clamp(2.4rem, 8.5vw, 8.5rem); font-weight: 600; letter-spacing: -0.04em; line-height: 0.9; }
+.footer-close .footer-links { flex-direction: row; align-items: center; gap: 1.25rem; font-size: 0.9375rem; color: color-mix(in oklch, var(--ink) 60%, var(--sheet)); }
+.footer-close .footer-links a { min-height: 2.75rem; }
+/* the experience tabs, timeline and film notes share the same left edge */
+.tl-tabs { max-width: 1240px; justify-content: flex-start; }
+.tl { max-width: 1240px; }
+#film .film-sub, #film .film-hint { margin-inline: 0; max-width: 1240px; text-align: left; width: 100%; }
+#film .film-hint { font-family: inherit; font-style: normal; }
+/* the close, smaller: a modest "Say hello" and the name on one quiet line */
+.footer.footer-close { margin-top: clamp(4rem, 8vw, 6rem); padding-bottom: 1.5rem; }
+.footer-hello { font-size: clamp(1.9rem, 3.2vw, 2.75rem); letter-spacing: -0.03em; }
+.footer-hello:hover { text-decoration-thickness: 2px; text-underline-offset: 6px; }
+.footer-sub { margin-top: 0.5rem; font-size: 1rem; }
+.footer-end { margin-top: clamp(2rem, 4vw, 3rem); align-items: center; }
+.footer-name { font-size: 1.125rem; letter-spacing: -0.01em; line-height: 1.2; }
+main:has(.footer-close) { padding-bottom: 0; }

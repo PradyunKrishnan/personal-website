@@ -1443,13 +1443,10 @@ document.querySelectorAll('.ledger-row').forEach((row) =>
     card.innerHTML = ''
     const inner = document.createElement('div')
     inner.className = 'tl-card-inner'
-    const logo = Object.assign(document.createElement('span'), { className: 'tl-logo', textContent: row.dataset.logo })
-    logo.style.background = row.dataset.color
-    logo.setAttribute('aria-hidden', 'true')
     const role = Object.assign(document.createElement('p'), { className: 'tl-role', textContent: row.dataset.role })
     const meta = Object.assign(document.createElement('p'), { className: 'tl-meta', textContent: row.dataset.meta })
     const line = Object.assign(document.createElement('p'), { className: 'tl-desc', textContent: row.dataset.line })
-    inner.append(logo, role, meta, line)
+    inner.append(role, meta, line)
     card.append(inner)
     if (narrow.matches) row.append(card)
     else {

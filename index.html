@@ -19,7 +19,7 @@
     <meta name="twitter:description" content="Legal tech projects, experience in EU digital regulation, film photography and the places I've been." />
     <link rel="icon" href="favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <link rel="stylesheet" href="styles.css?v=134" />
+    <link rel="stylesheet" href="styles.css?v=136" />
     <script>
       // apply the saved ink color before first paint so there's no flash
       try {
@@ -138,7 +138,6 @@
            Demos live in demos/*.html. All data in them is made up. -->
       <section class="section projects" id="projects">
         <header class="section-head">
-          <p class="section-code" aria-hidden="true">§ 01 <span>·</span> projects</p>
           <h2 class="section-title" data-reveal-title>Things I have built</h2>
         </header>
         <!-- four equal cards, the right column half a card lower. Grey at rest;
@@ -184,7 +183,6 @@
            (2025.67 is about September 2025) and draw the span on the year rail. -->
       <section class="section" id="experience">
         <header class="section-head">
-          <p class="section-code" aria-hidden="true">§ 02 <span>·</span> experience</p>
           <h2 class="section-title" data-reveal-title>Experience and education</h2>
         </header>
         <div class="tl-tabs" role="tablist" aria-label="Experience or education">
@@ -239,14 +237,12 @@
       <!-- ── § 03 Awards and publications ─────────────────────────── -->
       <section class="section" id="awards">
         <header class="section-head">
-          <p class="section-code" aria-hidden="true">§ 03 <span>·</span> recognition</p>
           <h2 class="section-title" data-reveal-title>Awards and publications</h2>
           <p class="author-note">By the way, I'm a published author. <a href="https://doi.org/10.5281/zenodo.18503398" target="_blank" rel="noreferrer">Read the paper <span aria-hidden="true">↗</span></a></p>
         </header>
         <ul class="ledger aw-list" role="list">
           <li>
             <a class="ledger-row aw-row" href="https://doi.org/10.5281/zenodo.18503398" target="_blank" rel="noreferrer">
-              <span class="ledger-logo" style="--c: #1d3f99" aria-hidden="true">EC</span>
               <span class="ledger-main">
                 <span class="ledger-org">D4.3 Legal Challenges Landscape <span class="tl-ext" aria-hidden="true">↗</span></span>
                 <span class="ledger-role">European Commission · with L. Taylor and M. Ö. Kabadayi</span>
@@ -257,7 +253,6 @@
           </li>
           <li>
             <a class="ledger-row aw-row" href="https://echo-net.nl/en/echoaward/" target="_blank" rel="noreferrer">
-              <span class="ledger-logo" style="--c: #6b3a8c" aria-hidden="true">EA</span>
               <span class="ledger-main">
                 <span class="ledger-org">ECHO Award, nominee <span class="tl-ext" aria-hidden="true">↗</span></span>
                 <span class="ledger-role">For "The Sprawling Maze"</span>
@@ -272,7 +267,6 @@
       <!-- ── § 04 The Film Roll ───────────────────────────────────── -->
       <section class="section film" id="film">
         <header class="section-head">
-          <p class="section-code" aria-hidden="true">§ 04 <span>·</span> film/roll-01</p>
           <h2 class="section-title" data-reveal-title>The Film Roll</h2>
         </header>
         <!-- EDIT: one line about why you shoot film -->
@@ -326,7 +320,6 @@
            folds into a globe turned to it. Notes: home / exchange. -->
       <section class="section" id="places">
         <header class="section-head">
-          <p class="section-code" aria-hidden="true">§ 05 <span>·</span> places</p>
           <h2 class="section-title" data-reveal-title>Places I've been</h2>
           <p class="places-sub">45 places, and counting. Hover or tap one to find it on the map.</p>
         </header>
@@ -356,16 +349,18 @@
         </div>
       </section>
 
-      <footer class="footer">
-        <div class="signature">
-          <span class="signature-line">Pradyun Krishnan</span>
-          <span>Signed · <span data-year>2026</span></span>
+      <!-- the close: one big way to get in touch, then the name across the page -->
+      <footer class="footer footer-close" id="contact">
+        <a class="footer-hello" href="#contact" data-mail>Say hello <i aria-hidden="true">↗</i></a>
+        <p class="footer-sub">Open to legal roles in Europe.</p>
+        <div class="footer-end">
+          <p class="footer-name">Pradyun Krishnan</p>
+          <span class="footer-links">
+            <a href="https://nl.linkedin.com/in/pradyun-krishnan" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="https://github.com/PradyunKrishnan" target="_blank" rel="noreferrer">GitHub</a>
+            <span>© <span data-year>2026</span></span>
+          </span>
         </div>
-        <span class="footer-links">
-          <a href="https://nl.linkedin.com/in/pradyun-krishnan" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a href="https://github.com/PradyunKrishnan" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="#contact" data-mail>Email</a>
-        </span>
       </footer>
     </main>
 
@@ -377,6 +372,6 @@
     <script src="vendor/d3-array.min.js"></script>
     <script src="vendor/d3-geo.min.js"></script>
     <script src="vendor/topojson-client.min.js"></script>
-    <script src="script.js?v=134"></script>
+    <script src="script.js?v=136"></script>
   </body>
 </html>
