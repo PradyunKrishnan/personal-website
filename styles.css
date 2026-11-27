@@ -1838,3 +1838,9 @@ button.tl-name { padding: 0; border: 0; background: none; font-family: inherit; 
 .proj-how span { font-size: 0.9375rem; line-height: 1.45; color: color-mix(in oklch, var(--ink) 60%, var(--sheet)); }
 .proj-how + .proj-more { margin-top: clamp(40px, 5vw, 64px); }
 @media (max-width: 700px) { .proj-how { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px; } }
+
+/* Theme tab: the label sits on the same line as the other tabs, and the dot
+   is centred on the word instead of floating above it */
+.theme-pill-label { display: inline-flex; line-height: 1; }
+.theme-pill { gap: 7px; }
+.theme-swatch { width: 9px; height: 9px; box-shadow: 0 0 0 0.5px color-mix(in oklch, var(--foreground) 25%, transparent); }
