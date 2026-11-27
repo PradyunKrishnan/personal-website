@@ -147,8 +147,10 @@ document.querySelectorAll('[data-year]').forEach((el) => {
   }
   fit()
   matchMedia('(max-width: 420px)').addEventListener('change', fit)
-  function swap() {
-    i = (i + 1) % words.length
+  // each section has its own greeting, so the top of the page always says Hello
+  function swap(to) {
+    if (to === i) return
+    i = to
     const set = (w) => {
       word.replaceChildren(rollText(w))
       fit()
@@ -169,7 +171,7 @@ document.querySelectorAll('[data-year]').forEach((el) => {
       if (s.getBoundingClientRect().top <= line) now = s
     })
     if (now !== current) {
-      if (current) swap()
+      swap([...sections].indexOf(now) % words.length)
       current = now
     }
   }
@@ -1670,6 +1672,13 @@ document.querySelectorAll('.ledger-row').forEach((row) =>
         b.addEventListener('click', () => {
           pinned = pinned === b.dataset.place ? null : b.dataset.place
           show(pinned)
+          // on a phone the map sits above a long list: bring it back into view
+          // so the tap visibly does something
+          const fig = root.querySelector('.atlas-map')
+          if (pinned && fig && fig.getBoundingClientRect().bottom < 120) {
+            if (window.__lenis) window.__lenis.scrollTo(fig, { offset: -64 })
+            else fig.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }
         })
       })
       const list = root.querySelector('.atlas-list')

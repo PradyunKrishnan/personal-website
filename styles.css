@@ -1886,3 +1886,17 @@ button.tl-name { padding: 0; border: 0; background: none; font-family: inherit; 
 .footer-end { margin-top: clamp(2rem, 4vw, 3rem); align-items: center; }
 .footer-name { font-size: 1.125rem; letter-spacing: -0.01em; line-height: 1.2; }
 main:has(.footer-close) { padding-bottom: 0; }
+
+/* ── Phone fixes ──────────────────────────────────────────────────── */
+/* film roll title sits on the page's left edge, set tight */
+.roll-head { margin-left: 0; }
+.roll-title { line-height: 1.15; }
+/* places: the note under the title lines up with it */
+.places-sub { text-align: left; }
+@media (max-width: 760px) {
+  /* experience: no sideways nudge on the open role, and the card doesn't
+     repeat the title and dates already shown under the name */
+  .tl-row.is-on .tl-name { transform: none; }
+  .tl-row .tl-card .tl-role, .tl-row .tl-card .tl-meta { display: none; }
+  .tl-row .tl-card .tl-desc { margin-top: 0; }
+}

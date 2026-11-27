@@ -101,6 +101,9 @@ tr.hit td{background:var(--Rs)}
 @media (max-width:560px){.two{grid-template-columns:1fr!important}.hide-s{display:none}}
 @media (prefers-reduced-motion:reduce){.ind,.scene,.chip,.reveal{transition:none}}
 </style>
+<style>/* phones: tabs fit on one row, clause chips drop under the text */
+@media (max-width:520px){.top{gap:4px 10px}.tabs{margin-left:0;width:100%;gap:12px}.tabs button{font-size:13px}html:not(.embed) body{padding:6px}.cl{flex-wrap:wrap;row-gap:4px}.cl .tx{flex:1 1 calc(100% - 34px)}.cl .chip{margin-left:34px}}
+</style>
 <div id="rl">
  <div class="top">
   <svg width="26" height="22" viewBox="0 0 26 22" aria-hidden="true" style="margin-bottom:8px"><rect x="2" y="4" width="22" height="2.4" rx="1.2" fill="#C9C0B6"/><rect x="2" y="10" width="16" height="2.4" rx="1.2" fill="#C9C0B6"/><rect x="2" y="16" width="19" height="2.4" rx="1.2" fill="#C9C0B6"/><path d="M1 11.2 L19 11.2" stroke="#9B2C24" stroke-width="2.4" stroke-linecap="round"/></svg>
