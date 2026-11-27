@@ -50,6 +50,11 @@ html.embed #stage{flex:1;height:auto;min-height:0}
 /* keep the slider's filled part in step, including when the demo moves it */
 addEventListener('DOMContentLoaded',()=>{if(document.documentElement.classList.contains('embed'))return;const r=[...document.querySelectorAll('.ctrl input[type=range]')];const up=()=>r.forEach(x=>x.style.setProperty('--p',(x.value-x.min)/(x.max-x.min)*100+'%'));setInterval(up,80);up()});
 </script>
+<style>
+/* house look: SF Pro everywhere and a plain white ground, with neutral greys
+   instead of warm beige (overrides the per-demo palette above) */
+*{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Arial,sans-serif!important}
+</style>
 </head><body>
 <style>
 #ip{--coral:#6a5acd;--coral-s:#eeebfb;--ink:#121110;--muted:#45413d;--line:#e6e3df;--th:#f8f7f5;position:relative;background:#fff;color:var(--ink);border-radius:12px;border:1px solid var(--line);overflow:hidden;font-family:-apple-system,system-ui,"Helvetica Neue",Arial,sans-serif;font-size:13px}
@@ -61,7 +66,7 @@ addEventListener('DOMContentLoaded',()=>{if(document.documentElement.classList.c
 .pill.c{background:var(--coral-s);border-color:#d9d4f5}
 #stage{position:relative;height:360px;overflow:hidden}
 .scene{position:absolute;inset:14px;transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1)}
-.cert{max-width:430px;margin:6px auto 0;border:1.5px solid #c9c2b8;border-radius:4px;padding:16px 18px;background:#fdfcf9;font-family:Georgia,serif;position:relative}
+.cert{max-width:430px;margin:6px auto 0;border:1.5px solid #c9c2b8;border-radius:4px;padding:16px 18px;background:#fff;font-family:Georgia,serif;position:relative}
 .cert .f{display:grid;grid-template-columns:120px 1fr;gap:4px 10px;margin-top:8px;font-size:13px}
 .cert .f b{font-family:-apple-system,system-ui,sans-serif;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
 .fv{transition:background .3s,transform .5s cubic-bezier(.34,1.56,.64,1);border-radius:4px;padding:0 3px}

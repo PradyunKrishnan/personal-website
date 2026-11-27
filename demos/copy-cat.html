@@ -50,9 +50,14 @@ html.embed #stage{flex:1;height:auto;min-height:0}
 /* keep the slider's filled part in step, including when the demo moves it */
 addEventListener('DOMContentLoaded',()=>{if(document.documentElement.classList.contains('embed'))return;const r=[...document.querySelectorAll('.ctrl input[type=range]')];const up=()=>r.forEach(x=>x.style.setProperty('--p',(x.value-x.min)/(x.max-x.min)*100+'%'));setInterval(up,80);up()});
 </script>
+<style>
+/* house look: SF Pro everywhere and a plain white ground, with neutral greys
+   instead of warm beige (overrides the per-demo palette above) */
+*{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Arial,sans-serif!important}
+</style>
 </head><body>
 <style>
-#cc{--navy:#1e2a47;--teal:#1b7f78;--bg:#f5f7f9;--line:#dde2e8;--muted:#56627a;--hi:#b42318;--hi-s:#fdecea;--md:#a15c07;--md-s:#fdf3e2;--lo:#2f7a45;--lo-s:#e8f4ec;
+#cc{--navy:#1e2a47;--teal:#1b7f78;--bg:#fff;--line:#dde2e8;--muted:#56627a;--hi:#b42318;--hi-s:#fdecea;--md:#a15c07;--md-s:#fdf3e2;--lo:#2f7a45;--lo-s:#e8f4ec;
  position:relative;background:var(--bg);color:var(--navy);border-radius:12px;border:1px solid var(--line);overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
 .disp{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;letter-spacing:-.01em}
 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
